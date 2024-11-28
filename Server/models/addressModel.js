@@ -24,12 +24,16 @@ const userAddressSchema = new mongoose.Schema(
       type: Number,
       default: null,
     },
+    status: {
+      type: Boolean,
+      default: true,
+    },
   },
   {
     timestamps: true,
   }
 );
 
-const userAddressModel = mongoose.model("UserAddress", userAddressSchema);
+const userAddressModel = mongoose.model("userAddress", userAddressSchema);
 
 export default userAddressModel;
