@@ -2,23 +2,23 @@ import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
   {
-    name: { type: String, trim: true, requried: [ture, "Provide Name"] },
+    name: { type: String, trim: true, requried: [true, "Provide Name"] },
     email: {
       type: String,
       trim: true,
       unique: true,
-      requried: [ture, "Provide Email"],
+      requried: [true, "Provide Email"],
     },
     password: {
       type: String,
-      requried: [ture, "Provide Password"],
+      requried: [true, "Provide Password"],
       trim: true,
     },
     avater: { type: String, default: "" },
     mobile: { type: Number, default: null },
     refresh_token: { type: String, default: "" },
     verify_email: { type: Boolean, default: false },
-    last_Login_date: { type: Data, default: "" },
+    last_Login_date: { type: Date, default: "" },
     status: {
       type: String,
       enum: ["Active", "InActive", "Suspended"],

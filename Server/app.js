@@ -4,10 +4,15 @@ import dotenv from "dotenv";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
+import punycode from "punycode";
+import mongoose from "mongoose";
 import DbConnection from "./DB/dbConnect.js";
+import router from "./routes/userRoute.js";
+
 dotenv.config();
 
 const app = express();
+const PORT = process.env.PORT || 8000;
 // cors middle ware
 app.use(
   cors({
@@ -25,8 +30,9 @@ app.use(
   })
 );
 
-const PORT = process.env.PORT || 8000;
+app.use("/api/user", router);
 
+mongoose.set("strictQuery", false);
 DbConnection()
   .then(() => {
     app.listen(PORT, () => {
