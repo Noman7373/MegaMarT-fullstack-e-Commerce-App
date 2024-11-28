@@ -2,6 +2,8 @@ import userModel from "../models/userModel.js";
 import bcrypt from "bcrypt";
 import sendEmail from "../DB/sendEmail.js";
 import verifyEmailTemplate from "../utils/verifyEmailTamplate.js";
+import generateAccessToken from "../utils/generateAccessToken.js";
+import generateRefreshToken from "../utils/generateRefreshToken.js";
 
 const registerUsersController = async (req, res) => {
   try {
@@ -36,7 +38,7 @@ const registerUsersController = async (req, res) => {
     const newUser = await userModel(Payload);
     const saveUser = await newUser.save();
 
-    const Verify_URL = `${process.env.FRONTEND_URL}/verify-email?code=${saveUser.id}`;
+    const Verify_URL = `${process.env.FRONTEND_URL}/verify-email?id=${saveUser.id}`;
     const sendEmailVerify = sendEmail({
       sendTo: email,
       subject: "Verification email from Resend",
@@ -61,4 +63,124 @@ const registerUsersController = async (req, res) => {
   }
 };
 
-export default registerUsersController;
+//  User log In Controller
+const userLoginController = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({
+        message: "Please Provide Email and Password",
+        error: true,
+        success: false,
+      });
+    }
+
+    const userExits = await userModel.findOne({ email });
+
+    if (!userExits) {
+      return res.status(400).json({
+        message: "User Not Found",
+        error: true,
+        success: false,
+      });
+    }
+
+    //  Checking User acitve or InActive
+    if (userExits.status !== "Active") {
+      return res.status(402).json({
+        message: "Contact to Admin",
+        error: true,
+        success: false,
+      });
+    }
+
+    //  Password checking
+    const passwordCompare = await bcrypt.compare(password, userExits.password);
+
+    if (!passwordCompare) {
+      return res.status(400).json({
+        message: "Password Not Match Please Provide Correct Password",
+        error: true,
+        success: false,
+      });
+    }
+
+    // import AccessToken and RefreshToke
+    const accessToken = await generateAccessToken(userExits.id);
+    const refreshToken = await generateRefreshToken(userExits.id);
+
+    // cookies options
+    const cookiesOption = {
+      httpOnly: true,
+      secure: true,
+      sameSite: "None",
+    };
+
+    // send token to via response.cookie
+    res.cookie("AccessToken", accessToken, cookiesOption);
+    res.cookie("RefreshToken", refreshToken, cookiesOption);
+    return res.status(200).json({
+      message: "Login Successfully",
+      success: true,
+      error: false,
+      date: {
+        accessToken,
+        refreshToken,
+      },
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};
+
+const verifyUserEmailController = async (req, res) => {
+  try {
+    const { id } = req.body;
+
+    const user = await userModel.findOne({ _id: id });
+
+    if (!user) {
+      return res.status(400).json({
+        message: "Invalid Email",
+        error: true,
+        success: false,
+      });
+    }
+
+    const updateUser = await userModel.findByIdAndUpdate(id, {
+      verify_email: true,
+    });
+
+    if (!updateUser) {
+      return res.status(404).json({
+        message: "User Not Fount",
+        error: true,
+        success: false,
+      });
+    }
+
+    return res.status(200).json({
+      message: "Email Verified Successfully",
+      status: true,
+      error: false,
+      data: updateUser,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};
+
+export {
+  registerUsersController,
+  verifyUserEmailController,
+  userLoginController,
+};
