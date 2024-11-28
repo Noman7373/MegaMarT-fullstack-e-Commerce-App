@@ -30,7 +30,7 @@ This is a full-stack e-commerce application designed to provide users with a sea
 ### Steps to Run Locally
 1. Clone the repository:
    ```bash
-   git clone <https://github.com/Noman7373/MERN-e-Commerce-App.git>
+   git clone https://github.com/Noman7373/MERN-e-Commerce-App.git
 
 2. Navigate to the project directory:
 
