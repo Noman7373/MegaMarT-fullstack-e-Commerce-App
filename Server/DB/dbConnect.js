@@ -1,4 +1,4 @@
-import mongoose from "moongose";
+import mongoose from "mongoose";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -10,7 +10,7 @@ const DbConnection = async () => {
   try {
     const URL = process.env.MONGODB_URL || "mongodb://localhost:27017/test";
     await mongoose.connect(URL);
-    console.log("Connected Successfullu");
+    console.log("Connected Successfully");
   } catch (error) {
     console.log(error);
   }
