@@ -57,22 +57,15 @@ npm run dev
 Current Progress
 
 This project is ongoing. The following features are under development:
+[ ] User Authentication 
+
+[ ] Add To Cart , Add To Wishlist
 
 [ ] Product Search
 
 [ ] Payment Gateway Integration
 
 [ ] Admin Panel
-
-
-Future Enhancements
-
-Add reviews and ratings for products.
-
-Implement order tracking for users.
-
-Optimize performance for scalability.
-
 
 Contributing
 
