@@ -1,5 +1,3 @@
-Here’s a basic structure for your README.md file for your ongoing e-commerce application project:
-
 # E-Commerce Application
 
 ## Project Overview
