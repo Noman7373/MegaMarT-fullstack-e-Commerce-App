@@ -5,6 +5,8 @@ import verifyEmailTemplate from "../utils/verifyEmailTamplate.js";
 import generateAccessToken from "../utils/generateAccessToken.js";
 import generateRefreshToken from "../utils/generateRefreshToken.js";
 import uploadImagesCloudinary from "../utils/uploadImages.js";
+import generateOtp from "../utils/generateOtp.js";
+import forgotOtpTamplete from "../utils/VerifyOtpTamplate.js";
 
 // Register User Controller
 const registerUsersController = async (req, res) => {
@@ -140,31 +142,45 @@ const userLoginController = async (req, res) => {
   }
 };
 
-// Forgot Password Controller
+// Forgot Password Controller   // User not log in
 const forgotPasswordController = async (req, res) => {
   try {
-    const { id } = req.params;
-    const { password } = req.body;
+    const { email } = req.body;
 
-    if (!password) {
-      return res.status(401).json({
-        message: "Please Provide old Password",
+    const userExits = await userModel.findOne({ email });
+
+    if (!userExits) {
+      return res.status(400).json({
+        message: "Email Not Availble",
         error: true,
         success: false,
       });
     }
 
-    const hashPassword = await bcrypt.hash(password, 10);
+    // import OTP function from ./utils
+    const otp = generateOtp();
+    const expireOtp = new Date(Date.now() + 60 * 1000); // otp will expire after 1 minute
 
+    const saveOtp = await userModel.findByIdAndUpdate(userExits._id, {
+      forgot_password_otp: otp,
+      forgot_password_expire: new Date(expireOtp).toISOString(),
+    });
 
+    await sendEmail({
+      sendTo: userExits.email,
+      subject: "Forgot Password from Blinkyt",
+      html: forgotOtpTamplete({
+        otp,
+      }),
+    });
 
-    
-
-
-
-
+    return res.status(200).json({
+      message: "Please Check your Email",
+      success: true,
+      error: false,
+    });
   } catch (error) {
-    return res.status(501).json({
+    return res.status(500).json({
       message: error.message || error,
     });
   }
@@ -280,7 +296,6 @@ const uploadAvatarController = async (req, res) => {
 const updateUserDetailsController = async (req, res) => {
   try {
     const { id } = req.params;
-    console.log(id);
 
     const { name, email, password, mobile } = req.body;
 
@@ -292,8 +307,6 @@ const updateUserDetailsController = async (req, res) => {
       password: hashPassword,
       mobile,
     });
-
-    console.log(updateUserProfile);
 
     return res.status(200).json({
       message: "Profile Updated",

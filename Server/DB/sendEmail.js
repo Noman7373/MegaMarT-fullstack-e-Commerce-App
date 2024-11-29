@@ -3,13 +3,17 @@ import dotenv from "dotenv";
 dotenv.config();
 
 if (!process.env.RESEND_API) {
-  console.log("Please Provide the RESEND_API");
+  throw new Error("RESEND_API key is missing in environment variables.");
 }
 
 const resend = new Resend(process.env.RESEND_API);
 
 const sendEmail = async ({ sendTo, subject, html }) => {
   try {
+    if (!sendTo || !subject || !html) {
+      throw new Error("Missing required parameters: sendTo, subject, or html.");
+    }
+
     const { data, error } = await resend.emails.send({
       from: "Nomi <onboarding@resend.dev>",
       to: sendTo,
