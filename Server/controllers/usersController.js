@@ -179,8 +179,56 @@ const verifyUserEmailController = async (req, res) => {
   }
 };
 
+const logOutController = async (req, res) => {
+  try {
+    const userId = req.userId; // importing from middleware
+
+    const cookiesOption = {
+      httpOnly: true,
+      secure: true,
+      sameSite: "None",
+    };
+
+    res.clearCookie("AccessToken", cookiesOption);
+    res.clearCookie("RefreshToken", cookiesOption);
+
+    const removeRefreshToken = await userModel.findByIdAndUpdate(userId, {
+      refresh_token: "",
+    });
+
+    return res.status(200).json({
+      message: "Log out Successfully",
+      success: true,
+      error: false,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};
+
+// Upload Avatar Controller
+const uploadAvatarController = async (req, res) => {
+  try {
+    // for getting email file multer
+    const image = req.file;
+    console.log("Image", image);
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};
+
 export {
   registerUsersController,
   verifyUserEmailController,
   userLoginController,
+  logOutController,
+  uploadAvatarController,
 };
