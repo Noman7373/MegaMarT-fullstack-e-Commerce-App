@@ -141,7 +141,34 @@ const userLoginController = async (req, res) => {
 };
 
 // Forgot Password Controller
-const forgotPasswordController = async (req, res) => {};
+const forgotPasswordController = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { password } = req.body;
+
+    if (!password) {
+      return res.status(401).json({
+        message: "Please Provide old Password",
+        error: true,
+        success: false,
+      });
+    }
+
+    const hashPassword = await bcrypt.hash(password, 10);
+
+
+
+    
+
+
+
+
+  } catch (error) {
+    return res.status(501).json({
+      message: error.message || error,
+    });
+  }
+};
 
 // Verify User Email Controller
 const verifyUserEmailController = async (req, res) => {
