@@ -4,6 +4,7 @@ import sendEmail from "../DB/sendEmail.js";
 import verifyEmailTemplate from "../utils/verifyEmailTamplate.js";
 import generateAccessToken from "../utils/generateAccessToken.js";
 import generateRefreshToken from "../utils/generateRefreshToken.js";
+import uploadImagesCloudinary from "../utils/uploadImages.js";
 
 const registerUsersController = async (req, res) => {
   try {
@@ -213,9 +214,26 @@ const logOutController = async (req, res) => {
 // Upload Avatar Controller
 const uploadAvatarController = async (req, res) => {
   try {
-    // for getting email file multer
-    const image = req.file;
-    console.log("Image", image);
+    const userId = req.userId; // auth middleware
+
+    const image = req.file; // multer middleware
+
+    // import uploadImageCloudinary
+    const upload = await uploadImagesCloudinary(image);
+
+    const updateUser = await userModel.findByIdAndUpdate(userId, {
+      avater: upload.url,
+    });
+
+    return res.status(200).json({
+      message: "Profile Uploaded",
+      success: true,
+      error: false,
+      data: {
+        _id: userId,
+        avater: upload.url,
+      },
+    });
   } catch (error) {
     return res.status(500).json({
       message: error.message || error,
