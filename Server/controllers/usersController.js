@@ -140,6 +140,9 @@ const userLoginController = async (req, res) => {
   }
 };
 
+// Forgot Password Controller
+const forgotPasswordController = async (req, res) => {};
+
 // Verify User Email Controller
 const verifyUserEmailController = async (req, res) => {
   try {
@@ -247,7 +250,6 @@ const uploadAvatarController = async (req, res) => {
 };
 
 // Update User Detail (name,email,password,profileImage)
-
 const updateUserDetailsController = async (req, res) => {
   try {
     const { id } = req.params;
@@ -283,8 +285,9 @@ const updateUserDetailsController = async (req, res) => {
 
 export {
   registerUsersController,
-  verifyUserEmailController,
   userLoginController,
+  forgotPasswordController,
+  verifyUserEmailController,
   logOutController,
   uploadAvatarController,
   updateUserDetailsController,
