@@ -6,6 +6,7 @@ import generateAccessToken from "../utils/generateAccessToken.js";
 import generateRefreshToken from "../utils/generateRefreshToken.js";
 import uploadImagesCloudinary from "../utils/uploadImages.js";
 
+// Register User Controller
 const registerUsersController = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -139,6 +140,7 @@ const userLoginController = async (req, res) => {
   }
 };
 
+// Verify User Email Controller
 const verifyUserEmailController = async (req, res) => {
   try {
     const { id } = req.body;
@@ -180,6 +182,7 @@ const verifyUserEmailController = async (req, res) => {
   }
 };
 
+// Logout User Controller
 const logOutController = async (req, res) => {
   try {
     const userId = req.userId; // importing from middleware
@@ -243,10 +246,46 @@ const uploadAvatarController = async (req, res) => {
   }
 };
 
+// Update User Detail (name,email,password,profileImage)
+
+const updateUserDetailsController = async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log(id);
+
+    const { name, email, password, mobile } = req.body;
+
+    const hashPassword = await bcrypt.hash(password, 10);
+
+    const updateUserProfile = await userModel.findByIdAndUpdate(id, {
+      name,
+      email,
+      password: hashPassword,
+      mobile,
+    });
+
+    console.log(updateUserProfile);
+
+    return res.status(200).json({
+      message: "Profile Updated",
+      success: true,
+      error: false,
+      data: updateUserProfile,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};
+
 export {
   registerUsersController,
   verifyUserEmailController,
   userLoginController,
   logOutController,
   uploadAvatarController,
+  updateUserDetailsController,
 };

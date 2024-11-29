@@ -5,6 +5,7 @@ import {
   userLoginController,
   logOutController,
   uploadAvatarController,
+  updateUserDetailsController,
 } from "../controllers/usersController.js";
 import authMiddleware from "../middleware/authMiddleware.js";
 import uplaod from "../middleware/multer.js";
@@ -22,5 +23,6 @@ router.put(
   uplaod.single("avatar"),
   uploadAvatarController
 );
+router.put("/update-profile/:id", updateUserDetailsController);
 
 export default router;
