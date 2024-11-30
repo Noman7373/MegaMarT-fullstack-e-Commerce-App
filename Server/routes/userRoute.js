@@ -7,6 +7,8 @@ import {
   uploadAvatarController,
   updateUserDetailsController,
   forgotPasswordController,
+  verifyOtp,
+  resetPassword,
 } from "../controllers/usersController.js";
 import authMiddleware from "../middleware/authMiddleware.js";
 import uplaod from "../middleware/multer.js";
@@ -26,5 +28,7 @@ router.put(
 );
 router.put("/update-profile/:id", updateUserDetailsController);
 router.put("/forgot-password", forgotPasswordController);
+router.post("/verify-otp", verifyOtp);
+router.post("/reset-password/:id", resetPassword);
 
 export default router;

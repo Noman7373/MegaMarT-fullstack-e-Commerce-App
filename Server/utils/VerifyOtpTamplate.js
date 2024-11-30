@@ -1,5 +1,5 @@
-const forgotOtpTamplete = ({ OTP }) => {
-    return `
+const forgotOtpTamplete = (OTP) => {
+  return `
       <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
         <h2>Action Required: One-Time Verification Code</h2>
         <p>You are receiving this email because a request was made for a one-time code that can be used for authentication.</p>
@@ -15,7 +15,6 @@ const forgotOtpTamplete = ({ OTP }) => {
         <p>If you didn’t make this request, you can safely ignore this email.</p>
       </div>
     `;
-  };
-  
-  export default forgotOtpTamplete;
-  
+};
+
+export default forgotOtpTamplete;
