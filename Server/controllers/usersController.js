@@ -7,6 +7,7 @@ import generateRefreshToken from "../utils/generateRefreshToken.js";
 import uploadImagesCloudinary from "../utils/uploadImages.js";
 import generateOtp from "../utils/generateOtp.js";
 import forgotOtpTamplete from "../utils/VerifyOtpTamplate.js";
+import jwt from "jsonwebtoken";
 
 // Register User Controller
 const registerUsersController = async (req, res) => {
@@ -214,7 +215,7 @@ const verifyOtp = async (req, res) => {
       });
     }
 
-    let currentTime = new Date();
+    let currentTime = new Date().toISOString();
 
     if (user.forgot_password_expire < currentTime) {
       return res.status(400).json({
@@ -250,11 +251,19 @@ const verifyOtp = async (req, res) => {
 const resetPassword = async (req, res) => {
   try {
     const { id } = req.params;
-    const { newPassword } = req.body;
+    const { newPassword, confirmNewPassword } = req.body;
 
-    if (!newPassword) {
+    if (!newPassword || !confirmNewPassword) {
       return res.json(401).status({
-        message: "Please provide New Password",
+        message: "Please provide New Password and Cofirm New Password",
+        error: true,
+        success: false,
+      });
+    }
+
+    if (newPassword !== confirmNewPassword) {
+      return res.status(401).json({
+        message: "Password not match with New Password",
         error: true,
         success: false,
       });
@@ -427,6 +436,64 @@ const updateUserDetailsController = async (req, res) => {
   }
 };
 
+// Refresh Token Controller
+const refreshTokenController = async (req, res) => {
+  try {
+    // get the refresh token
+    const refreshToken =
+      req.cookies.RefreshToken || req?.header?.authorization?.split(" ")[1]; // ["Bearer","Token"] for mobile cookie
+
+    if (!refreshToken) {
+      return res.status(401).json({
+        message: "Invalid Token",
+        error: true,
+        success: false,
+      });
+    }
+
+    const checkRefreshToken = await jwt.verify(
+      refreshToken,
+      process.env.SECRET_KEY_REFRESH_TOKEN
+    );
+
+    if (!checkRefreshToken) {
+      return res.status(400).json({
+        message: "Refresh Token Expired",
+        error: true,
+        success: false,
+      });
+    }
+
+    // if refresh token is not expired then we generte the new token and send it to the client side
+
+    const userId = checkRefreshToken?.id;
+
+    const newAccessToken = await generateAccessToken(userId);
+
+    const cookiesOption = {
+      httpOnly: true,
+      secure: true,
+      sameSite: "None",
+    };
+    res.cookie("AccessToken", newAccessToken, cookiesOption);
+
+    return res.status(201).json({
+      message: "New Access Token Generated",
+      error: false,
+      success: true,
+      data: {
+        accessToken: newAccessToken,
+      },
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};
+
 export {
   registerUsersController,
   userLoginController,
@@ -437,4 +504,5 @@ export {
   forgotPasswordController,
   verifyOtp,
   resetPassword,
+  refreshTokenController,
 };

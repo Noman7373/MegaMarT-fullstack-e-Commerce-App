@@ -9,6 +9,7 @@ import {
   forgotPasswordController,
   verifyOtp,
   resetPassword,
+  refreshTokenController,
 } from "../controllers/usersController.js";
 import authMiddleware from "../middleware/authMiddleware.js";
 import uplaod from "../middleware/multer.js";
@@ -28,7 +29,8 @@ router.put(
 );
 router.put("/update-profile/:id", updateUserDetailsController);
 router.put("/forgot-password", forgotPasswordController);
-router.post("/verify-otp", verifyOtp);
-router.post("/reset-password/:id", resetPassword);
+router.put("/verify-forgotpassword-otp", verifyOtp);
+router.put("/reset-password/:id", resetPassword);
+router.post("/refresh-token", refreshTokenController);
 
 export default router;
