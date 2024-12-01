@@ -1,3 +1,4 @@
+import Register from "./pages/Register";
 import Search from "./Search";
 
 function Navbar() {
@@ -15,10 +16,10 @@ function Navbar() {
         <div>
           <Search />
         </div>
-        {/* Sign Up sign in */}
 
+        {/* Sign Up sign in */}
         <div>
-          
+          <Register />
         </div>
       </div>
     </header>
