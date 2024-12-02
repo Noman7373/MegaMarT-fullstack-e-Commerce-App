@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Search = () => {
   const [categories, setCategories] = useState(0);
@@ -20,19 +21,23 @@ const Search = () => {
   }, []); // Empty dependency array ensures this runs only once when the component mounts
 
   return (
-    <div className="w-full min-w-[300px] lg:min-w-[420px] h-12 rounded flex justify-between items-center border p-2 overflow-hidden bg-gray-50">
-      <button className="text-gray-700">
-        <FaSearch size={20} />
-      </button>
+    <>
+      <Link to="/search">
+        <div className="w-full min-w-[300px] lg:min-w-[420px] h-12 rounded flex justify-between items-center border p-2 overflow-hidden bg-gray-50">
+          <button className="text-gray-700">
+            <FaSearch size={20} />
+          </button>
 
-      <div className="w-[90%]">
-        <input
-          type="text"
-          className="w-full outline-none border-none p-1 bg-transparent"
-          placeholder={`Search by "${categoryList[categories]}"`}
-        />
-      </div>
-    </div>
+          <div className="w-[90%]">
+            <input
+              type="text"
+              className="w-full outline-none border-none p-1 bg-transparent"
+              placeholder={`Search by "${categoryList[categories]}"`}
+            />
+          </div>
+        </div>
+      </Link>
+    </>
   );
 };
 
