@@ -4,7 +4,6 @@ import dotenv from "dotenv";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
-import punycode from "punycode";
 import mongoose from "mongoose";
 import DbConnection from "./DB/dbConnect.js";
 import router from "./routes/userRoute.js";

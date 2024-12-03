@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { data, useNavigate } from "react-router-dom";
+import { data, Link, useNavigate } from "react-router-dom";
 import { FaEyeSlash } from "react-icons/fa";
 import { FaEye } from "react-icons/fa6";
 import { registerUser } from "../../Api/Query/userQuery.js";
@@ -11,6 +11,7 @@ const Register = () => {
     email: "",
     password: "",
   });
+  const [error, setError] = useState("");
 
   const validFormValues = Object.values(userData).every((value) => value);
 
@@ -34,16 +35,19 @@ const Register = () => {
         password: userData.password,
       });
 
-      if (response.status) {
-        alert(response.data.message);
+      if (response.data.error) {
+        return setError(response.data.message);
+      }
+
+      if (response.data.success) {
+        navigate("/login");
         setUserData({
           name: "",
           email: "",
           password: "",
         });
+        navigate("/login");
       }
-
-      console.log(response);
     } catch (error) {
       throw new Error(error.response?.data?.message || "An error occurred");
     }
@@ -53,7 +57,7 @@ const Register = () => {
     <section className="container w-full mx-auto px-2">
       <div className="bg-white my-2 w-full max-w-lg mx-auto rounded py-2 px-4">
         <p>Welcome to ShopHub</p>
-
+        <p className="text-red-500">{error}</p>
         <div>
           <form
             className="flex gap-3 flex-col mt-4 py-2"
@@ -107,6 +111,7 @@ const Register = () => {
             </div>
 
             <button
+              disabled={!validFormValues}
               type="submit"
               className={`${
                 validFormValues ? "bg-green-800" : "bg-gray-600"
@@ -118,6 +123,16 @@ const Register = () => {
             </button>
           </form>
         </div>
+
+        <p>
+          Already Hava Account?{" "}
+          <Link
+            to={"/login"}
+            className="text-green-800 font-semibold hover:text-green-600"
+          >
+            Log In
+          </Link>
+        </p>
       </div>
     </section>
   );

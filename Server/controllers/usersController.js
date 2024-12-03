@@ -130,6 +130,7 @@ const userLoginController = async (req, res) => {
       success: true,
       error: false,
       date: {
+        password,
         accessToken,
         refreshToken,
       },

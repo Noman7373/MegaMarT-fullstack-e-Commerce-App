@@ -1,7 +1,8 @@
 import axios from "axios";
+import { baseURL } from "./apiSummery.js";
 
 const Axios = axios.create({
-  baseURL: import.meta.env.BACKEND_URL,
+  baseURL: baseURL,
   withCredentials: true,
 });
 
