@@ -10,7 +10,7 @@ function Header() {
   const isSearchPage = location.pathname == "/search";
 
   return (
-    <header className="h-30 lg:h-20 shadow-md sticky top-0 px-2 flex items-center flex-col justify-center gap-1 bg-white">
+    <header className="h-30 lg:h-20 shadow-md sticky top-0 px-2 flex items-center flex-col justify-center bg-white">
       {/* logo */}
       {!(isSearchPage && isMobile) && (
         <div className="h-full w-full flex justify-between items-center">

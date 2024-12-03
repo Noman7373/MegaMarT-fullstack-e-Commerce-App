@@ -40,7 +40,7 @@ const Search = () => {
   return (
     <>
       <Link to="/search">
-        <div className="w-full min-w-[300px] lg:min-w-[420px] bg-white h-12 rounded flex justify-between items-center border p-2 overflow-hidden">
+        <div className="w-full min-w-[300px] lg:min-w-[420px] bg-white h-11 rounded flex justify-between items-center border p-2 overflow-hidden">
           {/* condition buttons */}
           {isMobile && isSearchPage ? (
             <button
