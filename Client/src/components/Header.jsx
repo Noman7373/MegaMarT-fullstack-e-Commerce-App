@@ -1,7 +1,8 @@
 import { Link, useLocation } from "react-router-dom";
-import Register from "./pages/Register";
 import Search from "./Search";
-import useMobile from "./hooks/useMobile";
+import useMobile from "../hooks/useMobile";
+import { FaCartShopping } from "react-icons/fa6";
+import ShowBtn from "./pages/ShowBtn";
 
 function Header() {
   const [isMobile] = useMobile();
@@ -9,7 +10,7 @@ function Header() {
   const isSearchPage = location.pathname == "/search";
 
   return (
-    <header className="bg-red-500 h-30 lg:h-20 shadow-md sticky top-0 px-2 flex items-center flex-col justify-center gap-1">
+    <header className="h-30 lg:h-20 shadow-md sticky top-0 px-2 flex items-center flex-col justify-center gap-1 bg-white">
       {/* logo */}
       {!(isSearchPage && isMobile) && (
         <div className="h-full w-full flex justify-between items-center">
@@ -24,9 +25,14 @@ function Header() {
             <Search />
           </div>
 
-          {/* Sign Up sign in */}
-          <div>
-            <Register />
+          <div className="flex gap-5 items-center">
+            {/* Sign Up sign in */}
+            <ShowBtn />
+            {/* add to cart btn  */}
+            <button className="xs:hidden sm:hidden md:hidden lg:flex items-center gap-2 p-2 text-white font-bold border-none hover:bg-green-700 rounded bg-green-800">
+              {" "}
+              <FaCartShopping size={28} className="animate-bounce" /> My Cart
+            </button>
           </div>
         </div>
       )}
