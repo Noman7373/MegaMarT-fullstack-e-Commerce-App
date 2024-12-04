@@ -28,4 +28,16 @@ const userLogIn = async ({ email, password }) => {
   }
 };
 
-export { registerUser, userLogIn };
+const userForgotPassword = async ({ email }) => {
+  try {
+    const response = await Axios.put(`${baseURL}/api/user/forgot-password`, {
+      email,
+    });
+    return response;
+  } catch (error) {
+    console.error("Error during Login:", error);
+    throw new Error(error.response?.data?.message || "An error occurred");
+  }
+};
+
+export { registerUser, userLogIn, userForgotPassword };

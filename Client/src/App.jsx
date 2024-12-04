@@ -6,6 +6,7 @@ import Searchpage from "./components/pages/Searchpage.jsx";
 import Login from "./components/pages/Login.jsx";
 import Register from "./components/pages/Register.jsx";
 import ForgotPassword from "./components/pages/ForgotPassword.jsx";
+import VerifyOtp from "./components/pages/VerifyOtp.jsx";
 function App() {
   const router = createBrowserRouter([
     {
@@ -35,6 +36,10 @@ function App() {
         {
           path: "/forgot-password",
           element: <ForgotPassword />,
+        },
+        {
+          path: "/verify-opt",
+          element: <VerifyOtp />,
         },
       ],
     },

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { userLogIn } from "../../Api/Query/userQuery";
 import { Link, useNavigate } from "react-router-dom";
@@ -10,7 +10,18 @@ const Login = () => {
     email: "",
     password: "",
   });
-  const [showMessage, setShowMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+
+  useEffect(() => {
+    if (errorMessage || successMessage) {
+      const timer = setTimeout(() => {
+        setErrorMessage("");
+        setSuccessMessage("");
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [errorMessage, successMessage]);
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
@@ -25,27 +36,21 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const respnonse = await userLogIn({
+      const response = await userLogIn({
         email: userData.email,
         password: userData.password,
       });
-      console.log(respnonse);
+      console.log(response.data);
 
-      // if (data.error) {
-      //   return setShowMessage(data.message);
-      // }
-
-      // if (data.success) {
-      //   setShowMessage(data.message);
-      //   navigate("/");
-      // }
-
-      setUserData({
-        email: "",
-        password: "",
-      });
+      if (response.data.error) {
+        setErrorMessage(response.data.message);
+      } else if (response.data.success) {
+        setSuccessMessage(response.data.message);
+        // navigate("/");
+        setUserData({ email: "", password: "" });
+      }
     } catch (error) {
-      throw new Error("An error occured");
+      setErrorMessage("An error occurred while logging in. Please try again.");
     }
   };
 
@@ -53,7 +58,9 @@ const Login = () => {
     <section className="container w-full mx-auto px-2">
       <div className="bg-white my-2 w-full max-w-lg mx-auto rounded py-2 px-4">
         <p>Log In To Access</p>
-        <p className="text-red-500">{showMessage}</p>
+        {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+        {successMessage && <p className="text-green-600">{successMessage}</p>}
+
         <div>
           <form
             className="flex gap-3 flex-col mt-4 py-2"
@@ -92,7 +99,9 @@ const Login = () => {
                 {showPassword ? <FaEyeSlash size={25} /> : <FaEye size={25} />}
               </span>
             </div>
-
+            <p className="flex items-end justify-end">
+              <Link to={"/forgot-password"}>Forgot Password?</Link>
+            </p>
             <button
               disabled={!validFormValues}
               type="submit"
@@ -107,11 +116,14 @@ const Login = () => {
           </form>
         </div>
         <div className="flex justify-between">
-          <p className="text-green-800 font-semibold hover:text-green-600">
-            <Link to={"/register-user"}>Register Here</Link>
-          </p>
           <p>
-            <Link to={"/forgot-password"}>Forgot Password?</Link>
+            Dont have accout?{" "}
+            <Link
+              className="text-green-800 font-semibold hover:text-green-600"
+              to={"/register-user"}
+            >
+              Register
+            </Link>
           </p>
         </div>
       </div>

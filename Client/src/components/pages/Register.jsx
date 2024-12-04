@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { data, Link, useNavigate } from "react-router-dom";
 import { FaEyeSlash } from "react-icons/fa";
 import { FaEye } from "react-icons/fa6";
@@ -12,6 +12,13 @@ const Register = () => {
     password: "",
   });
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (error) {
+      const Timer = setInterval(() => setError(""), 3000);
+      return () => clearInterval(Timer);
+    }
+  }, [error]);
 
   const validFormValues = Object.values(userData).every((value) => value);
 
@@ -36,7 +43,7 @@ const Register = () => {
       });
 
       if (response.data.error) {
-        return setError(response.data.message);
+        setError(response.data.message);
       }
 
       if (response.data.success) {
@@ -49,7 +56,7 @@ const Register = () => {
         navigate("/login");
       }
     } catch (error) {
-      throw new Error(error.response?.data?.message || "An error occurred");
+      setError("An error occurred while Register. Please try again.");
     }
   };
 
