@@ -40,8 +40,10 @@ const ForgotPassword = () => {
 
       if (response.data.success) {
         setSuccessMessage(`Verifying link sent to your email: ${email}`);
+        navigate("/verify-opt", {
+          state: email,
+        });
         setEmail("");
-        navigate("/verify-opt");
       }
     } catch (error) {
       setErrorMessage("An error occurred. Please try again.");
@@ -85,7 +87,7 @@ const ForgotPassword = () => {
                   : "bg-gray-600 cursor-not-allowed"
               }`}
             >
-              Verify Email
+              Send OTP
             </button>
           </form>
         </div>

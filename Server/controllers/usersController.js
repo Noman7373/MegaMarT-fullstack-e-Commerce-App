@@ -115,16 +115,16 @@ const userLoginController = async (req, res) => {
     const accessToken = await generateAccessToken(userExits.id);
     const refreshToken = await generateRefreshToken(userExits.id);
 
-    // cookies options
-    const cookiesOption = {
+    // cookies otpions
+    const cookiesotpion = {
       httpOnly: true,
       secure: true,
       sameSite: "None",
     };
 
     // send token to via response.cookie
-    res.cookie("AccessToken", accessToken, cookiesOption);
-    res.cookie("RefreshToken", refreshToken, cookiesOption);
+    res.cookie("AccessToken", accessToken, cookiesotpion);
+    res.cookie("RefreshToken", refreshToken, cookiesotpion);
     return res.status(200).json({
       message: "Login Successfully",
       success: true,
@@ -172,7 +172,7 @@ const forgotPasswordController = async (req, res) => {
 
     await sendEmail({
       sendTo: userExits.email,
-      subject: "Forgot Password from Blinkyt",
+      subject: "Forgot Password from ShopHub",
       html: forgotOtpTamplete(otp),
     });
 
@@ -192,9 +192,9 @@ const forgotPasswordController = async (req, res) => {
 
 const verifyOtp = async (req, res) => {
   try {
-    const { email, opt } = req.body;
+    const { email, otp } = req.body;
 
-    if (!email || !opt) {
+    if (!email || !otp) {
       return res.status(401).json({
         message: "Please provide requried fields",
         error: true,
@@ -205,7 +205,7 @@ const verifyOtp = async (req, res) => {
     const user = await userModel.findOne({
       email,
     });
-    console.log(user.forgot_password_otp);
+    // console.log("forgot_otp", user.forgot_password_otp);
 
     if (!user) {
       return res.status(401).json({
@@ -225,7 +225,7 @@ const verifyOtp = async (req, res) => {
       });
     }
 
-    if (opt !== user.forgot_password_otp) {
+    if (otp !== user.forgot_password_otp) {
       return res.status(400).json({
         message: "Invalid OTP",
         error: true,
@@ -234,7 +234,7 @@ const verifyOtp = async (req, res) => {
     }
 
     return res.status(200).json({
-      message: "OPT Verify Successfully",
+      message: "otp Verify Successfully",
       error: false,
       success: true,
     });
@@ -346,14 +346,14 @@ const logOutController = async (req, res) => {
   try {
     const userId = req.userId; // importing from middleware
 
-    const cookiesOption = {
+    const cookiesotpion = {
       httpOnly: true,
       secure: true,
       sameSite: "None",
     };
 
-    res.clearCookie("AccessToken", cookiesOption);
-    res.clearCookie("RefreshToken", cookiesOption);
+    res.clearCookie("AccessToken", cookiesotpion);
+    res.clearCookie("RefreshToken", cookiesotpion);
 
     const removeRefreshToken = await userModel.findByIdAndUpdate(userId, {
       refresh_token: "",
@@ -470,12 +470,12 @@ const refreshTokenController = async (req, res) => {
 
     const newAccessToken = await generateAccessToken(userId);
 
-    const cookiesOption = {
+    const cookiesotpion = {
       httpOnly: true,
       secure: true,
       sameSite: "None",
     };
-    res.cookie("AccessToken", newAccessToken, cookiesOption);
+    res.cookie("AccessToken", newAccessToken, cookiesotpion);
 
     return res.status(201).json({
       message: "New Access Token Generated",

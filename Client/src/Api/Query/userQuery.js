@@ -40,4 +40,20 @@ const userForgotPassword = async ({ email }) => {
   }
 };
 
-export { registerUser, userLogIn, userForgotPassword };
+const verifyOTP = async ({ opt, email }) => {
+  try {
+    const response = await Axios.put(
+      `${baseURL}/api/user/verify-forgotpassword-otp`,
+      {
+        opt,
+        email,
+      }
+    );
+    return response;
+  } catch (error) {
+    console.error("Error during Login:", error);
+    throw new Error(error.response?.data?.message || "An error occurred");
+  }
+};
+
+export { registerUser, userLogIn, userForgotPassword, verifyOTP };
