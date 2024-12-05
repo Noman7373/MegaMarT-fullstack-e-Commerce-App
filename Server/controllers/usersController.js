@@ -498,6 +498,28 @@ const refreshTokenController = async (req, res) => {
   }
 };
 
+// get LogIn User Detials
+const getUserLoginDetails = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const logInUserDetials = await userModel.findById({ _id: id });
+
+    return res.status(200).json({
+      message: "User Details",
+      error: false,
+      success: true,
+      userData: logInUserDetials,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};
+
 export {
   registerUsersController,
   userLoginController,
@@ -509,4 +531,5 @@ export {
   verifyOtp,
   resetPassword,
   refreshTokenController,
+  getUserLoginDetails,
 };
