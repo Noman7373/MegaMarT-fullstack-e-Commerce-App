@@ -10,6 +10,8 @@ import VerifyOtp from "./components/pages/VerifyOtp.jsx";
 import Resetpassword from "./components/pages/Resetpassword.jsx";
 import { store } from "./store/store.js";
 import { Provider } from "react-redux";
+import { getUserLoginDetails } from "./Api/Query/userQuery.js";
+import { useEffect } from "react";
 function App() {
   const router = createBrowserRouter([
     {
@@ -52,6 +54,16 @@ function App() {
     },
   ]);
 
+
+  
+  const fetchUserData = async () => {
+    const userData = await getUserLoginDetails();
+    console.log(userData);
+  };
+
+  useEffect(() => {
+    fetchUserData();
+  }, []);
   return (
     <>
       <Provider store={store}>

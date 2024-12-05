@@ -111,6 +111,10 @@ const userLoginController = async (req, res) => {
       });
     }
 
+    const userUser = await userModel.findByIdAndUpdate(userExits._id, {
+      last_Login_date: new Date(),
+    });
+
     // import AccessToken and RefreshToke
     const accessToken = await generateAccessToken(userExits.id);
     const refreshToken = await generateRefreshToken(userExits.id);
@@ -234,7 +238,10 @@ const verifyOtp = async (req, res) => {
       });
     }
 
-    console.log(user.forgot_password_otp);
+    const userUpdate = await userModel.findByIdAndUpdate(user._id, {
+      forgot_password_otp: "",
+      forgot_password_expire: "",
+    });
 
     return res.status(200).json({
       message: "otp Verify Successfully",

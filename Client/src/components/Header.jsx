@@ -3,11 +3,15 @@ import Search from "./Search";
 import useMobile from "../hooks/useMobile";
 import { FaCartShopping } from "react-icons/fa6";
 import ShowBtn from "./pages/ShowBtn";
+import { useSelector } from "react-redux";
 
 function Header() {
   const [isMobile] = useMobile();
   const location = useLocation();
   const isSearchPage = location.pathname == "/search";
+  // import store values
+  const user = useSelector((state) => state?.user);
+  console.log("user", user);
 
   return (
     <header className="h-30 lg:h-20 shadow-md sticky top-0 px-2 flex items-center flex-col justify-center bg-white">

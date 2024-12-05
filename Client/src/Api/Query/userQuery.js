@@ -89,6 +89,17 @@ const refreshAccessToken = async (refreshToken) => {
   }
 };
 
+// fetch User Details API
+const getUserLoginDetails = async () => {
+  try {
+    const response = await Axios.get(`${baseURL}/getuser-details/${id}`);
+    return response;
+  } catch (error) {
+    console.error("Error during Login:", error);
+    throw new Error(error.response?.data?.message || "An error occurred");
+  }
+};
+
 export {
   registerUser,
   userLogIn,
@@ -96,4 +107,5 @@ export {
   verifyOTP,
   resetPassword,
   refreshAccessToken,
+  getUserLoginDetails,
 };
