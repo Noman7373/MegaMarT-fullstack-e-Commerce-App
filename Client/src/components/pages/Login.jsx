@@ -35,7 +35,6 @@ const Login = () => {
       [name]: value,
     });
   };
-  
 
   // handle Register form
   const handleSubmit = async (e) => {
@@ -45,12 +44,14 @@ const Login = () => {
         email: userData.email,
         password: userData.password,
       });
-      console.log(response.data);
 
       if (response.data.error) {
         setErrorMessage(response.data.message);
       } else if (response.data.success) {
         setSuccessMessage(response.data.message);
+        // When the accessToken expire we Extend the life of refresh token
+        localStorage.setItem("accessToken", response.data.tokens.accessToken);
+        localStorage.setItem("refreshToken", response.data.tokens.refreshToken);
         navigate("/");
         setUserData({ email: "", password: "" });
       }

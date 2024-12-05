@@ -74,10 +74,26 @@ const resetPassword = async ({ id, newPassword, confirmNewPassword }) => {
   }
 };
 
+// expend the life of accessToken with the help of RefreshToken
+const refreshAccessToken = async (refreshToken) => {
+  try {
+    const response = await axios.put(`${baseURL}/api/user/refresh-token`, {
+      refreshToken,
+    });
+    const accessToken = response.data.tokens.accessToken;
+    localStorage.setItem("accessToken", accessToken);
+    return accessToken;
+  } catch (error) {
+    console.error("Error during Login:", error);
+    throw new Error(error.response?.data?.message || "An error occurred");
+  }
+};
+
 export {
   registerUser,
   userLogIn,
   userForgotPassword,
   verifyOTP,
   resetPassword,
+  refreshAccessToken,
 };

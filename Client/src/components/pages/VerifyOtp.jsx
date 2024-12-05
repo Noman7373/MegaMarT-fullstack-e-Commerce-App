@@ -20,7 +20,7 @@ const VerifyOtp = () => {
     let countDown;
     if (otpSent && timer > 0) {
       countDown = setInterval(() => {
-        setTimer((prev) => prev + 1);
+        setTimer((prev) => prev - 1);
       }, 1000);
     } else if (timer == 0) {
       setResendDisabled(false);
@@ -95,7 +95,7 @@ const VerifyOtp = () => {
         </p>
         {errorMessage && <p className="text-red-500">{errorMessage}</p>}
         {successMessage && <p className="text-green-600">{successMessage}</p>}
-
+        <p>{timer}</p>
         <div>
           <form
             className="flex gap-3 flex-col mt-4 py-2"

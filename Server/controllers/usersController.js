@@ -129,7 +129,7 @@ const userLoginController = async (req, res) => {
       message: "Login Successfully",
       success: true,
       error: false,
-      date: {
+      tokens: {
         accessToken,
         refreshToken,
       },
@@ -485,7 +485,7 @@ const refreshTokenController = async (req, res) => {
       message: "New Access Token Generated",
       error: false,
       success: true,
-      data: {
+      tokens: {
         accessToken: newAccessToken,
       },
     });
