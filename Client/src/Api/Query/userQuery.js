@@ -1,3 +1,4 @@
+import axios from "axios";
 import Axios from "../Axios";
 import { baseURL } from "../apiSummery.js";
 const registerUser = async ({ name, email, password }) => {
@@ -40,12 +41,12 @@ const userForgotPassword = async ({ email }) => {
   }
 };
 
-const verifyOTP = async ({ opt, email }) => {
+const verifyOTP = async ({ otp, email }) => {
   try {
     const response = await Axios.put(
       `${baseURL}/api/user/verify-forgotpassword-otp`,
       {
-        opt,
+        otp,
         email,
       }
     );
@@ -56,4 +57,27 @@ const verifyOTP = async ({ opt, email }) => {
   }
 };
 
-export { registerUser, userLogIn, userForgotPassword, verifyOTP };
+const resetPassword = async ({ id, newPassword, confirmNewPassword }) => {
+  try {
+    const response = await axios.put(
+      `${baseURL}/api/user/reset-password/${id}`,
+      {
+        id,
+        newPassword,
+        confirmNewPassword,
+      }
+    );
+    return response;
+  } catch (error) {
+    console.error("Error during Login:", error);
+    throw new Error(error.response?.data?.message || "An error occurred");
+  }
+};
+
+export {
+  registerUser,
+  userLogIn,
+  userForgotPassword,
+  verifyOTP,
+  resetPassword,
+};

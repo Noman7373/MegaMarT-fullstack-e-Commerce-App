@@ -180,6 +180,7 @@ const forgotPasswordController = async (req, res) => {
       message: "Please Check your Email",
       success: true,
       error: false,
+      id: userExits._id,
     });
   } catch (error) {
     return res.status(500).json({
@@ -205,13 +206,13 @@ const verifyOtp = async (req, res) => {
     const user = await userModel.findOne({
       email,
     });
-    // console.log("forgot_otp", user.forgot_password_otp);
 
     if (!user) {
       return res.status(401).json({
         message: "User not found",
         error: true,
         success: false,
+        id: user._id,
       });
     }
 
@@ -233,10 +234,13 @@ const verifyOtp = async (req, res) => {
       });
     }
 
+    console.log(user.forgot_password_otp);
+
     return res.status(200).json({
       message: "otp Verify Successfully",
       error: false,
       success: true,
+      id: user._id,
     });
   } catch (error) {
     return res.status(500).json({
@@ -263,7 +267,7 @@ const resetPassword = async (req, res) => {
 
     if (newPassword !== confirmNewPassword) {
       return res.status(401).json({
-        message: "Password not match with New Password",
+        message: "Password not match with Confirm New Password",
         error: true,
         success: false,
       });
@@ -286,9 +290,9 @@ const resetPassword = async (req, res) => {
 
     return res.status(201).json({
       message: "New Password added successfully",
-      error: true,
-      success: false,
-      data: user,
+      error: false,
+      success: true,
+      data: user._id,
     });
   } catch (error) {
     return res.status(500).json({

@@ -6,7 +6,7 @@ const AppLayout = () => {
   return (
     <>
       <Header />
-      <main className="min-h-[24.4rem]">
+      <main className="min-h-[72vh]">
         <Outlet />
       </main>
       <Footer />

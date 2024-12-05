@@ -13,6 +13,9 @@ const Register = () => {
   });
   const [error, setError] = useState("");
 
+  // handle form validation
+  const validFormValues = Object.values(userData).every((value) => value);
+
   useEffect(() => {
     if (error) {
       const Timer = setInterval(() => setError(""), 3000);
@@ -20,12 +23,9 @@ const Register = () => {
     }
   }, [error]);
 
-  const validFormValues = Object.values(userData).every((value) => value);
-
   // handle onChange
   const handleOnChange = (e) => {
     const { name, value } = e.target;
-
     setUserData({
       ...userData,
       [name]: value,
@@ -53,7 +53,6 @@ const Register = () => {
           email: "",
           password: "",
         });
-        navigate("/login");
       }
     } catch (error) {
       setError("An error occurred while Register. Please try again.");

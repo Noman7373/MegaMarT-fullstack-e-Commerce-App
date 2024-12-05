@@ -6,7 +6,6 @@ const VerifyOtp = () => {
   const inputRef = useRef([]);
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location.state);
 
   const [otp, setOtp] = useState(new Array(6).fill("")); // OTP state as an array
   const [timer, setTimer] = useState(60);
@@ -16,6 +15,7 @@ const VerifyOtp = () => {
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
+  // handle otp expire timer
   useEffect(() => {
     let countDown;
     if (otpSent && timer > 0) {
@@ -36,6 +36,7 @@ const VerifyOtp = () => {
     }
   }, []);
 
+  // handle show error or success messages
   useEffect(() => {
     if (successMessage || errorMessage) {
       const timer = setTimeout(() => {
@@ -46,26 +47,19 @@ const VerifyOtp = () => {
     }
   }, [successMessage, errorMessage]);
 
-  
-  //   handle Onchange
+  //
+  // handle onChange form Input
   const handleOnChange = (e, index) => {
     const value = e.target.value;
-    console.log(e.keydown);
-    
-
     setOtp((prev) => {
       const updatedOtp = [...prev];
       updatedOtp[index] = value;
       return updatedOtp;
     });
-
     // Move to the next input
     if (value && index < 5) {
       inputRef.current[index + 1].focus();
     }
-
-
-
   };
 
   // handle Form
@@ -73,11 +67,14 @@ const VerifyOtp = () => {
     e.preventDefault();
     try {
       const response = await verifyOTP({
-        opt: otp.join(""),
+        otp: otp.join(""),
         email: location.state,
       });
 
-      console.log(otp);
+      if (response.data.success) {
+        navigate(`/reset-password/${response?.data?.id}`); // Navigate to reset password page
+        setOtp(new Array(6).fill(""));
+      }
 
       if (response.data.error) {
         setErrorMessage(response.data.message);
@@ -92,8 +89,9 @@ const VerifyOtp = () => {
       <div className="bg-white my-2 w-full max-w-md mx-auto rounded py-2 px-6">
         <h2 className="text-[1.3rem]">Please Enter a 6-digits code</h2>
         <p className="text-gray-500">
-          We sent you 6-digit code to you at{" "}
-          <span className="font-bold">{location.state}</span>
+          A verification code has been sent to{" "}
+          <span className="font-bold">{location.state}</span> Enter the code to
+          continue and be redirected.
         </p>
         {errorMessage && <p className="text-red-500">{errorMessage}</p>}
         {successMessage && <p className="text-green-600">{successMessage}</p>}

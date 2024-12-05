@@ -37,11 +37,12 @@ const ForgotPassword = () => {
       if (response.data.error) {
         setErrorMessage(response.data.message);
       }
-
+      
       if (response.data.success) {
         setSuccessMessage(`Verifying link sent to your email: ${email}`);
         navigate("/verify-opt", {
           state: email,
+          id: response.data,
         });
         setEmail("");
       }

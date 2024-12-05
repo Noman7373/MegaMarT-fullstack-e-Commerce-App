@@ -13,6 +13,10 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
+  // validate form values
+  const validFormValues = Object.values(userData).every((value) => value);
+
+  // useEffect for showing success and error messege
   useEffect(() => {
     if (errorMessage || successMessage) {
       const timer = setTimeout(() => {
@@ -23,6 +27,7 @@ const Login = () => {
     }
   }, [errorMessage, successMessage]);
 
+  // handle on change
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setUserData({
@@ -30,9 +35,9 @@ const Login = () => {
       [name]: value,
     });
   };
+  
 
-  const validFormValues = Object.values(userData).every((value) => value);
-
+  // handle Register form
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -46,7 +51,7 @@ const Login = () => {
         setErrorMessage(response.data.message);
       } else if (response.data.success) {
         setSuccessMessage(response.data.message);
-        // navigate("/");
+        navigate("/");
         setUserData({ email: "", password: "" });
       }
     } catch (error) {
