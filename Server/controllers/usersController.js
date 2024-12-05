@@ -503,7 +503,9 @@ const getUserLoginDetails = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const logInUserDetials = await userModel.findById({ _id: id });
+    const logInUserDetials = await userModel
+      .findById({ _id: id })
+      .select("-password -refresh_token");
 
     return res.status(200).json({
       message: "User Details",
