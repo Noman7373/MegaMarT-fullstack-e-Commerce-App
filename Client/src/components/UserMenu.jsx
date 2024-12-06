@@ -14,7 +14,7 @@ const UserMenu = ({ toogleMenu }) => {
       const response = await logOutUser();
       if (response.data.success) {
         dispatch(removeUserDetails());
-        console.log(response.data);
+        toogleMenu();
       }
     } catch (error) {
       throw new Error("An error occured while log out try again");
@@ -33,11 +33,19 @@ const UserMenu = ({ toogleMenu }) => {
 
       <div className="mt-2">
         <ul className="list-style-none py-2">
-          <Link to={"/"} onClick={toogleMenu}>
-            <li className="p-1 rounded hover:bg-gray-400">My Order</li>
+          <Link
+            to={"/"}
+            className="p-1 rounded hover:bg-gray-400"
+            onClick={toogleMenu}
+          >
+            My Order
           </Link>
-          <Link to={"/login"} onClick={toogleMenu}>
-            <li className="p-1 rounded hover:bg-gray-400">Save Order</li>
+          <Link
+            to={"/login"}
+            className="p-1 rounded hover:bg-gray-400"
+            onClick={toogleMenu}
+          >
+            Save Order
           </Link>
         </ul>
 

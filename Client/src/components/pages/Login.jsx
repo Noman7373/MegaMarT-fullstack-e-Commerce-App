@@ -10,8 +10,11 @@ import Loader from "../status/Loader";
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState("idle");
   const [showPassword, setShowPassword] = useState(false);
+
+  const [responseData, setResponseData] = useState({});
+
   const [userData, setUserData] = useState({
     email: "",
     password: "",
@@ -21,6 +24,23 @@ const Login = () => {
 
   // validate form values
   const validFormValues = Object.values(userData).every((value) => value);
+
+  const isIDLE = status === FETCH_STATUS.IDLE;
+  const isLoading = status === FETCH_STATUS.LOADING;
+  const isSuccess = status === FETCH_STATUS.SUCCESS;
+  const isError = status === FETCH_STATUS.ERROR;
+
+  // pause the re-rendering
+  useEffect(() => {
+    if (status === FETCH_STATUS.SUCCESS) {
+      dispatch(setUserDetials(responseData?.data?.userData));
+      const { accessToken, refreshToken } = responseData?.data?.tokens;
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
+      navigate("/");
+      setUserData({ email: "", password: "" });
+    }
+  }, [status, dispatch]);
 
   // useEffect for showing success and error messege
   useEffect(() => {
@@ -51,26 +71,18 @@ const Login = () => {
         email: userData.email,
         password: userData.password,
       });
-      setStatus(FETCH_STATUS.SUCCESS);
       if (response.data.error) {
+        setStatus(FETCH_STATUS.ERROR);
         setErrorMessage(response.data.message);
       } else if (response.data.success) {
-        setSuccessMessage(response.data.message);
-        // When the accessToken expire we Extend the life of refresh token
-        localStorage.setItem("accessToken", response.data.tokens.accessToken);
-        localStorage.setItem("refreshToken", response.data.tokens.refreshToken);
-        dispatch(setUserDetials(response?.data?.userData));
-        console.log(response);
-
-        navigate("/");
-        setUserData({ email: "", password: "" });
+        setResponseData(response);
+        setStatus(FETCH_STATUS.SUCCESS);
       }
     } catch (error) {
+      setStatus(FETCH_STATUS.ERROR);
       setErrorMessage("An error occurred while logging in. Please try again.");
     }
   };
-
-  const isLoading = status === FETCH_STATUS.LOADING;
 
   return (
     <section className="container w-full mx-auto px-2">
@@ -125,13 +137,15 @@ const Login = () => {
               type="submit"
               className={`${
                 validFormValues
-                  ? "bg-green-800  text-center"
+                  ? "bg-green-800 text-center"
                   : "bg-gray-600  text-center"
               } "mt-4 border py-2 bg-green-800 text-center"  ${
                 validFormValues ? " hover:bg-green-700  text-center" : ""
               } rounded text-white font-bold  text-center"`}
             >
-              {isLoading ? <Loader /> : "Log In"}
+              {isIDLE && "Log In"}
+              {isLoading && <Loader />}
+              {isError && "Log In"}
             </button>
           </form>
         </div>

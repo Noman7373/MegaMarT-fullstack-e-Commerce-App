@@ -71,9 +71,13 @@ function Header() {
                   )}
                 </div>
               ) : (
-                <button className="xs:hidden sm:hidden md:hidden lg:block p-2 bg-green-800 rounded text-white hover:bg-green-700">
-                  <Link to={"/register-user"}>Register</Link>
-                </button>
+                <Link
+                  to={"/register-user"}
+                  className="xs:hidden sm:hidden md:hidden lg:block p-2
+                bg-green-800 rounded text-white hover:bg-green-700"
+                >
+                  Register
+                </Link>
               )}
             </div>
             {/* add to cart btn  */}

@@ -9,6 +9,8 @@ import ForgotPassword from "./components/pages/ForgotPassword.jsx";
 import VerifyOtp from "./components/pages/VerifyOtp.jsx";
 import Resetpassword from "./components/pages/Resetpassword.jsx";
 import { useDispatch } from "react-redux";
+import { Provider } from "react-redux";
+import { store } from "./store/store.js";
 import { getUserLoginDetails } from "./Api/Query/userQuery.js";
 import { setUserDetials } from "./store/userSlice.js";
 import { useEffect } from "react";
@@ -71,9 +73,9 @@ function App() {
   }, []);
 
   return (
-    <>
+    <Provider store={store}>
       <RouterProvider router={router} />
-    </>
+    </Provider>
   );
 }
 

@@ -7,7 +7,7 @@ import { FETCH_STATUS } from "../status/fetchStatus.js";
 import Loader from "../status/Loader.jsx";
 const Register = () => {
   const navigate = useNavigate();
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState("idle");
   const [showPassword, setShowPassword] = useState(false);
   const [userData, setUserData] = useState({
     name: "",
@@ -48,22 +48,30 @@ const Register = () => {
 
       if (response.data.error) {
         setError(response.data.message);
+        setStatus(FETCH_STATUS.ERROR);
       }
 
       if (response.data.success) {
-        navigate("/login");
-        setUserData({
-          name: "",
-          email: "",
-          password: "",
-        });
+        setStatus(FETCH_STATUS.SUCCESS);
       }
     } catch (error) {
       setError("An error occurred while Register. Please try again.");
     }
   };
 
+  const isIDLE = status === FETCH_STATUS.IDLE;
   const isLoading = status === FETCH_STATUS.LOADING;
+  const isSuccess = status === FETCH_STATUS.SUCCESS;
+  const isError = status === FETCH_STATUS.ERROR;
+
+  if (isSuccess) {
+    navigate("/login");
+    setUserData({
+      name: "",
+      email: "",
+      password: "",
+    });
+  }
 
   return (
     <section className="container w-full mx-auto px-2">
@@ -131,7 +139,9 @@ const Register = () => {
                 validFormValues ? " hover:bg-green-700" : ""
               } rounded text-white font-bold"`}
             >
-              {isLoading ? <Loader /> : "Register"}
+              {isIDLE && "Register"}
+              {isLoading && <Loader />}
+              {isError && "Register"}
             </button>
           </form>
         </div>
