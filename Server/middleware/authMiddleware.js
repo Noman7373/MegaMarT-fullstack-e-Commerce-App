@@ -27,6 +27,7 @@ const authMiddleware = async (req, res, next) => {
 
     req.userId = decodeJwt.id;
 
+
     next();
   } catch (error) {
     console.log(error.name);

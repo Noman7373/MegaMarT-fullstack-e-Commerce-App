@@ -9,7 +9,7 @@ function Header() {
   const [isMobile] = useMobile();
   const location = useLocation();
   const isSearchPage = location.pathname == "/search";
-  // import store values
+
   const user = useSelector((state) => state?.user);
   console.log("user", user);
 

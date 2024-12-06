@@ -34,6 +34,6 @@ router.put("/verify-forgotpassword-otp", verifyOtp);
 router.put("/reset-password/:id", resetPassword);
 router.post("/refresh-token", refreshTokenController);
 // get user Detials Route
-router.get("/getuser-details/:id", authMiddleware, getUserLoginDetails);
+router.get("/getuser-details", authMiddleware, getUserLoginDetails);
 
 export default router;

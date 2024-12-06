@@ -508,10 +508,10 @@ const refreshTokenController = async (req, res) => {
 // get LogIn User Detials
 const getUserLoginDetails = async (req, res) => {
   try {
-    const { id } = req.params;
+    const userId = req.userId; // importing from middleware
 
     const logInUserDetials = await userModel
-      .findById({ _id: id })
+      .findById({ _id: userId })
       .select("-password -refresh_token");
 
     return res.status(200).json({

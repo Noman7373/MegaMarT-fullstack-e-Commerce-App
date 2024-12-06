@@ -8,11 +8,13 @@ import Register from "./components/pages/Register.jsx";
 import ForgotPassword from "./components/pages/ForgotPassword.jsx";
 import VerifyOtp from "./components/pages/VerifyOtp.jsx";
 import Resetpassword from "./components/pages/Resetpassword.jsx";
-import { store } from "./store/store.js";
-import { Provider } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getUserLoginDetails } from "./Api/Query/userQuery.js";
+import { setUserDetials } from "./store/userSlice.js";
 import { useEffect } from "react";
+
 function App() {
+  const dispatch = useDispatch();
   const router = createBrowserRouter([
     {
       path: "/",
@@ -54,21 +56,23 @@ function App() {
     },
   ]);
 
-
-  
   const fetchUserData = async () => {
-    const userData = await getUserLoginDetails();
-    console.log(userData);
+    try {
+      const user = await getUserLoginDetails();
+      dispatch(setUserDetials(user?.data?.userData));
+      // console.log("user data", user?.data?.userData);
+    } catch (error) {
+      console.log("Data fetching error", error);
+    }
   };
 
   useEffect(() => {
     fetchUserData();
   }, []);
+
   return (
     <>
-      <Provider store={store}>
-        <RouterProvider router={router} />
-      </Provider>
+      <RouterProvider router={router} />
     </>
   );
 }

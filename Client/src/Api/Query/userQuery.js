@@ -92,7 +92,7 @@ const refreshAccessToken = async (refreshToken) => {
 // fetch User Details API
 const getUserLoginDetails = async () => {
   try {
-    const response = await Axios.get(`${baseURL}/getuser-details/${id}`);
+    const response = await Axios.get(`${baseURL}/api/user/getuser-details`);
     return response;
   } catch (error) {
     console.error("Error during Login:", error);
