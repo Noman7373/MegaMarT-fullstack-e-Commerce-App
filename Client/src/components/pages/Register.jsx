@@ -64,14 +64,16 @@ const Register = () => {
   const isSuccess = status === FETCH_STATUS.SUCCESS;
   const isError = status === FETCH_STATUS.ERROR;
 
-  if (isSuccess) {
-    navigate("/login");
-    setUserData({
-      name: "",
-      email: "",
-      password: "",
-    });
-  }
+  useEffect(() => {
+    if (isSuccess) {
+      navigate("/login");
+      setUserData({
+        name: "",
+        email: "",
+        password: "",
+      });
+    }
+  }, [status, navigate]);
 
   return (
     <section className="container w-full mx-auto px-2">
