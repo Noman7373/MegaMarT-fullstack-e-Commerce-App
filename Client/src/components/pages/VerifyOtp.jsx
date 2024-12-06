@@ -1,11 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import { verifyOTP } from "../../Api/Query/userQuery";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { FETCH_STATUS } from "../status/fetchStatus";
+import Loader from "../status/Loader";
 
 const VerifyOtp = () => {
   const inputRef = useRef([]);
   const navigate = useNavigate();
   const location = useLocation();
+
+  const [status, setStatus] = useState("");
 
   const [otp, setOtp] = useState(new Array(6).fill("")); // OTP state as an array
   const [timer, setTimer] = useState(60);
@@ -65,6 +69,7 @@ const VerifyOtp = () => {
   // handle Form
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setStatus(FETCH_STATUS.LOADING);
     try {
       const response = await verifyOTP({
         otp: otp.join(""),
@@ -83,6 +88,8 @@ const VerifyOtp = () => {
       setErrorMessage("An error occurred while Register. Please try again.");
     }
   };
+
+  const isLoading = status === FETCH_STATUS.LOADING;
 
   return (
     <section className="container w-full mx-auto px-2">
@@ -121,15 +128,15 @@ const VerifyOtp = () => {
               type="submit"
               className="mt-4 border py-2 rounded bg-green-600 text-white font-bold"
             >
-              Verify OTP
+              {isLoading ? <Loader /> : " Verify OTP"}
             </button>
           </form>
         </div>
-        <Link to={"/forgot-password"}>
+        {/* <Link to={"/forgot-password"}>
           <button className="p-2 rounded bg-green-800 text-white border-none">
             Resend OTP
           </button>
-        </Link>
+        </Link> */}
       </div>
     </section>
   );

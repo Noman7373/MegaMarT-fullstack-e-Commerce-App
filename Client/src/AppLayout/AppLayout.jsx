@@ -6,7 +6,7 @@ const AppLayout = () => {
   return (
     <>
       <Header />
-      <main className="min-h-[72vh]">
+      <main className="mt-2 lg:min-h-[70vh] sm:min-h-[58vh] xs:min-h-[61vh]">
         <Outlet />
       </main>
       <Footer />

@@ -1,6 +1,7 @@
 import axios from "axios";
 import Axios from "../Axios";
 import { baseURL } from "../apiSummery.js";
+
 const registerUser = async ({ name, email, password }) => {
   try {
     const response = await Axios.post(`${baseURL}/api/user/register`, {
@@ -74,6 +75,17 @@ const resetPassword = async ({ id, newPassword, confirmNewPassword }) => {
   }
 };
 
+// logout Function
+
+const logOutUser = async () => {
+  try {
+    const response = await Axios.get(`${baseURL}/api/user/logout`);
+    return response;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || "An error occurred");
+  }
+};
+
 // expend the life of accessToken with the help of RefreshToken
 const refreshAccessToken = async (refreshToken) => {
   try {
@@ -106,6 +118,7 @@ export {
   userForgotPassword,
   verifyOTP,
   resetPassword,
+  logOutUser,
   refreshAccessToken,
   getUserLoginDetails,
 };

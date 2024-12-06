@@ -2,10 +2,14 @@ import React, { useEffect, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { resetPassword } from "../../Api/Query/userQuery";
 import { useNavigate, useParams } from "react-router-dom";
+import { FETCH_STATUS } from "../status/fetchStatus";
+import Loader from "../status/Loader";
 
 const Resetpassword = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+
+  const [status, setStatus] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showPassword1, setShowPassword1] = useState(false);
   const [updatePassword, setUpdatePassword] = useState({
@@ -14,11 +18,11 @@ const Resetpassword = () => {
   });
   // handle form validate
   const validFormValues = Object.values(updatePassword).every((value) => value);
-  
+
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
-    // handle show error or success messages
+  // handle show error or success messages
   useEffect(() => {
     if (errorMessage || successMessage) {
       let timer = setTimeout(() => {
@@ -30,7 +34,7 @@ const Resetpassword = () => {
     }
   }, [errorMessage, successMessage]);
 
-    // handle onChange form Input
+  // handle onChange form Input
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setUpdatePassword({
@@ -42,6 +46,8 @@ const Resetpassword = () => {
   // handle submit
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setStatus(FETCH_STATUS.LOADING);
+
     try {
       // validation
       if (updatePassword.newPassword !== updatePassword.confirmNewPassword) {
@@ -65,6 +71,8 @@ const Resetpassword = () => {
       setErrorMessage("Password does not match.");
     }
   };
+
+  const isLoading = status === FETCH_STATUS.LOADING;
 
   return (
     <section className="container w-full mx-auto px-2">
@@ -129,7 +137,7 @@ const Resetpassword = () => {
                 validFormValues ? " hover:bg-green-700" : ""
               } rounded text-white font-bold"`}
             >
-              Reset Password
+              {isLoading ? <Loader /> : "Reset Password"}
             </button>
           </form>
         </div>

@@ -1,5 +1,4 @@
 
-
 const ResetPasswordSuccess = () => {
   return (
     <section className="container w-full mx-auto px-2">

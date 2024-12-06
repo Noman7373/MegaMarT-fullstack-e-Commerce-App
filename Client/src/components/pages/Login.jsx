@@ -2,9 +2,15 @@ import React, { useEffect, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { userLogIn } from "../../Api/Query/userQuery";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setUserDetials } from "../../store/userSlice";
+import { FETCH_STATUS } from "../status/fetchStatus";
+import Loader from "../status/Loader";
 
 const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [status, setStatus] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [userData, setUserData] = useState({
     email: "",
@@ -39,12 +45,13 @@ const Login = () => {
   // handle Register form
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setStatus(FETCH_STATUS.LOADING);
     try {
       const response = await userLogIn({
         email: userData.email,
         password: userData.password,
       });
-
+      setStatus(FETCH_STATUS.SUCCESS);
       if (response.data.error) {
         setErrorMessage(response.data.message);
       } else if (response.data.success) {
@@ -52,6 +59,9 @@ const Login = () => {
         // When the accessToken expire we Extend the life of refresh token
         localStorage.setItem("accessToken", response.data.tokens.accessToken);
         localStorage.setItem("refreshToken", response.data.tokens.refreshToken);
+        dispatch(setUserDetials(response?.data?.userData));
+        console.log(response);
+
         navigate("/");
         setUserData({ email: "", password: "" });
       }
@@ -59,6 +69,8 @@ const Login = () => {
       setErrorMessage("An error occurred while logging in. Please try again.");
     }
   };
+
+  const isLoading = status === FETCH_STATUS.LOADING;
 
   return (
     <section className="container w-full mx-auto px-2">
@@ -112,12 +124,14 @@ const Login = () => {
               disabled={!validFormValues}
               type="submit"
               className={`${
-                validFormValues ? "bg-green-800" : "bg-gray-600"
-              } "mt-4 border py-2 bg-green-800 ${
-                validFormValues ? " hover:bg-green-700" : ""
-              } rounded text-white font-bold"`}
+                validFormValues
+                  ? "bg-green-800  text-center"
+                  : "bg-gray-600  text-center"
+              } "mt-4 border py-2 bg-green-800 text-center"  ${
+                validFormValues ? " hover:bg-green-700  text-center" : ""
+              } rounded text-white font-bold  text-center"`}
             >
-              Log In
+              {isLoading ? <Loader /> : "Log In"}
             </button>
           </form>
         </div>

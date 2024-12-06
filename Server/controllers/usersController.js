@@ -111,7 +111,7 @@ const userLoginController = async (req, res) => {
       });
     }
 
-    const userUser = await userModel.findByIdAndUpdate(userExits._id, {
+    const userUpdate = await userModel.findByIdAndUpdate(userExits._id, {
       last_Login_date: new Date(),
     });
 
@@ -137,6 +137,7 @@ const userLoginController = async (req, res) => {
         accessToken,
         refreshToken,
       },
+      userData: userExits,
     });
   } catch (error) {
     return res.status(500).json({

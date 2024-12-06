@@ -3,8 +3,11 @@ import { data, Link, useNavigate } from "react-router-dom";
 import { FaEyeSlash } from "react-icons/fa";
 import { FaEye } from "react-icons/fa6";
 import { registerUser } from "../../Api/Query/userQuery.js";
+import { FETCH_STATUS } from "../status/fetchStatus.js";
+import Loader from "../status/Loader.jsx";
 const Register = () => {
   const navigate = useNavigate();
+  const [status, setStatus] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [userData, setUserData] = useState({
     name: "",
@@ -35,6 +38,7 @@ const Register = () => {
   // handle Form Submit / User Registration
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setStatus(FETCH_STATUS.LOADING);
     try {
       const response = await registerUser({
         name: userData.name,
@@ -58,6 +62,8 @@ const Register = () => {
       setError("An error occurred while Register. Please try again.");
     }
   };
+
+  const isLoading = status === FETCH_STATUS.LOADING;
 
   return (
     <section className="container w-full mx-auto px-2">
@@ -125,7 +131,7 @@ const Register = () => {
                 validFormValues ? " hover:bg-green-700" : ""
               } rounded text-white font-bold"`}
             >
-              Register
+              {isLoading ? <Loader /> : "Register"}
             </button>
           </form>
         </div>
