@@ -112,6 +112,20 @@ const getUserLoginDetails = async () => {
   }
 };
 
+// Upload Avater
+const updloadAvater = async (file) => {
+  try {
+    const response = await Axios.put(`${baseURL}/api/user/upload-avatar`, {
+      file,
+    });
+
+    return response;
+  } catch (error) {
+    console.error("Error during Login:", error);
+    throw new Error(error.response?.data?.message || "An error occurred");
+  }
+};
+
 export {
   registerUser,
   userLogIn,
@@ -121,4 +135,5 @@ export {
   logOutUser,
   refreshAccessToken,
   getUserLoginDetails,
+  updloadAvater,
 };

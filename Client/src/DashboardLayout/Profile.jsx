@@ -2,13 +2,35 @@ import React, { useState } from "react";
 import { FaUserLarge } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 import { FETCH_STATUS } from "../components/status/fetchStatus";
+import { updloadAvater } from "../Api/Query/userQuery";
 
 const Profile = () => {
   const user = useSelector((state) => state.user);
-  //   console.log(user);
-//   const [status, setStatus] = useState("");
+  console.log(user);
 
-//   setStatus(FETCH_STATUS.LOADING);
+  const [file, setFile] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const handleAvatarImage = async (e) => {
+    const uploadFile = e.target.files[0];
+    if (!uploadFile) return;
+
+    // file validation
+    if (uploadFile.size > 5 * 1024 * 1024) {
+      setErrorMessage("File size exceeds 5MB. Please choose a smaller file.");
+      return;
+    }
+    setErrorMessage("");
+    try {
+      const formData = new FormData();
+      formData.append("avatar", uploadFile);
+      const response = await updloadAvater({ formData });
+      console.log(response);
+    } catch (error) {
+      console.error("Error uploading avatar:", error);
+      setErrorMessage("Failed to upload the avatar. Please try again.");
+    }
+  };
 
   return (
     <div>
@@ -37,11 +59,17 @@ const Profile = () => {
       </div>
       <form onSubmit={(e) => e.preventDefault()}>
         <label htmlFor="profile">
-          <div className="max-w-[8rem] cursor-pointer text-center text-sm px-3 py-2 mt-3 text-white bg-blue-600 rounded hover:bg-blue-400">
+          {/* <div className="max-w-[8rem] cursor-pointer text-center text-sm px-3 py-2 mt-3 text-white bg-blue-600 rounded hover:bg-blue-400">
             Change Profile
-          </div>
+          </div> */}
         </label>
-        <input type="file" id="profile" className="hidden" />
+        <input
+          type="file"
+          id="profile"
+          accept="image/"
+        //   className="hidden"
+          onChange={handleAvatarImage}
+        />
       </form>
     </div>
   );
