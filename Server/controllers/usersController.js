@@ -84,8 +84,8 @@ const userLoginController = async (req, res) => {
     const userExits = await userModel.findOne({ email });
 
     if (!userExits) {
-      return res.status(400).json({
-        message: "User Not Found",
+      return res.status(404).json({
+        message: "User does not exists",
         error: true,
         success: false,
       });
@@ -156,8 +156,8 @@ const forgotPasswordController = async (req, res) => {
     const userExits = await userModel.findOne({ email: email });
 
     if (!userExits) {
-      return res.status(400).json({
-        message: "Email Not Availble",
+      return res.status(404).json({
+        message: "User does not exists",
         error: true,
         success: false,
       });
@@ -209,8 +209,8 @@ const verifyOtp = async (req, res) => {
     });
 
     if (!user) {
-      return res.status(401).json({
-        message: "User not found",
+      return res.status(404).json({
+        message: "User does not exists",
         error: true,
         success: false,
         id: user._id,
@@ -271,7 +271,7 @@ const resetPassword = async (req, res) => {
 
     if (newPassword !== confirmNewPassword) {
       return res.status(401).json({
-        message: "Password not match with Confirm New Password",
+        message: "Password and confirm password does not match",
         error: true,
         success: false,
       });
@@ -280,8 +280,8 @@ const resetPassword = async (req, res) => {
     const findUser = await userModel.findById({ _id: id });
 
     if (!findUser) {
-      return res.status(401).json({
-        message: "Invalid User",
+      return res.status(404).json({
+        message: "User does not exists",
         error: true,
         success: false,
       });
@@ -452,7 +452,7 @@ const refreshTokenController = async (req, res) => {
       req.cookies.RefreshToken || req?.header?.authorization?.split(" ")[1]; // ["Bearer","Token"] for mobile cookie
 
     if (!refreshToken) {
-      return res.status(401).json({
+      return res.status(404).json({
         message: "Invalid Token",
         error: true,
         success: false,
