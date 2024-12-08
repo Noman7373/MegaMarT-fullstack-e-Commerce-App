@@ -1,11 +1,24 @@
-import React from 'react'
+import React from "react";
+import UserMenu from "../components/UserMenu";
+import { Outlet } from "react-router-dom";
 
 const Dashboard = () => {
   return (
-    <div>
-      <h1>dashboard</h1>
-    </div>
-  )
-}
+    <section className="bg-white">
+      <div className="container mx-auto p-1 grid lg:grid-cols-[200px,1fr]">
+        {/* Section for SideBar Menu */}
 
-export default Dashboard
+        <div className="py-4 sticky top-24 overflow-y-auto hidden lg:block">
+          <UserMenu />
+        </div>
+
+        {/* Section for User Profile */}
+        <div className="p-4">
+          <Outlet />
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Dashboard;

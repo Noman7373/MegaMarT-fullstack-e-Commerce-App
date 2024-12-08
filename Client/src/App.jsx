@@ -17,6 +17,7 @@ import { useEffect } from "react";
 import MobileMenu from "./components/MobileMenu.jsx";
 import Dashboard from "./DashboardLayout/Dashboard.jsx";
 import Profile from "./DashboardLayout/Profile.jsx";
+import MyOrder from "./components/pages/MyOrder.jsx";
 
 function App() {
   const dispatch = useDispatch();
@@ -64,12 +65,16 @@ function App() {
         {
           path: "/dashboard",
           element: <Dashboard />,
-          children : [
+          children: [
             {
-              path : "profile",
-              element : <Profile />
-            }
-          ]
+              path: "profile",
+              element: <Profile />,
+            },
+            {
+              path: "My-Order",
+              element: <MyOrder />,
+            },
+          ],
         },
       ],
     },

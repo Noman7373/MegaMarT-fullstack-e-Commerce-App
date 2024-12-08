@@ -4,8 +4,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { logOutUser } from "../Api/Query/userQuery";
 import { removeUserDetails } from "../store/userSlice";
 import { FiExternalLink } from "react-icons/fi";
+import useMobile from "../hooks/useMobile";
 
 const UserMenu = ({ toogleMenu }) => {
+  const [isMobile] = useMobile();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
@@ -24,13 +26,15 @@ const UserMenu = ({ toogleMenu }) => {
 
   // handle handleDashboardNavigation
   const handleDashboardNavigation = () => {
-    toogleMenu();
+    if (!isMobile) {
+      toogleMenu();
+    }
     navigate("/dashboard/profile");
   };
 
   return (
     <>
-      <div className="font-semibold">
+      <div className="font-semibold px-1">
         <h3>My Account</h3>
         <h3 className="flex items-center text-ellipsis max-w-52 line-clamp-1 gap-5 mt-2">
           {user?.name || user?.mobile}{" "}
@@ -46,7 +50,7 @@ const UserMenu = ({ toogleMenu }) => {
       <div className="mt-2">
         <ul className="list-style-none py-2 flex flex-col gap-2">
           <Link
-            to={"/"}
+            to={"/dashboard/My-Order"}
             className="p-1 rounded hover:bg-gray-200"
             onClick={toogleMenu}
           >
