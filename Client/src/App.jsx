@@ -14,6 +14,9 @@ import { store } from "./store/store.js";
 import { getUserLoginDetails } from "./Api/Query/userQuery.js";
 import { setUserDetials } from "./store/userSlice.js";
 import { useEffect } from "react";
+import MobileMenu from "./components/MobileMenu.jsx";
+import Dashboard from "./DashboardLayout/Dashboard.jsx";
+import Profile from "./DashboardLayout/Profile.jsx";
 
 function App() {
   const dispatch = useDispatch();
@@ -53,6 +56,20 @@ function App() {
         {
           path: "/reset-password/:id",
           element: <Resetpassword />,
+        },
+        {
+          path: "/menubar",
+          element: <MobileMenu />,
+        },
+        {
+          path: "/dashboard",
+          element: <Dashboard />,
+          children : [
+            {
+              path : "profile",
+              element : <Profile />
+            }
+          ]
         },
       ],
     },

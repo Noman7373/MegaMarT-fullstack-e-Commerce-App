@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Search from "./Search";
 import useMobile from "../hooks/useMobile";
 import { FaCartShopping, FaRegCircleUser } from "react-icons/fa6";
@@ -8,19 +8,22 @@ import { useState } from "react";
 import UserMenu from "./UserMenu";
 
 function Header() {
+  const navigate = useNavigate();
   const [isMobile] = useMobile();
   const location = useLocation();
   const isSearchPage = location.pathname == "/search";
   const [showMenu, setShowMenu] = useState(false);
   const user = useSelector((state) => state?.user);
 
-  // const dropDownIcons = useMemo(() => {
-  //   return showMenu ? (
-  //     <IoMdArrowDropup size={25} />
-  //   ) : (
-  //     <IoMdArrowDropdown size={25} />
-  //   );
-  // }, [showMenu]);
+  const handleNavigation = () => {
+    if (!user?._id) {
+      console.log("navigate");
+
+      return navigate("/");
+    }
+    navigate("/menubar");
+  };
+
 
   const handleShowMenu = () => {
     setShowMenu((prev) => !prev);
@@ -46,7 +49,7 @@ function Header() {
           <div className="flex gap-5 items-center">
             <div className="flex justify-between gap-3">
               <button className="text-gray-700 xs:block sm:block md:block lg:hidden">
-                <FaRegCircleUser size={30} />
+                <FaRegCircleUser size={30} onClick={handleNavigation} />
               </button>
               {user?._id ? (
                 <div className="relative sm:hidden xs:hidden lg:block">

@@ -148,14 +148,12 @@ const userLoginController = async (req, res) => {
   }
 };
 
-// Forgot Password Controller   // User not log in
+// Forgot Password Controller
 const forgotPasswordController = async (req, res) => {
   try {
     const { email } = req.body;
 
     const userExits = await userModel.findOne({ email: email });
-
-    // console.log("userExits", userExits.email);
 
     if (!userExits) {
       return res.status(400).json({
@@ -173,7 +171,6 @@ const forgotPasswordController = async (req, res) => {
       forgot_password_otp: otp,
       forgot_password_expire: new Date(expireOtp).toISOString(),
     });
-    console.log(otp);
 
     await sendEmail({
       sendTo: userExits.email,
@@ -195,7 +192,6 @@ const forgotPasswordController = async (req, res) => {
 };
 
 // Verify OTP Password
-
 const verifyOtp = async (req, res) => {
   try {
     const { email, otp } = req.body;

@@ -1,12 +1,13 @@
-import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Divider from "./Divider";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { logOutUser } from "../Api/Query/userQuery";
 import { removeUserDetails } from "../store/userSlice";
+import { FiExternalLink } from "react-icons/fi";
 
 const UserMenu = ({ toogleMenu }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const user = useSelector((state) => state.user);
 
   const handleLogOutApi = async () => {
@@ -21,35 +22,49 @@ const UserMenu = ({ toogleMenu }) => {
     }
   };
 
+  // handle handleDashboardNavigation
+  const handleDashboardNavigation = () => {
+    toogleMenu();
+    navigate("/dashboard/profile");
+  };
+
   return (
     <>
       <div className="font-semibold">
         <h3>My Account</h3>
-        <h3 className="flex justify-between">
-          Name : <strong>{user?.name || user?.mobile}</strong>{" "}
+        <h3 className="flex items-center text-ellipsis max-w-52 line-clamp-1 gap-5 mt-2">
+          {user?.name || user?.mobile}{" "}
+          <FiExternalLink
+            size={22}
+            className="cursor-pointer hover:text-gray-400"
+            onClick={handleDashboardNavigation}
+          />{" "}
         </h3>
       </div>
       <Divider />
 
       <div className="mt-2">
-        <ul className="list-style-none py-2">
+        <ul className="list-style-none py-2 flex flex-col gap-2">
           <Link
             to={"/"}
-            className="p-1 rounded hover:bg-gray-400"
+            className="p-1 rounded hover:bg-gray-200"
             onClick={toogleMenu}
           >
             My Order
           </Link>
           <Link
             to={"/login"}
-            className="p-1 rounded hover:bg-gray-400"
+            className="p-1 rounded hover:bg-gray-200"
             onClick={toogleMenu}
           >
             Save Order
           </Link>
         </ul>
 
-        <button className="p-2 rounded bg-orange-500" onClick={handleLogOutApi}>
+        <button
+          className="p-1 rounded text-white bg-slate-600 block w-fit ml-auto hover:bg-slate-500"
+          onClick={handleLogOutApi}
+        >
           Log Out
         </button>
       </div>
