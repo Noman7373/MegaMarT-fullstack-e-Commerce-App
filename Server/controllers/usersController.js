@@ -400,7 +400,7 @@ const uploadAvatarController = async (req, res) => {
       success: true,
       error: false,
       data: {
-        _id: userId,
+        _id: updateUser._id,
         avater: upload.url,
       },
     });
@@ -449,7 +449,7 @@ const refreshTokenController = async (req, res) => {
   try {
     // get the refresh token
     const refreshToken =
-      req.cookies.RefreshToken || req?.header?.authorization?.split(" ")[1]; // ["Bearer","Token"] for mobile cookie
+      req.cookies.RefreshToken || req?.headers?.authorization?.split(" ")[1]; // ["Bearer","Token"] for mobile cookie
 
     if (!refreshToken) {
       return res.status(404).json({
@@ -505,14 +505,14 @@ const refreshTokenController = async (req, res) => {
 // get LogIn User Detials
 const getUserLoginDetails = async (req, res) => {
   try {
-    const userId = req.userId; // importing from middleware
+    const userId = req.userId; // import from middleware
 
     const logInUserDetials = await userModel
       .findById({ _id: userId })
       .select("-password -refresh_token");
 
     return res.status(200).json({
-      message: "User Details",
+      message: "Get user details successfully",
       error: false,
       success: true,
       userData: logInUserDetials,
