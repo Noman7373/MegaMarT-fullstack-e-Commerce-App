@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaUserLarge } from "react-icons/fa6";
 import { useSelector } from "react-redux";
+import { FETCH_STATUS } from "../components/status/fetchStatus";
 
 const Profile = () => {
   const user = useSelector((state) => state.user);
-  console.log(user);
+  //   console.log(user);
+//   const [status, setStatus] = useState("");
+
+//   setStatus(FETCH_STATUS.LOADING);
 
   return (
     <div>
@@ -31,9 +35,14 @@ const Profile = () => {
           </p>
         </div>
       </div>
-      <button className="text-sm px-3 py-2 mt-3 text-white bg-green-600 rounded">
-        Change Profile
-      </button>
+      <form onSubmit={(e) => e.preventDefault()}>
+        <label htmlFor="profile">
+          <div className="max-w-[8rem] cursor-pointer text-center text-sm px-3 py-2 mt-3 text-white bg-blue-600 rounded hover:bg-blue-400">
+            Change Profile
+          </div>
+        </label>
+        <input type="file" id="profile" className="hidden" />
+      </form>
     </div>
   );
 };
