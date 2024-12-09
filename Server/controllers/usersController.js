@@ -420,14 +420,13 @@ const updateUserDetailsController = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const { name, email, password, mobile } = req.body;
+    const { name, email,  mobile } = req.body;
 
-    const hashPassword = await bcrypt.hash(password, 10);
+    // const hashPassword = await bcrypt.hash(password, 10);F
 
     const updateUserProfile = await userModel.findByIdAndUpdate(id, {
       name,
       email,
-      password: hashPassword,
       mobile,
     });
 

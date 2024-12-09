@@ -70,8 +70,8 @@ const resetPassword = async ({ id, newPassword, confirmNewPassword }) => {
   }
 };
 
-// logout Function
 
+// logout Function
 const logOutUser = async () => {
   try {
     const response = await Axios.get(`${baseURL}/api/user/logout`);
@@ -130,16 +130,20 @@ const updloadAvater = async ({ file }) => {
   }
 };
 
-// update USER Details
 
+// update USER Details
 const updateUserDetails = async ({ _id, name, email, mobie }) => {
   try {
-    const response = Axios.put(`${baseURL}/api/user/update-profile/${_id}`, {
-      _id,
-      name,
-      email,
-      mobie,
-    });
+    const response = await Axios.put(
+      `${baseURL}/api/user/update-profile/${_id}`,
+      {
+        _id,
+        name,
+        email,
+        mobie,
+      }
+    );
+
     return response;
   } catch (error) {
     throw new Error(error.response?.data?.message || "An error occurred");
