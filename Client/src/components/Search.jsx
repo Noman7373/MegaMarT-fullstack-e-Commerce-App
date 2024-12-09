@@ -62,7 +62,11 @@ const Search = () => {
           </Link>
         ) : (
           <button
-            className={`${isSearchPage ? "text-red-400" : "text-gray-700"}`}
+            className={`${
+              isSearchPage
+                ? "text-red-400 bg-black rounded-[50%] p-2"
+                : "bg-black rounded-[50%] p-2 text-white"
+            }`}
           >
             <Link to={"/search"}>
               <FaSearch size={23} />

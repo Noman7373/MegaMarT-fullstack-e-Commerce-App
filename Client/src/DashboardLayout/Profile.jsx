@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updloadAvater } from "../Api/Query/userQuery";
 import { updateUserAvatar } from "../store/userSlice";
 import Loader from "../components/status/Loader";
+import { RiDeleteBin5Line } from "react-icons/ri";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -42,7 +43,6 @@ const Profile = () => {
       dispatch(updateUserAvatar(response.data.data.avater));
       setIsLoading(false);
     } catch (error) {
-   
       setErrorMessage("An error occurred. Please try again later.");
       setIsLoading(false);
     }
@@ -61,28 +61,34 @@ const Profile = () => {
               <img
                 src={user?.avater}
                 alt={user?.name || "User Avatar"}
-                className="h-full w-full object-scale-down"
+                className="h-full w-full object-scale-down rounded-[50%]"
               />
             )
           ) : (
-            <FaUserLarge size={65} />
+            <FaUserLarge size={65} className="rounded-[50%]" />
           )}
         </div>
         <div>
           <h2 className="font-semibold">File Smaller than 5MB</h2>
           <p className="text-gray-400 hidden sm:block">
-            This image will appear in the member directory and <br /> on your profile
-            page. It will help us recognize you!
+            This image will appear in the member directory and <br /> on your
+            profile page. It will help us recognize you!
           </p>
         </div>
       </div>
       <form onSubmit={(e) => e.preventDefault()} className="mt-3">
-        <label
-          htmlFor="profile"
-          className="max-w-[8rem] cursor-pointer text-center text-sm px-3 py-2 text-white bg-blue-600 rounded hover:bg-blue-400"
-        >
-          Change Profile
-        </label>
+        <div className="flex gap-3 items-center">
+          <label
+            htmlFor="profile"
+            className="max-w-[8rem] cursor-pointer text-center text-sm px-3 py-2 text-white bg-blue-600 rounded hover:bg-blue-400"
+          >
+            Change Profile
+          </label>
+          <span className="ml-3 cursor-pointer hover:text-gray-500 transition-all duration-1000 ease-out transform hover:scale-110">
+            <RiDeleteBin5Line size={25} />
+          </span>
+        </div>
+
         <input
           type="file"
           id="profile"
