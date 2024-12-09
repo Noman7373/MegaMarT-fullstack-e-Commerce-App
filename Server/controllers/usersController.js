@@ -386,11 +386,13 @@ const uploadAvatarController = async (req, res) => {
   try {
     const userId = req.userId; // auth middleware
 
-    const image = req.file; // multer middleware
+    const file = req.file; // multer middleware
 
     // import uploadImageCloudinary
-    const upload = await uploadImagesCloudinary(image);
+    const upload = await uploadImagesCloudinary(file);
 
+    console.log(upload);
+    
     const updateUser = await userModel.findByIdAndUpdate(userId, {
       avater: upload.url,
     });

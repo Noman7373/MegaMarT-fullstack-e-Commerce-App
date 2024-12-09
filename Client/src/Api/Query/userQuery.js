@@ -113,16 +113,27 @@ const getUserLoginDetails = async () => {
 };
 
 // Upload Avater
-const updloadAvater = async (file) => {
+const updloadAvater = async ({ file }) => {
   try {
-    const response = await Axios.put(`${baseURL}/api/user/upload-avatar`, {
-      file,
-    });
+    const formData = new FormData();
+    formData.append("avatar", file);
+
+    const response = await Axios.put(
+      `${baseURL}/api/user/upload-avatar`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data", // Ensures the file is uploaded correctly
+        },
+      }
+    );
 
     return response;
   } catch (error) {
-    console.error("Error during Login:", error);
-    throw new Error(error.response?.data?.message || "An error occurred");
+    console.error("Error during avatar upload:", error);
+    throw new Error(
+      error.response?.data?.message || "An error occurred during avatar upload."
+    );
   }
 };
 

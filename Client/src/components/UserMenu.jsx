@@ -66,7 +66,7 @@ const UserMenu = ({ toogleMenu }) => {
         </ul>
 
         <button
-          className="p-1 rounded text-white bg-slate-600 block w-fit ml-auto hover:bg-slate-500"
+          className="p-1 rounded text-white bg-slate-600 ml-1 hover:bg-slate-500"
           onClick={handleLogOutApi}
         >
           Log Out

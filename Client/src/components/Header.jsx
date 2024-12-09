@@ -17,13 +17,10 @@ function Header() {
 
   const handleNavigation = () => {
     if (!user?._id) {
-      console.log("navigate");
-
       return navigate("/");
     }
     navigate("/menubar");
   };
-
 
   const handleShowMenu = () => {
     setShowMenu((prev) => !prev);
