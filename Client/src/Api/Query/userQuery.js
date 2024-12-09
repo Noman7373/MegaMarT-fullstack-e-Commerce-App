@@ -11,7 +11,6 @@ const registerUser = async ({ name, email, password }) => {
     });
     return response;
   } catch (error) {
-    console.error("Error during sign-up:", error);
     throw new Error(error.response?.data?.message || "An error occurred");
   }
 };
@@ -25,7 +24,6 @@ const userLogIn = async ({ email, password }) => {
 
     return response;
   } catch (error) {
-    console.error("Error during Login:", error);
     throw new Error(error.response?.data?.message || "An error occurred");
   }
 };
@@ -37,7 +35,6 @@ const userForgotPassword = async ({ email }) => {
     });
     return response;
   } catch (error) {
-    console.error("Error during Login:", error);
     throw new Error(error.response?.data?.message || "An error occurred");
   }
 };
@@ -53,7 +50,6 @@ const verifyOTP = async ({ otp, email }) => {
     );
     return response;
   } catch (error) {
-    console.error("Error during Login:", error);
     throw new Error(error.response?.data?.message || "An error occurred");
   }
 };
@@ -70,7 +66,6 @@ const resetPassword = async ({ id, newPassword, confirmNewPassword }) => {
     );
     return response;
   } catch (error) {
-    console.error("Error during Login:", error);
     throw new Error(error.response?.data?.message || "An error occurred");
   }
 };
@@ -96,7 +91,6 @@ const refreshAccessToken = async (refreshToken) => {
     localStorage.setItem("accessToken", accessToken);
     return accessToken;
   } catch (error) {
-    console.error("Error during Login:", error);
     throw new Error(error.response?.data?.message || "An error occurred");
   }
 };
@@ -107,7 +101,6 @@ const getUserLoginDetails = async () => {
     const response = await Axios.get(`${baseURL}/api/user/getuser-details`);
     return response;
   } catch (error) {
-    console.error("Error during Login:", error);
     throw new Error(error.response?.data?.message || "An error occurred");
   }
 };
@@ -137,6 +130,22 @@ const updloadAvater = async ({ file }) => {
   }
 };
 
+// update USER Details
+
+const updateUserDetails = async ({ _id, name, email, mobie }) => {
+  try {
+    const response = Axios.put(`${baseURL}/api/user/update-profile/${_id}`, {
+      _id,
+      name,
+      email,
+      mobie,
+    });
+    return response;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || "An error occurred");
+  }
+};
+
 export {
   registerUser,
   userLogIn,
@@ -147,4 +156,5 @@ export {
   refreshAccessToken,
   getUserLoginDetails,
   updloadAvater,
+  updateUserDetails,
 };

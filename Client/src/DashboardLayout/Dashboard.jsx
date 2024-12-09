@@ -4,7 +4,7 @@ import { Outlet } from "react-router-dom";
 
 const Dashboard = () => {
   return (
-    <section className="bg-white">
+    <section className="bg-white lg:min-h-[70vh]">
       <div className="container mx-auto p-1 grid lg:grid-cols-[200px,1fr]">
         {/* Section for SideBar Menu */}
 

@@ -29,7 +29,7 @@ const UserMenu = ({ toogleMenu }) => {
     if (!isMobile) {
       toogleMenu();
     }
-    navigate("/dashboard/profile");
+    navigate(`/dashboard/profile/${user._id}`);
   };
 
   return (

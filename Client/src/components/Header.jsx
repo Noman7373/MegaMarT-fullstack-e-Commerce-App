@@ -52,8 +52,7 @@ function Header() {
                 <div className="relative sm:hidden xs:hidden lg:block">
                   <button
                     className="flex text-center items-center justify-center hover:bg-[#F2F2F2] rounded-3xl px-2 py-2 "
-                    onMouseEnter={handleShowMenu}
-                    onMouseLeave={() => setShowMenu(false)}
+                    onClick={handleShowMenu}
                   >
                     <h3 className="font-semibold text-[0.7rem]">
                       Order &<br /> Account
@@ -69,7 +68,7 @@ function Header() {
                     )}
                   </button>
                   {showMenu && (
-                    <div className="absolute right-0 top-[3.8rem] transition-all duration-500 ease-in-out hidden">
+                    <div className="absolute right-0 top-[3.8rem] transition-all duration-500 ease-in-out">
                       <div className="bg-white rounded p-4 min-w-60  lg:shadow-lg">
                         <UserMenu toogleMenu={handleShowMenu} />
                       </div>

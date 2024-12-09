@@ -5,11 +5,11 @@ import { updloadAvater } from "../Api/Query/userQuery";
 import { updateUserAvatar } from "../store/userSlice";
 import Loader from "../components/status/Loader";
 import { RiDeleteBin5Line } from "react-icons/ri";
+import UserDetails from "./UserDetails";
 
 const Profile = () => {
   const dispatch = useDispatch();
 
-  const [file, setFile] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -48,58 +48,61 @@ const Profile = () => {
     }
   };
 
-  console.log(user);
-
   return (
-    <div>
-      <div className="flex flex-col gap-2">
-        <div className="w-20 h-20 flex justify-center items-center rounded overflow-hidden drop-shadow-lg">
-          {user?.avater ? (
-            isLoading ? (
-              <Loader />
+    <>
+      <div>
+        <div className="flex flex-col gap-2">
+          <div className="w-20 h-20 flex justify-center items-center rounded overflow-hidden drop-shadow-lg">
+            {user?.avater ? (
+              isLoading ? (
+                <Loader />
+              ) : (
+                <img
+                  src={user?.avater}
+                  alt={user?.name || "User Avatar"}
+                  className="h-full w-full object-scale-down rounded-[50%]"
+                />
+              )
             ) : (
-              <img
-                src={user?.avater}
-                alt={user?.name || "User Avatar"}
-                className="h-full w-full object-scale-down rounded-[50%]"
-              />
-            )
-          ) : (
-            <FaUserLarge size={65} className="rounded-[50%]" />
-          )}
+              <FaUserLarge size={65} className="rounded-[50%]" />
+            )}
+          </div>
+          <div>
+            <h2 className="font-semibold">File Smaller than 5MB</h2>
+            <p className="text-gray-400 hidden sm:block">
+              This image will appear in the member directory and <br /> on your
+              profile page. It will help us recognize you!
+            </p>
+          </div>
         </div>
-        <div>
-          <h2 className="font-semibold">File Smaller than 5MB</h2>
-          <p className="text-gray-400 hidden sm:block">
-            This image will appear in the member directory and <br /> on your
-            profile page. It will help us recognize you!
-          </p>
-        </div>
-      </div>
-      <form onSubmit={(e) => e.preventDefault()} className="mt-3">
-        <div className="flex gap-3 items-center">
-          <label
-            htmlFor="profile"
-            className="max-w-[8rem] cursor-pointer text-center text-sm px-3 py-2 text-white bg-blue-600 rounded hover:bg-blue-400"
-          >
-            Change Profile
-          </label>
-          <span className="ml-3 cursor-pointer hover:text-gray-500 transition-all duration-1000 ease-out transform hover:scale-110">
-            <RiDeleteBin5Line size={25} />
-          </span>
-        </div>
+        <form onSubmit={(e) => e.preventDefault()} className="mt-3">
+          <div className="flex gap-3 items-center">
+            <label
+              htmlFor="profile"
+              className="max-w-[8rem] cursor-pointer text-center text-sm px-3 py-2 text-white bg-blue-600 rounded hover:bg-blue-400"
+            >
+              Change Profile
+            </label>
+            <span className="ml-3 cursor-pointer hover:text-gray-500 transition-all duration-1000 ease-out transform hover:scale-110">
+              <RiDeleteBin5Line size={25} />
+            </span>
+          </div>
 
-        <input
-          type="file"
-          id="profile"
-          accept="image/*"
-          className="hidden"
-          // value={file}
-          onChange={handleAvatarImage}
-        />
-      </form>
-      {errorMessage && <p className="text-red-500 mt-2">{errorMessage}</p>}
-    </div>
+          <input
+            type="file"
+            id="profile"
+            accept="image/*"
+            className="hidden"
+            // value={file}
+            onChange={handleAvatarImage}
+          />
+        </form>
+        {errorMessage && <p className="text-red-500 mt-2">{errorMessage}</p>}
+      </div>
+      <div className="mt-6">
+        <UserDetails />
+      </div>
+    </>
   );
 };
 
