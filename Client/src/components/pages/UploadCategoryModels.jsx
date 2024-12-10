@@ -1,39 +1,56 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import uplaodImageUtils from "../../utils/uplaodImageUtils";
+// import { addProductCategory } from "../../store/productSlice.js";
 
 const UploadCategoryModels = ({ closeModel }) => {
+  const dispatch = useDispatch();
   const [categoryData, setCategoryData] = useState({
     name: "",
     image: null,
   });
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  // Handle text input change
   const handleOnChange = (e) => {
     const { name, value } = e.target;
-
-    setCategoryData({
-      ...categoryData,
-      [name]: value,
-    });
+    setCategoryData({ ...categoryData, [name]: value });
   };
 
-  // Handle image upload
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    setCategoryData({
-      ...categoryData,
-      image: file,
-    });
+    setCategoryData({ ...categoryData, image: file });
   };
-
-  // Handle form
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessage("");
+    if (!categoryData.name || !categoryData.image) {
+      setErrorMessage("Both name and image are required.");
+      return;
+    }
+    setErrorMessage("");
+    setIsLoading(true);
     try {
-      const formData = new FormData();
-      formData.append("image", categoryData.image);
+      const response = await uplaodImageUtils(Image);
+      console.log(response);
+
+      if (response.data.error) {
+        setErrorMessage(response.data.message);
+        setIsLoading(false);
+        return;
+      }
+
+      if (response.data.success) {
+        // dispatch(addProductCategory(response.data));
+        console.log(response.data);
+
+        closeModel();
+      }
     } catch (error) {
-      throw new Error(error);
+      setErrorMessage("An error occurred while uploading the category.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -50,8 +67,12 @@ const UploadCategoryModels = ({ closeModel }) => {
             ✕
           </button>
         </div>
+
+        {errorMessage && (
+          <p className="text-red-500 text-sm mb-4">{errorMessage}</p>
+        )}
+
         <form className="flex flex-col gap-4" onSubmit={handleFormSubmit}>
-          {/* Name Field */}
           <div className="flex flex-col">
             <label htmlFor="name" className="mb-1 font-medium">
               Name *
@@ -69,7 +90,6 @@ const UploadCategoryModels = ({ closeModel }) => {
             />
           </div>
 
-          {/* Image Upload Field */}
           <div className="flex flex-col">
             <label htmlFor="image" className="mb-1 font-medium">
               Upload Image
@@ -90,13 +110,15 @@ const UploadCategoryModels = ({ closeModel }) => {
             )}
           </div>
 
-          {/* Save Button */}
           <div className="flex justify-end">
             <button
               type="submit"
-              className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+              className={`px-4 py-2 rounded-md text-white ${
+                isLoading ? "bg-gray-400" : "bg-blue-500 hover:bg-blue-600"
+              }`}
+              disabled={isLoading}
             >
-              Save
+              {isLoading ? "Saving..." : "Save"}
             </button>
           </div>
         </form>

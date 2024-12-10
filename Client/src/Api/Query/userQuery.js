@@ -70,7 +70,6 @@ const resetPassword = async ({ id, newPassword, confirmNewPassword }) => {
   }
 };
 
-
 // logout Function
 const logOutUser = async () => {
   try {
@@ -130,7 +129,6 @@ const updloadAvater = async ({ file }) => {
   }
 };
 
-
 // update USER Details
 const updateUserDetails = async ({ _id, name, email, mobie }) => {
   try {
@@ -150,6 +148,47 @@ const updateUserDetails = async ({ _id, name, email, mobie }) => {
   }
 };
 
+// =============================  Products AXIOS  ====================================
+
+// Function to add a category via Axios
+const addCategoryAxios = async ({ name, image }) => {
+  try {
+    const response = await Axios.post(
+      `${baseURL}/api/category/add-category`,
+      { name, image },
+      // {
+      //   headers: {
+      //     "Content-Type": "multipart/form-data", // Explicitly setting content type (optional for FormData)
+      //   },
+      // }
+    );
+
+    return response; // Return the successful response
+  } catch (error) {
+    // Throw a detailed error message
+    throw new Error(
+      error.response?.data?.message ||
+        "An error occurred while adding the category"
+    );
+  }
+};
+
+//  upload Category Images
+const uploadImages = async ({ file }) => {
+  try {
+    const formData = new FormData();
+    formData.append("avatar", file);
+
+    const response = await Axios.post(`${baseURL}/api/file/upload`, formData);
+
+    return response;
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message ||
+        "An error occurred while adding the category"
+    );
+  }
+};
 export {
   registerUser,
   userLogIn,
@@ -161,4 +200,6 @@ export {
   getUserLoginDetails,
   updloadAvater,
   updateUserDetails,
+  addCategoryAxios,
+  uploadImages,
 };
