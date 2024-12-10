@@ -7,6 +7,8 @@ import helmet from "helmet";
 import mongoose from "mongoose";
 import DbConnection from "./DB/dbConnect.js";
 import router from "./routes/userRoute.js";
+import categoryRoute from "./routes/categoryRoute.js";
+import uplaod from "./middleware/multer.js";
 
 dotenv.config();
 
@@ -30,6 +32,7 @@ app.use(
 );
 
 app.use("/api/user", router);
+app.use("/api/category", uplaod.single("image"), categoryRoute);
 
 mongoose.set("strictQuery", false);
 DbConnection()
