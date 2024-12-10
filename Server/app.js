@@ -8,7 +8,8 @@ import mongoose from "mongoose";
 import DbConnection from "./DB/dbConnect.js";
 import router from "./routes/userRoute.js";
 import categoryRoute from "./routes/categoryRoute.js";
-import uplaod from "./middleware/multer.js";
+import imageRoute from "./routes/uploadImageRoute.js";
+
 
 dotenv.config();
 
@@ -32,7 +33,8 @@ app.use(
 );
 
 app.use("/api/user", router);
-app.use("/api/category", uplaod.single("image"), categoryRoute);
+app.use("/api/category", categoryRoute);
+app.use("/api/file", imageRoute);
 
 mongoose.set("strictQuery", false);
 DbConnection()
