@@ -18,6 +18,11 @@ import MobileMenu from "./components/MobileMenu.jsx";
 import Dashboard from "./DashboardLayout/Dashboard.jsx";
 import Profile from "./DashboardLayout/Profile.jsx";
 import MyOrder from "./components/pages/MyOrder.jsx";
+import SaveOrder from "./components/pages/SaveOrder.jsx";
+import Category from "./components/pages/Category.jsx";
+import SubCategory from "./components/pages/SubCategory.jsx.jsx";
+import Adminproduct from "./components/pages/Adminproduct.jsx";
+import UploadProduct from "./components/pages/UploadProduct.jsx";
 
 function App() {
   const dispatch = useDispatch();
@@ -71,8 +76,28 @@ function App() {
               element: <Profile />,
             },
             {
-              path: "My-Order",
+              path: "your-order",
               element: <MyOrder />,
+            },
+            {
+              path: "save-order",
+              element: <SaveOrder />,
+            },
+            {
+              path: "admin-product",
+              element: <Adminproduct />,
+            },
+            {
+              path: "upload-product",
+              element: <UploadProduct />,
+            },
+            {
+              path: "product-category",
+              element: <Category />,
+            },
+            {
+              path: "product-Subcategory",
+              element: <SubCategory />,
             },
           ],
         },

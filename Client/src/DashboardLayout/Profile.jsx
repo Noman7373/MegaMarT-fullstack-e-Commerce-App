@@ -52,7 +52,7 @@ const Profile = () => {
     <>
       <div>
         <div className="flex flex-col gap-2">
-          <div className="w-20 h-20 flex justify-center items-center rounded overflow-hidden drop-shadow-lg">
+          <div className="w-20 h-20 rounded-[50%] flex justify-center items-center rounded overflow-hidden drop-shadow-lg">
             {user?.avater ? (
               isLoading ? (
                 <Loader />
@@ -79,7 +79,7 @@ const Profile = () => {
           <div className="flex gap-3 items-center">
             <label
               htmlFor="profile"
-              className="max-w-[8rem] cursor-pointer text-center text-sm px-3 py-2 text-white bg-blue-600 rounded hover:bg-blue-400"
+              className="max-w-[8rem] cursor-pointer text-center text-sm px-3 py-2 text-white bg-[#FB8114] rounded hover:bg-[#e89146] "
             >
               Change Profile
             </label>

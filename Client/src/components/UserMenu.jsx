@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import Divider from "./Divider";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { logOutUser } from "../Api/Query/userQuery";
 import { removeUserDetails } from "../store/userSlice";
 import { FiExternalLink } from "react-icons/fi";
@@ -48,22 +48,90 @@ const UserMenu = ({ toogleMenu }) => {
       <Divider />
 
       <div className="mt-2">
-        <ul className="list-style-none py-2 flex flex-col gap-2">
-          <Link
-            to={"/dashboard/My-Order"}
-            className="p-1 rounded hover:bg-gray-200"
-            onClick={toogleMenu}
-          >
-            My Order
-          </Link>
-          <Link
-            to={"/login"}
-            className="p-1 rounded hover:bg-gray-200"
-            onClick={toogleMenu}
-          >
-            Save Order
-          </Link>
-        </ul>
+        {user?.role === "ADMIN" ? (
+          <ul className="list-style-none py-2 flex flex-col gap-2">
+            <NavLink
+              to={"/dashboard/admin-product"}
+              className={({ isActive }) =>
+                isActive
+                  ? "bg-[#FFF7F0] p-2 border-l-4 border-[#FB8114]"
+                  : "p-2 hover:bg-[#F2F2F2]"
+              }
+              onClick={toogleMenu}
+            >
+              Product
+            </NavLink>
+            <NavLink
+              to={"/dashboard/product-category"}
+              className={({ isActive }) =>
+                isActive
+                  ? "bg-[#FFF7F0] p-2 border-l-4 border-[#FB8114]"
+                  : "p-2 hover:bg-[#F2F2F2]"
+              }
+              onClick={toogleMenu}
+            >
+              Category
+            </NavLink>
+            <NavLink
+              to={"/dashboard/product-Subcategory"}
+              className={({ isActive }) =>
+                isActive
+                  ? "bg-[#FFF7F0] p-2 border-l-4 border-[#FB8114]"
+                  : "p-2 hover:bg-[#F2F2F2]"
+              }
+              onClick={toogleMenu}
+            >
+             Subcategory
+            </NavLink>
+            <NavLink
+              to={"/dashboard/upload-product"}
+              className={({ isActive }) =>
+                isActive
+                  ? "bg-[#FFF7F0] p-2 border-l-4 border-[#FB8114]"
+                  : "p-2 hover:bg-[#F2F2F2]"
+              }
+              onClick={toogleMenu}
+            >
+              Add Product
+            </NavLink>
+            <NavLink
+              to={"/dashboard/save-order"}
+              className={({ isActive }) =>
+                isActive
+                  ? "bg-[#FFF7F0] p-2 border-l-4 border-[#FB8114]"
+                  : "p-2 hover:bg-[#F2F2F2]"
+              }
+              onClick={toogleMenu}
+            >
+              Saved Order
+            </NavLink>
+          </ul>
+        ) : (
+          <ul className="list-style-none py-2 flex flex-col gap-2">
+            <NavLink
+              to={"/dashboard/your-order"}
+              className={({ isActive }) =>
+                isActive
+                  ? "bg-[#FFF7F0] p-2 border-l-4 border-[#FB8114]"
+                  : "p-2 hover:bg-[#F2F2F2]"
+              }
+              onClick={toogleMenu}
+            >
+              Your Order
+            </NavLink>
+            <NavLink
+              to={"/dashboard/save-order"}
+              className={({ isActive }) =>
+                isActive
+                  ? "bg-[#FFF7F0] p-2 border-l-4 border-[#FB8114]"
+                  : "p-2 hover:bg-[#F2F2F2]"
+              }
+              onClick={toogleMenu}
+            >
+              Saved Order
+            </NavLink>
+          </ul>
+        )}
 
         <button
           className="p-1 rounded text-white bg-slate-600 ml-1 hover:bg-slate-500"

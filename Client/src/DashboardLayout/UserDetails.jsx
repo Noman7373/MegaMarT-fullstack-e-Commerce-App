@@ -75,16 +75,17 @@ const UserDetails = () => {
                 type="text"
                 id={field}
                 name={field}
+                autoFocus={field === "name"}
                 value={userDetails[field]}
                 onChange={handleOnChange}
               />
             </div>
           ))}
           <button
-            className={`bg-[#F2F2F2] lg:mt-auto lg:ml-auto p-3 rounded ${
+            className={`bg-[#FB8114] text-white lg:mt-auto lg:ml-auto p-3 rounded ${
               isLoading
                 ? "opacity-50 cursor-not-allowed"
-                : "hover:bg-[#bdb5b5] hover:text-white"
+                : "hover:bg-[#f19646]  hover:text-white"
             }`}
             disabled={isLoading}
           >

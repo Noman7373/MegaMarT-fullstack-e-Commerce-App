@@ -86,7 +86,7 @@ function Header() {
               )}
             </div>
             {/* add to cart btn  */}
-            <button className="xs:hidden sm:hidden md:hidden lg:flex items-center gap-2 p-2 text-white font-bold border-none hover:bg-green-700 rounded bg-green-800">
+            <button className="xs:hidden sm:hidden md:hidden lg:flex items-center gap-2 p-2 text-white font-bold border-none hover:bg-green-700 rounded bg-green-600">
               {" "}
               <FaCartShopping size={28} className="animate-bounce" /> My Cart
             </button>
