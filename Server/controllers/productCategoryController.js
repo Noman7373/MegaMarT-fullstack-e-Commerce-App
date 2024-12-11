@@ -13,7 +13,7 @@ const AddCategoryController = async (req, res) => {
       });
     }
 
-    // process to add 
+    // process to add
     const updateCategoryModel = new categoryModel({
       name,
       image,
@@ -31,7 +31,7 @@ const AddCategoryController = async (req, res) => {
     }
 
     return res.json({
-      message: "Added",
+      message: "Category added successfully",
       success: true,
       error: false,
       categoryProducts: addedCategory,
@@ -45,4 +45,23 @@ const AddCategoryController = async (req, res) => {
   }
 };
 
-export default AddCategoryController;
+const getCategoryProduct = async (req, res) => {
+  try {
+    const allCategory = await categoryModel.find();
+
+    return res.json({
+      message: "Successfully",
+      error: false,
+      success: true,
+      categoryProduct: allCategory,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};
+
+export { AddCategoryController, getCategoryProduct };
