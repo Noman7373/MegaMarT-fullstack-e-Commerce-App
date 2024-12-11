@@ -1,54 +1,80 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import uplaodImageUtils from "../../utils/uplaodImageUtils";
+import uploadImageUtils from "../../utils/uplaodImageUtils.js";
+import { addCategoryAxios } from "../../Api/Query/userQuery";
 // import { addProductCategory } from "../../store/productSlice.js";
 
 const UploadCategoryModels = ({ closeModel }) => {
   const dispatch = useDispatch();
   const [categoryData, setCategoryData] = useState({
     name: "",
-    image: null,
+    image: null, // Store uploaded image URL here
   });
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
-    setCategoryData({ ...categoryData, [name]: value });
+    setCategoryData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleImageChange = (e) => {
+  const handleImageChange = async (e) => {
     const file = e.target.files[0];
-    setCategoryData({ ...categoryData, image: file });
+    if (!file) {
+      return setErrorMessage("No file Selected");
+    }
+
+    setIsLoading(true);
+    setErrorMessage("");
+
+    try {
+      const response = await uploadImageUtils({ file });
+
+      const imageUrl = response.data?.uploadImage?.url;
+
+      if (imageUrl) {
+        setCategoryData((prev) => ({ ...prev, image: imageUrl }));
+      } else {
+        throw new Error("Image upload failed. No URL returned.");
+      }
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      setErrorMessage("An error occurred while uploading the image.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    setErrorMessage("");
     if (!categoryData.name || !categoryData.image) {
       setErrorMessage("Both name and image are required.");
       return;
     }
-    setErrorMessage("");
+
     setIsLoading(true);
+    setErrorMessage("");
+
     try {
-      const response = await uplaodImageUtils(Image);
+      const response = await addCategoryAxios({
+        name: categoryData.name,
+        image: categoryData.image,
+      });
+
       console.log(response);
 
-      if (response.data.error) {
-        setErrorMessage(response.data.message);
-        setIsLoading(false);
-        return;
-      }
-
       if (response.data.success) {
-        // dispatch(addProductCategory(response.data));
-        console.log(response.data);
-
-        closeModel();
+        console.log("success");
       }
+
+      // Example dispatch logic
+      // await dispatch(addProductCategory(categoryData));
+      console.log("Category saved:", categoryData);
+
+      closeModel();
     } catch (error) {
-      setErrorMessage("An error occurred while uploading the category.");
+      console.error("Error saving category:", error);
+      setErrorMessage("An error occurred while saving the category.");
     } finally {
       setIsLoading(false);
     }
@@ -102,12 +128,13 @@ const UploadCategoryModels = ({ closeModel }) => {
               accept="image/*"
               className="border border-gray-300 rounded-md p-2 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
               onChange={handleImageChange}
+              disabled={isLoading}
             />
-            {categoryData.image && (
+            {/* {categoryData.image && (
               <p className="mt-2 text-sm text-gray-600">
-                Selected file: {categoryData.image.name}
+                Uploaded: {categoryData.image}
               </p>
-            )}
+            )} */}
           </div>
 
           <div className="flex justify-end">

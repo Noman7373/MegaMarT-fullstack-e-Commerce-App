@@ -153,15 +153,10 @@ const updateUserDetails = async ({ _id, name, email, mobie }) => {
 // Function to add a category via Axios
 const addCategoryAxios = async ({ name, image }) => {
   try {
-    const response = await Axios.post(
-      `${baseURL}/api/category/add-category`,
-      { name, image },
-      // {
-      //   headers: {
-      //     "Content-Type": "multipart/form-data", // Explicitly setting content type (optional for FormData)
-      //   },
-      // }
-    );
+    const response = await Axios.post(`${baseURL}/api/category/add-category`, {
+      name,
+      image,
+    });
 
     return response; // Return the successful response
   } catch (error) {
@@ -174,21 +169,21 @@ const addCategoryAxios = async ({ name, image }) => {
 };
 
 //  upload Category Images
-const uploadImages = async ({ file }) => {
-  try {
-    const formData = new FormData();
-    formData.append("avatar", file);
+// const uploadImages = async ({ file }) => {
+//   try {
+//     const formData = new FormData();
+//     formData.append("avatar", file);
 
-    const response = await Axios.post(`${baseURL}/api/file/upload`, formData);
+//     const response = await Axios.post(`${baseURL}/api/file/upload`, formData);
 
-    return response;
-  } catch (error) {
-    throw new Error(
-      error.response?.data?.message ||
-        "An error occurred while adding the category"
-    );
-  }
-};
+//     return response;
+//   } catch (error) {
+//     throw new Error(
+//       error.response?.data?.message ||
+//         "An error occurred while adding the category"
+//     );
+//   }
+// };
 export {
   registerUser,
   userLogIn,
@@ -201,5 +196,5 @@ export {
   updloadAvater,
   updateUserDetails,
   addCategoryAxios,
-  uploadImages,
+  // uploadImages,
 };

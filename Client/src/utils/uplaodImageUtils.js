@@ -1,19 +1,27 @@
 import { baseURL } from "../Api/apiSummery.js";
 import Axios from "../Api/Axios";
 
-const uplaodImageUtils = async (image) => {
+const uploadImageUtils = async ({ file }) => {
+  if (!image) {
+    throw new Error("No image file provided for upload.");
+  }
+
   try {
     const formData = new FormData();
-    formData.append("image", image);
-    const response = await Axios.post(`${baseURL}/api/file/upload`, formData);
-    console.log(response);
+    formData.append("image", file);
+
+    const response = await Axios.post(`${baseURL}/api/file/upload`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
     return response;
   } catch (error) {
-    throw new Error(
-      error.response?.data?.message ||
-        "An error occurred while adding the category"
-    );
+    const errorMessage =
+      error.response?.data?.message || "An error occurred during image upload.";
+    throw new Error(errorMessage);
   }
 };
 
-export default uplaodImageUtils;
+export default uploadImageUtils;
