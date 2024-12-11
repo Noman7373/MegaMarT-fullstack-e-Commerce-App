@@ -168,6 +168,20 @@ const addCategoryAxios = async ({ name, image }) => {
   }
 };
 
+// fetch Category Product
+
+const getCategoryAxios = async () => {
+  try {
+    const response = await Axios.get(`${baseURL}/api/category/get-category`);
+    return response;
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message ||
+        "An error occurred while adding the category"
+    );
+  }
+};
+
 //  upload Category Images
 // const uploadImages = async ({ file }) => {
 //   try {
@@ -196,5 +210,6 @@ export {
   updloadAvater,
   updateUserDetails,
   addCategoryAxios,
+  getCategoryAxios,
   // uploadImages,
 };

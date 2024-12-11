@@ -27,7 +27,7 @@ function Header() {
   };
 
   return (
-    <header className="h-30 lg:h-20 shadow-md sticky top-0 px-2 flex items-center flex-col justify-center bg-white">
+    <header className="h-30 lg:h-20 shadow-md sticky top-0 px-2 z-40 flex items-center flex-col justify-center bg-white">
       {/* logo */}
 
       {!(isSearchPage && isMobile) && (

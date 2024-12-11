@@ -2,16 +2,21 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import uploadImageUtils from "../../utils/uplaodImageUtils.js";
 import { addCategoryAxios } from "../../Api/Query/userQuery";
-// import { addProductCategory } from "../../store/productSlice.js";
+import { addProductCategory } from "../../store/productSlice.js";
 
-const UploadCategoryModels = ({ closeModel }) => {
+const UploadCategoryModels = ({ closeModel, callFetchCategory }) => {
   const dispatch = useDispatch();
+  // const categoryProduct = useSelector((state) => state?.shop);
+
+  // console.log(categoryProduct);
+
   const [categoryData, setCategoryData] = useState({
     name: "",
     image: null, // Store uploaded image URL here
   });
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
@@ -63,17 +68,19 @@ const UploadCategoryModels = ({ closeModel }) => {
 
       console.log(response);
 
-      if (response.data.success) {
-        console.log("success");
+      if (response.data.error) {
+        return setErrorMessage(response.data?.message);
       }
 
-      // Example dispatch logic
-      // await dispatch(addProductCategory(categoryData));
-      console.log("Category saved:", categoryData);
+      if (response.data.success) {
+        const { name, image } = response.data?.categoryProducts;
 
-      closeModel();
+        setSuccessMessage(response.data?.message);
+        dispatch(addProductCategory({ name, image }));
+        closeModel();
+        callFetchCategory();
+      }
     } catch (error) {
-      console.error("Error saving category:", error);
       setErrorMessage("An error occurred while saving the category.");
     } finally {
       setIsLoading(false);
@@ -97,6 +104,9 @@ const UploadCategoryModels = ({ closeModel }) => {
         {errorMessage && (
           <p className="text-red-500 text-sm mb-4">{errorMessage}</p>
         )}
+        {successMessage && (
+          <p className="text-green-500 text-sm mb-4">{successMessage}</p>
+        )}
 
         <form className="flex flex-col gap-4" onSubmit={handleFormSubmit}>
           <div className="flex flex-col">
@@ -116,8 +126,25 @@ const UploadCategoryModels = ({ closeModel }) => {
             />
           </div>
 
-          <div className="flex flex-col">
-            <label htmlFor="image" className="mb-1 font-medium">
+          <div className="flex items-center gap-5 p-3">
+            <div className="w-24">
+              {categoryData?.image && categoryData?.image ? (
+                <img
+                  src={categoryData?.image}
+                  alt={categoryData?.name}
+                  className="w-full h-full object-scale-down"
+                />
+              ) : (
+                <div className="w-full h-full border-1 flex items-center justify-center">
+                  <p>No Image</p>
+                </div>
+              )}
+            </div>
+
+            <label
+              htmlFor="image"
+              className="mb-1 font-medium bg-blue-500 p-2 rounded text-white hover:bg-blue-600 cursor-pointer"
+            >
               Upload Image
             </label>
             <input
@@ -126,7 +153,7 @@ const UploadCategoryModels = ({ closeModel }) => {
               id="image"
               required
               accept="image/*"
-              className="border border-gray-300 rounded-md p-2 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+              className="hidden"
               onChange={handleImageChange}
               disabled={isLoading}
             />
@@ -145,7 +172,7 @@ const UploadCategoryModels = ({ closeModel }) => {
               }`}
               disabled={isLoading}
             >
-              {isLoading ? "Saving..." : "Save"}
+              {isLoading ? "Adding..." : "Add Category"}
             </button>
           </div>
         </form>
