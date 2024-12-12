@@ -16,9 +16,9 @@ const EditCategory = () => {
     name: category.name,
     image: category.image,
   });
-  console.log(categoryData);
 
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingImage, setIsloadingImage] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
@@ -37,7 +37,7 @@ const EditCategory = () => {
       return setErrorMessage("No file Selected");
     }
 
-    setIsLoading(true);
+    setIsloadingImage(true);
     setErrorMessage("");
 
     try {
@@ -45,6 +45,7 @@ const EditCategory = () => {
 
       const imageUrl = response.data?.uploadImage?.url;
 
+      setIsloadingImage(false);
       if (imageUrl) {
         setCategoryData((prev) => ({ ...prev, image: imageUrl }));
       } else {
@@ -54,7 +55,7 @@ const EditCategory = () => {
       console.error("Error uploading image:", error);
       setErrorMessage("An error occurred while uploading the image.");
     } finally {
-      setIsLoading(false);
+      setIsloadingImage(false);
     }
   };
 
@@ -75,16 +76,11 @@ const EditCategory = () => {
         image: categoryData.image,
       });
 
-      console.log(response);
-
       if (response.data.error) {
-        console.log("error");
-
         return setErrorMessage(response.data?.message);
       }
 
       if (response.data.success) {
-        const { name, image } = response.data?.categoryProduct;
         navigate("/dashboard/product-category");
         setSuccessMessage(response.data?.message);
       }
@@ -133,7 +129,7 @@ const EditCategory = () => {
             />
           </div>
 
-          <div className="flex items-center gap-5 p-3">
+          <div className="flex items-center gap-5 p-3 xs:flex-col sm:flex-row md:flex-row lg:flex-row">
             <div className="w-24">
               {categoryData?.image && categoryData?.image ? (
                 <img
@@ -152,7 +148,7 @@ const EditCategory = () => {
               htmlFor="image"
               className="mb-1 font-medium bg-blue-500 p-2 rounded text-white hover:bg-blue-600 cursor-pointer"
             >
-              {isLoading ? "Updating..." : "Update Image"}
+              {isLoadingImage ? "Updating..." : "Update Image"}
             </label>
             <input
               type="file"
@@ -164,11 +160,6 @@ const EditCategory = () => {
               onChange={handleImageChange}
               disabled={isLoading}
             />
-            {/* {categoryData.image && (
-              <p className="mt-2 text-sm text-gray-600">
-                Uploaded: {categoryData.image}
-              </p>
-            )} */}
           </div>
 
           <div className="flex justify-end">

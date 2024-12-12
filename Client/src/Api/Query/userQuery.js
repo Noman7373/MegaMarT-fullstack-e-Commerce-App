@@ -192,7 +192,6 @@ const updateCategoryAxios = async ({ id, name, image }) => {
         image,
       }
     );
-    console.log(response);
 
     return response;
   } catch (error) {

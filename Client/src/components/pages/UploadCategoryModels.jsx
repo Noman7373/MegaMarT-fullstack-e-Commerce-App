@@ -12,6 +12,7 @@ const UploadCategoryModels = ({ closeModel, callFetchCategory }) => {
     image: null, // Store uploaded image URL here
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingImage, setIsloadingImage] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
@@ -26,14 +27,14 @@ const UploadCategoryModels = ({ closeModel, callFetchCategory }) => {
       return setErrorMessage("No file Selected");
     }
 
-    setIsLoading(true);
+    setIsloadingImage(true);
     setErrorMessage("");
 
     try {
       const response = await uploadImageUtils({ file });
 
       const imageUrl = response.data?.uploadImage?.url;
-
+      setIsloadingImage(false);
       if (imageUrl) {
         setCategoryData((prev) => ({ ...prev, image: imageUrl }));
       } else {
@@ -43,7 +44,7 @@ const UploadCategoryModels = ({ closeModel, callFetchCategory }) => {
       console.error("Error uploading image:", error);
       setErrorMessage("An error occurred while uploading the image.");
     } finally {
-      setIsLoading(false);
+      setIsloadingImage(false);
     }
   };
 
@@ -121,7 +122,7 @@ const UploadCategoryModels = ({ closeModel, callFetchCategory }) => {
             />
           </div>
 
-          <div className="flex items-center gap-5 p-3">
+          <div className="flex items-center gap-5 p-3 xs:flex-col sm:flex-row md:flex-row lg:flex-row">
             <div className="w-24">
               {categoryData?.image && categoryData?.image ? (
                 <img
@@ -140,7 +141,7 @@ const UploadCategoryModels = ({ closeModel, callFetchCategory }) => {
               htmlFor="image"
               className="mb-1 font-medium bg-blue-500 p-2 rounded text-white hover:bg-blue-600 cursor-pointer"
             >
-              {isLoading ? "Uploading..." : "Upload Image"}
+              {isLoadingImage ? "Uploading..." : "Upload Image"}
             </label>
             <input
               type="file"
