@@ -37,7 +37,7 @@ const ForgotPassword = () => {
       if (response.data.error) {
         setErrorMessage(response.data.message);
       }
-      
+
       if (response.data.success) {
         setSuccessMessage(`Verifying link sent to your email: ${email}`);
         navigate("/verify-opt", {
@@ -53,7 +53,7 @@ const ForgotPassword = () => {
 
   return (
     <section className="container w-full mx-auto px-2">
-      <div className="bg-white my-2 w-full max-w-lg mx-auto rounded py-2 px-4">
+      <div className="bg-white my-2 w-full max-w-sm mx-auto rounded py-2 px-4">
         <p>Verify Email</p>
         {errorMessage && <p className="text-red-500">{errorMessage}</p>}
         {successMessage && <p className="text-green-600">{successMessage}</p>}
@@ -70,6 +70,7 @@ const ForgotPassword = () => {
               name="email"
               id="email"
               required
+              autoFocus
               autoComplete="email"
               placeholder="Enter Your Email"
               value={email}
@@ -84,8 +85,8 @@ const ForgotPassword = () => {
               type="submit"
               className={`mt-4 border py-2 rounded text-white font-bold ${
                 validFormValues
-                  ? "bg-green-800 hover:bg-green-700"
-                  : "bg-gray-600 cursor-not-allowed"
+                  ? "bg-orange-600 hover:bg-orange-500"
+                  : "bg-orange-400 cursor-not-allowed"
               }`}
             >
               Send OTP

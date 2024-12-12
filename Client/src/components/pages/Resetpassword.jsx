@@ -76,7 +76,7 @@ const Resetpassword = () => {
 
   return (
     <section className="container w-full mx-auto px-2">
-      <div className="bg-white my-2 w-full max-w-lg mx-auto rounded py-2 px-4">
+      <div className="bg-white my-2 w-full max-w-sm mx-auto rounded py-2 px-4">
         <p>Reset Password</p>
         {errorMessage && <p className="text-red-500">{errorMessage}</p>}
         {successMessage && <p className="text-green-600">{successMessage}</p>}
@@ -132,7 +132,9 @@ const Resetpassword = () => {
               disabled={!validFormValues}
               type="submit"
               className={`${
-                validFormValues ? "bg-green-800" : "bg-gray-600"
+                validFormValues
+                  ? "bg-orange-600"
+                  : "bg-orange-400 cursor-not-allowed"
               } "mt-4 border py-2 bg-green-800 ${
                 validFormValues ? " hover:bg-green-700" : ""
               } rounded text-white font-bold"`}
@@ -141,16 +143,6 @@ const Resetpassword = () => {
             </button>
           </form>
         </div>
-        {/* 
-        <p>
-          Already Hava Account?{" "}
-          <Link
-            to={"/login"}
-            className="text-green-800 font-semibold hover:text-green-600"
-          >
-            Log In
-          </Link>
-        </p> */}
       </div>
     </section>
   );

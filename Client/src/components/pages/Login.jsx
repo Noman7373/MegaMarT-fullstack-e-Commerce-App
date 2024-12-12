@@ -86,7 +86,7 @@ const Login = () => {
 
   return (
     <section className="container w-full mx-auto px-2">
-      <div className="bg-white my-2 w-full max-w-lg mx-auto rounded py-2 px-4">
+      <div className="bg-white my-2 w-full max-w-sm mx-auto rounded py-2 px-4">
         <p>Log In To Access</p>
         {errorMessage && <p className="text-red-500">{errorMessage}</p>}
         {successMessage && <p className="text-green-600">{successMessage}</p>}
@@ -103,6 +103,7 @@ const Login = () => {
               name="email"
               id="email"
               required
+              autoFocus
               autoComplete="email"
               placeholder="Enter Your Email"
               value={userData.email}
@@ -137,10 +138,10 @@ const Login = () => {
               type="submit"
               className={`${
                 validFormValues
-                  ? "bg-green-800 text-center"
-                  : "bg-gray-600  text-center"
-              } "mt-4 border py-2 bg-green-800 text-center"  ${
-                validFormValues ? " hover:bg-green-700  text-center" : ""
+                  ? "bg-orange-600 text-center"
+                  : "bg-orange-400  text-center cursor-not-allowed"
+              } "mt-4 border py-2 bg-orange-800 text-center"  ${
+                validFormValues ? " hover:bg-orange-700  text-center" : ""
               } rounded text-white font-bold  text-center"`}
             >
               {isIDLE && "Log In"}

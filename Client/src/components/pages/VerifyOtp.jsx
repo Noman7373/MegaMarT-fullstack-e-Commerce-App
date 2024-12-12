@@ -126,7 +126,7 @@ const VerifyOtp = () => {
 
             <button
               type="submit"
-              className="mt-4 border py-2 rounded bg-green-600 text-white font-bold"
+              className="mt-4 border py-2 rounded bg-orange-600 text-white font-bold"
             >
               {isLoading ? <Loader /> : " Verify OTP"}
             </button>

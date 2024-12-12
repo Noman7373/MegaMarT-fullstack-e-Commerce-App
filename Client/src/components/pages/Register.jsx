@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { data, Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { FaEyeSlash } from "react-icons/fa";
 import { FaEye } from "react-icons/fa6";
 import { registerUser } from "../../Api/Query/userQuery.js";
 import { FETCH_STATUS } from "../status/fetchStatus.js";
 import Loader from "../status/Loader.jsx";
+
+// import bgImage from "../../assets/bg-sign.jpeg";
+
 const Register = () => {
   const navigate = useNavigate();
   const [status, setStatus] = useState("idle");
@@ -76,8 +79,8 @@ const Register = () => {
   }, [status, navigate]);
 
   return (
-    <section className="container w-full mx-auto px-2">
-      <div className="bg-white my-2 w-full max-w-lg mx-auto rounded py-2 px-4">
+    <section className="container mx-auto px-2 flex justify-between">
+      <div className="bg-white my-2 w-full max-w-sm mx-auto rounded py-2 px-4">
         <p>Welcome to ShopHub</p>
         <p className="text-red-500">{error}</p>
         <div>
@@ -136,9 +139,11 @@ const Register = () => {
               disabled={!validFormValues}
               type="submit"
               className={`${
-                validFormValues ? "bg-green-800" : "bg-gray-600"
-              } "mt-4 border py-2 bg-green-800 ${
-                validFormValues ? " hover:bg-green-700" : ""
+                validFormValues
+                  ? "bg-orange-600"
+                  : "bg-orange-400 cursor-not-allowed"
+              } "mt-4 border py-2 bg-orange-600 ${
+                validFormValues ? " hover:bg-orange-400" : ""
               } rounded text-white font-bold"`}
             >
               {isIDLE && "Register"}
@@ -158,6 +163,9 @@ const Register = () => {
           </Link>
         </p>
       </div>
+      {/* <div>
+        <img src={bgImage} alt="bg-image" />
+      </div> */}
     </section>
   );
 };

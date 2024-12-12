@@ -112,11 +112,12 @@ function App() {
 
   const fetchUserData = async () => {
     try {
-      const user = await getUserLoginDetails();
-      dispatch(setUserDetials(user?.data?.userData));
-      // console.log("user data", user?.data?.userData);
+      const response = await getUserLoginDetails();
+      if (response.data.success) {
+        dispatch(setUserDetials(response?.data?.userData));
+      }
     } catch (error) {
-      console.log("Data fetching error", error);
+      throw new Error("Data fetching Error", error);
     }
   };
 
