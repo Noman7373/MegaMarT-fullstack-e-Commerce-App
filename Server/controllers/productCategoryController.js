@@ -69,13 +69,10 @@ const updateCategory = async (req, res) => {
     const { id } = req.params;
     const { name, image } = req.body;
 
-    const updatedCategory = await categoryModel.updateOne(
-      { _id, id },
-      {
-        name,
-        image,
-      }
-    );
+    const updatedCategory = await categoryModel.findByIdAndUpdate(id, {
+      name,
+      image,
+    });
 
     return res.status(200).json({
       message: "Category updated successfullly",
