@@ -1,20 +1,23 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
-import uploadImageUtils from "../../utils/uplaodImageUtils.js";
-import { addCategoryAxios } from "../../Api/Query/userQuery";
-import { addProductCategory } from "../../store/productSlice.js";
+import { updateCategoryAxios } from "../../Api/Query/userQuery";
+import { useParams } from "react-router-dom";
 
-const UploadCategoryModels = ({ closeModel, callFetchCategory }) => {
+
+const EditCategory = () => {
   const dispatch = useDispatch();
+  const { id} = useParams();
  
 
   const [categoryData, setCategoryData] = useState({
     name: "",
-    image: null, // Store uploaded image URL here
+    image: null,
   });
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+
+  const closeEditPage = () => {};
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
@@ -33,7 +36,7 @@ const UploadCategoryModels = ({ closeModel, callFetchCategory }) => {
     try {
       const response = await uploadImageUtils({ file });
 
-      const imageUrl = response.data?.uploadImage?.url;
+      const imageUrl = response.data?.category?.url;
 
       if (imageUrl) {
         setCategoryData((prev) => ({ ...prev, image: imageUrl }));
@@ -51,7 +54,7 @@ const UploadCategoryModels = ({ closeModel, callFetchCategory }) => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     if (!categoryData.name || !categoryData.image) {
-      setErrorMessage("Both name and image are required.");
+      setErrorMessage("All Fileds are required.");
       return;
     }
 
@@ -59,7 +62,8 @@ const UploadCategoryModels = ({ closeModel, callFetchCategory }) => {
     setErrorMessage("");
 
     try {
-      const response = await addCategoryAxios({
+      const response = await updateCategoryAxios({
+        id,
         name: categoryData.name,
         image: categoryData.image,
       });
@@ -71,12 +75,11 @@ const UploadCategoryModels = ({ closeModel, callFetchCategory }) => {
       }
 
       if (response.data.success) {
-        const { name, image } = response.data?.categoryProducts;
+        const { name, image } = response.data?.category;
 
         setSuccessMessage(response.data?.message);
-        dispatch(addProductCategory({ name, image }));
-        closeModel();
-        callFetchCategory();
+        // dispatch(addProductCategory({ name, image }));
+        // callFetchCategory();
       }
     } catch (error) {
       setErrorMessage("An error occurred while saving the category.");
@@ -84,14 +87,13 @@ const UploadCategoryModels = ({ closeModel, callFetchCategory }) => {
       setIsLoading(false);
     }
   };
-
   return (
     <section className="fixed top-0 bottom-0 left-0 right-0 p-4 flex justify-center z-40 items-center bg-neutral-800 bg-opacity-40">
       <div className="bg-white max-w-4xl w-full p-6 rounded-md shadow-lg relative">
         <div className="flex justify-between items-center mb-4">
           <h1 className="font-semibold text-lg">Category</h1>
           <button
-            onClick={closeModel}
+            onClick={closeEditPage}
             className="text-gray-500 hover:text-gray-700"
             aria-label="Close Modal"
           >
@@ -143,7 +145,7 @@ const UploadCategoryModels = ({ closeModel, callFetchCategory }) => {
               htmlFor="image"
               className="mb-1 font-medium bg-blue-500 p-2 rounded text-white hover:bg-blue-600 cursor-pointer"
             >
-              Upload Image
+              {isLoading ? "Updating..." : "Update Image"}
             </label>
             <input
               type="file"
@@ -170,7 +172,7 @@ const UploadCategoryModels = ({ closeModel, callFetchCategory }) => {
               }`}
               disabled={isLoading}
             >
-              {isLoading ? "Adding..." : "Add Category"}
+              {isLoading ? "Updating..." : "Update Category"}
             </button>
           </div>
         </form>
@@ -179,4 +181,4 @@ const UploadCategoryModels = ({ closeModel, callFetchCategory }) => {
   );
 };
 
-export default UploadCategoryModels;
+export default EditCategory;

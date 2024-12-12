@@ -3,6 +3,7 @@ import UploadCategoryModels from "./UploadCategoryModels";
 import Loader from "../status/Loader";
 import { getCategoryAxios } from "../../Api/Query/userQuery";
 import NoData from "./NoData";
+import { Link } from "react-router-dom";
 
 const Category = () => {
   const [isUploadCategory, setIsUploadCategory] = useState(false);
@@ -50,13 +51,24 @@ const Category = () => {
           return (
             <div
               key={index}
-              className="w-32 h-48 shadow-md rounded cursor-pointer"
+              className="w-36 h-56 p-1 shadow-md rounded cursor-pointer group"
             >
               <img
                 src={category.image}
                 alt={category.name}
-                className="w-full object-scale-down"
+                className="w-full h-44 object-scale-down"
               />
+              <div className="justify-between gap-2 hidden group-hover:flex mt-1">
+                <Link
+                  to={`/dashboard/edit-category/${category._id}`}
+                  className="bg-green-600 text-white px-3 rounded font-medium hover:bg-green-500"
+                >
+                  Edit
+                </Link>
+                <button className="bg-red-600 text-white p-1 rounded font-medium hover:bg-red-500">
+                  Delete
+                </button>
+              </div>
             </div>
           );
         })}
