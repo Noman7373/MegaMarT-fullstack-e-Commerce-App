@@ -95,14 +95,6 @@ const deleteCategoryController = async (req, res) => {
   try {
     const { _id } = req.body;
 
-    const checksubCategoryId = await subCategoryModel
-      .find({
-        category: {
-          $in: [_id],
-        },
-      })
-      .countDocuments();
-
     // Check if there are any subcategories related to the category
     const checkSubCategoryId = await subCategoryModel
       .find({
@@ -126,7 +118,15 @@ const deleteCategoryController = async (req, res) => {
       });
     }
 
-    const deleteCategory = await categoryModel.deleteOne({ _id: _id });
+    const deleteCategory = await categoryModel.findByIdAndDelete(_id);
+
+    if (!deleteCategory) {
+      return res.status(404).json({
+        message: "Category not found.",
+        error: true,
+        success: false,
+      });
+    }
 
     return res.status(200).json({
       message: "Category deleted successfullly",
