@@ -6,7 +6,6 @@ import { addProductCategory } from "../../store/productSlice.js";
 
 const UploadCategoryModels = ({ closeModel, callFetchCategory }) => {
   const dispatch = useDispatch();
- 
 
   const [categoryData, setCategoryData] = useState({
     name: "",
@@ -63,8 +62,6 @@ const UploadCategoryModels = ({ closeModel, callFetchCategory }) => {
         name: categoryData.name,
         image: categoryData.image,
       });
-
-      console.log(response);
 
       if (response.data.error) {
         return setErrorMessage(response.data?.message);
@@ -143,7 +140,7 @@ const UploadCategoryModels = ({ closeModel, callFetchCategory }) => {
               htmlFor="image"
               className="mb-1 font-medium bg-blue-500 p-2 rounded text-white hover:bg-blue-600 cursor-pointer"
             >
-              Upload Image
+              {isLoading ? "Uploading..." : "Upload Image"}
             </label>
             <input
               type="file"
@@ -155,11 +152,6 @@ const UploadCategoryModels = ({ closeModel, callFetchCategory }) => {
               onChange={handleImageChange}
               disabled={isLoading}
             />
-            {/* {categoryData.image && (
-              <p className="mt-2 text-sm text-gray-600">
-                Uploaded: {categoryData.image}
-              </p>
-            )} */}
           </div>
 
           <div className="flex justify-end">

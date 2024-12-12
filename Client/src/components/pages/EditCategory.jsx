@@ -1,23 +1,30 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { updateCategoryAxios } from "../../Api/Query/userQuery";
-import { useParams } from "react-router-dom";
 
+import { updateCategoryAxios } from "../../Api/Query/userQuery";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import uploadImageUtils from "../../utils/uplaodImageUtils";
 
 const EditCategory = () => {
-  const dispatch = useDispatch();
-  const { id} = useParams();
- 
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const location = useLocation();
+
+  const { category } = location.state || {};
 
   const [categoryData, setCategoryData] = useState({
-    name: "",
-    image: null,
+    id,
+    name: category.name,
+    image: category.image,
   });
+  console.log(categoryData);
+
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
-  const closeEditPage = () => {};
+  const closeEditPage = () => {
+    window.history.back();
+  };
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
@@ -36,7 +43,7 @@ const EditCategory = () => {
     try {
       const response = await uploadImageUtils({ file });
 
-      const imageUrl = response.data?.category?.url;
+      const imageUrl = response.data?.uploadImage?.url;
 
       if (imageUrl) {
         setCategoryData((prev) => ({ ...prev, image: imageUrl }));
@@ -71,15 +78,15 @@ const EditCategory = () => {
       console.log(response);
 
       if (response.data.error) {
+        console.log("error");
+
         return setErrorMessage(response.data?.message);
       }
 
       if (response.data.success) {
-        const { name, image } = response.data?.category;
-
+        const { name, image } = response.data?.categoryProduct;
+        navigate("/dashboard/product-category");
         setSuccessMessage(response.data?.message);
-        // dispatch(addProductCategory({ name, image }));
-        // callFetchCategory();
       }
     } catch (error) {
       setErrorMessage("An error occurred while saving the category.");
@@ -91,7 +98,7 @@ const EditCategory = () => {
     <section className="fixed top-0 bottom-0 left-0 right-0 p-4 flex justify-center z-40 items-center bg-neutral-800 bg-opacity-40">
       <div className="bg-white max-w-4xl w-full p-6 rounded-md shadow-lg relative">
         <div className="flex justify-between items-center mb-4">
-          <h1 className="font-semibold text-lg">Category</h1>
+          <h1 className="font-semibold text-lg">Update Category</h1>
           <button
             onClick={closeEditPage}
             className="text-gray-500 hover:text-gray-700"

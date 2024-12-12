@@ -168,8 +168,7 @@ const addCategoryAxios = async ({ name, image }) => {
   }
 };
 
-// fetch Category Product
-
+// Get Category Axios
 const getCategoryAxios = async () => {
   try {
     const response = await Axios.get(`${baseURL}/api/category/get-category`);
@@ -182,15 +181,34 @@ const getCategoryAxios = async () => {
   }
 };
 
+// Update Category Axios
 const updateCategoryAxios = async ({ id, name, image }) => {
   try {
     const response = await Axios.put(
-      `${baseURL}/api/category/update-category`,
+      `${baseURL}/api/category/update-category/${id}`,
       {
         id,
         name,
         image,
       }
+    );
+    console.log(response);
+
+    return response;
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message ||
+        "An error occurred while adding the category"
+    );
+  }
+};
+
+// Delete Category Axios
+const deleteCategoryAxios = async ({ _id }) => {
+  try {
+    const response = await Axios.delete(
+      `${baseURL}/api/category/category-delete`,
+      { data: { _id } }
     );
     return response;
   } catch (error) {
@@ -201,22 +219,6 @@ const updateCategoryAxios = async ({ id, name, image }) => {
   }
 };
 
-//  upload Category Images
-// const uploadImages = async ({ file }) => {
-//   try {
-//     const formData = new FormData();
-//     formData.append("avatar", file);
-
-//     const response = await Axios.post(`${baseURL}/api/file/upload`, formData);
-
-//     return response;
-//   } catch (error) {
-//     throw new Error(
-//       error.response?.data?.message ||
-//         "An error occurred while adding the category"
-//     );
-//   }
-// };
 export {
   registerUser,
   userLogIn,
@@ -231,5 +233,5 @@ export {
   addCategoryAxios,
   getCategoryAxios,
   updateCategoryAxios,
-  // uploadImages,
+  deleteCategoryAxios,
 };

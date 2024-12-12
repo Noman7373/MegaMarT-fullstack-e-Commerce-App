@@ -38,6 +38,7 @@ const UserMenu = ({ toogleMenu }) => {
         <h3>My Account</h3>
         <h3 className="flex items-center text-ellipsis max-w-52 line-clamp-1 gap-5 mt-2">
           {user?.name || user?.mobile}{" "}
+          <span className="text-[0.8rem] text-red-600">{user?.role}</span>
           <FiExternalLink
             size={22}
             className="cursor-pointer hover:text-gray-400"
@@ -81,7 +82,7 @@ const UserMenu = ({ toogleMenu }) => {
               }
               onClick={toogleMenu}
             >
-             Subcategory
+              Subcategory
             </NavLink>
             <NavLink
               to={"/dashboard/upload-product"}

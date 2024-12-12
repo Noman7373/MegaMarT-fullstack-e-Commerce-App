@@ -52,7 +52,7 @@ const Profile = () => {
     <>
       <div>
         <div className="flex flex-col gap-2">
-          <div className="w-20 h-20 rounded-[50%] flex justify-center items-center rounded overflow-hidden drop-shadow-lg">
+          <div className="w-20 h-20 rounded-[50%] flex justify-center items-center overflow-hidden drop-shadow-lg">
             {user?.avater ? (
               isLoading ? (
                 <Loader />

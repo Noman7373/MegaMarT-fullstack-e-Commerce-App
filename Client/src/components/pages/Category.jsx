@@ -1,14 +1,21 @@
 import React, { useEffect, useState } from "react";
 import UploadCategoryModels from "./UploadCategoryModels";
 import Loader from "../status/Loader";
-import { getCategoryAxios } from "../../Api/Query/userQuery";
+import {
+  deleteCategoryAxios,
+  getCategoryAxios,
+} from "../../Api/Query/userQuery";
 import NoData from "./NoData";
 import { Link } from "react-router-dom";
+import DeleteConfirm from "../pages/DeleteConfirm";
 
 const Category = () => {
   const [isUploadCategory, setIsUploadCategory] = useState(false);
   const [category, setCategory] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [isdeleteOpen, setIsdeleteOpen] = useState(false);
+  const [id, setId] = useState("");
 
   const fetchCategory = async () => {
     setLoading(loading);
@@ -61,11 +68,18 @@ const Category = () => {
               <div className="justify-between gap-2 hidden group-hover:flex mt-1">
                 <Link
                   to={`/dashboard/edit-category/${category._id}`}
-                  className="bg-green-600 text-white px-3 rounded font-medium hover:bg-green-500"
+                  state={{ category }}
+                  className="text-center flex justify-center items-center bg-green-600 text-white px-3 rounded font-medium hover:bg-green-500"
                 >
                   Edit
                 </Link>
-                <button className="bg-red-600 text-white p-1 rounded font-medium hover:bg-red-500">
+                <button
+                  className="bg-red-600 text-white p-1 rounded font-medium hover:bg-red-500"
+                  onClick={() => {
+                    setIsdeleteOpen(true);
+                    setId(category._id);
+                  }}
+                >
                   Delete
                 </button>
               </div>
@@ -78,6 +92,14 @@ const Category = () => {
         <UploadCategoryModels
           callFetchCategory={fetchCategory}
           closeModel={() => setIsUploadCategory(false)}
+        />
+      )}
+
+      {isdeleteOpen && (
+        <DeleteConfirm
+          closeDelete={() => setIsdeleteOpen(false)}
+          categoryId={id}
+          fetchCategory={fetchCategory}
         />
       )}
     </section>
