@@ -1,4 +1,6 @@
 import categoryModel from "../models/categoryModel.js";
+import productModel from "../models/productModel.js";
+import subCategoryModel from "../models/subCategoryModel.js";
 
 const AddCategoryController = async (req, res) => {
   try {
@@ -78,7 +80,7 @@ const updateCategory = async (req, res) => {
       message: "Category updated successfullly",
       error: false,
       success: true,
-      category: updatedCategory,
+      categoryProduct: updatedCategory,
     });
   } catch (error) {
     res.status(500).json({
@@ -88,4 +90,62 @@ const updateCategory = async (req, res) => {
     });
   }
 };
-export { AddCategoryController, getCategoryProduct, updateCategory };
+
+const deleteCategoryController = async (req, res) => {
+  try {
+    const { _id } = req.body;
+
+    const checksubCategoryId = await subCategoryModel
+      .find({
+        category: {
+          $in: [_id],
+        },
+      })
+      .countDocuments();
+
+    // Check if there are any subcategories related to the category
+    const checkSubCategoryId = await subCategoryModel
+      .find({
+        category: { $in: [_id] },
+      })
+      .countDocuments();
+
+    // Check if there are any products related to the category
+    const checkProductId = await productModel
+      .find({
+        category: { $in: [_id] },
+      })
+      .countDocuments();
+
+    // If there are related subcategories or products, prevent deletion
+    if (checkSubCategoryId > 0 || checkProductId > 0) {
+      return res.status(400).json({
+        message: "Category is in use and cannot be deleted.",
+        error: true,
+        success: false,
+      });
+    }
+
+    const deleteCategory = await categoryModel.deleteOne({ _id: _id });
+
+    return res.status(200).json({
+      message: "Category deleted successfullly",
+      error: false,
+      success: true,
+      categoryProduct: deleteCategory,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};
+
+export {
+  AddCategoryController,
+  getCategoryProduct,
+  updateCategory,
+  deleteCategoryController,
+};
