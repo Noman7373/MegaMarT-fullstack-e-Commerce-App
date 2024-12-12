@@ -49,7 +49,7 @@ const AddCategoryController = async (req, res) => {
 
 const getCategoryProduct = async (req, res) => {
   try {
-    const allCategory = await categoryModel.find();
+    const allCategory = await categoryModel.find().sort({ createdAt: -1 });
 
     return res.json({
       message: "Successfully",
