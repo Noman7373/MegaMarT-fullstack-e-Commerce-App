@@ -17,10 +17,10 @@ const subCategoryController = async (req, res) => {
       image,
     });
 
-    const saveSubCategory = await createdCategoryModel.save();
+    const savedSubCategory = await createdCategoryModel.save();
 
     // validation
-    if (!saveSubCategory) {
+    if (!savedSubCategory) {
       return res.status(500).json({
         message: "SubCategory not added",
         error: success,
@@ -32,7 +32,7 @@ const subCategoryController = async (req, res) => {
       message: "Subcategory created successfully",
       error: false,
       success: true,
-      saveSubCategory,
+      savedSubCategory,
     });
   } catch (error) {
     return res.status(500).json({
@@ -43,4 +43,33 @@ const subCategoryController = async (req, res) => {
   }
 };
 
-export { subCategoryController };
+const getSubcategories = async (req, res) => {
+  try {
+    const savedSubCategory = await subCategoryModel
+      .find()
+      .sort({ createdAt: -1 });
+
+    if (!savedSubCategory) {
+      return res.status(500).json({
+        message: "No subcategory found",
+        error: true,
+        success: false,
+      });
+    }
+
+    return res.status(201).json({
+      message: "Get categories successfully",
+      error: false,
+      success: true,
+      savedSubCategory,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};
+
+export { subCategoryController, getSubcategories };
