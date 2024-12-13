@@ -1,17 +1,14 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+
 import uploadImageUtils from "../../utils/uplaodImageUtils.js";
 import { addCategoryAxios } from "../../Api/Query/userQuery";
-import { addProductCategory } from "../../store/productSlice.js";
+
 import Loader from "../status/Loader.jsx";
 
 const UploadCategoryModels = ({ closeModel, callFetchCategory }) => {
-  const dispatch = useDispatch();
-
   const [categoryData, setCategoryData] = useState({
     name: "",
     image: null, // Store uploaded image URL here
-    category: [],
   });
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingImage, setIsloadingImage] = useState(false);
@@ -19,6 +16,7 @@ const UploadCategoryModels = ({ closeModel, callFetchCategory }) => {
   const [successMessage, setSuccessMessage] = useState("");
 
   const handleOnChange = (e) => {
+    setErrorMessage(""); // Clear error when user starts typing
     const { name, value } = e.target;
     setCategoryData((prev) => ({ ...prev, [name]: value }));
   };
@@ -71,10 +69,7 @@ const UploadCategoryModels = ({ closeModel, callFetchCategory }) => {
       }
 
       if (response.data.success) {
-        const { name, image } = response.data?.categoryProducts;
-
         setSuccessMessage(response.data?.message);
-        dispatch(addProductCategory({ name, image }));
         closeModel();
         callFetchCategory();
       }
@@ -159,20 +154,18 @@ const UploadCategoryModels = ({ closeModel, callFetchCategory }) => {
             />
           </div>
 
-          <select name="subcategories" id="subcategories">
-            <option value=""></option>
-          </select>
-
           <div className="flex justify-end">
-            <button
-              type="submit"
-              className={`px-4 py-2 rounded-md text-white ${
-                isLoading ? "bg-gray-400" : "bg-blue-500 hover:bg-blue-600"
-              }`}
-              disabled={isLoading}
-            >
-              {isLoading ? "Adding..." : "Add Category"}
-            </button>
+            {categoryData.name && categoryData.image && (
+              <button
+                type="submit"
+                className={`px-4 py-2 rounded-md text-white ${
+                  isLoading ? "bg-gray-400" : "bg-blue-500 hover:bg-blue-600"
+                }`}
+                disabled={isLoading}
+              >
+                {isLoading ? "Adding..." : "Add Category"}
+              </button>
+            )}
           </div>
         </form>
       </div>

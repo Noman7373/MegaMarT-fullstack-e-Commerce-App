@@ -1,20 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const productCategory = {
-  name: "",
-  image: "",
+  allCategories: [],
+  subCategories: [],
+  product: [],
 };
 
 const productSlice = createSlice({
-  name: "Category",
-  initialState: {
-    category: productCategory,
-  },
-
+  name: "Products",
+  initialState: productCategory,
   reducers: {
     addProductCategory: (state, action) => {
-      state.category.name = action.payload;
-      state.category.image = action.payload;
+      state.allCategories.push(action.payload);
     },
   },
 });

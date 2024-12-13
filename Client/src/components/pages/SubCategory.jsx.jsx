@@ -13,7 +13,6 @@ const SubCategory = () => {
     setIsloading(true);
 
     const response = await getSubCategoryAxios();
-    // console.log(response);
 
     setIsloading(false);
     if (response.data.success) {
@@ -29,8 +28,6 @@ const SubCategory = () => {
   useEffect(() => {
     fetchSubCategories();
   }, []);
-
-  console.log(subcategories);
 
   return (
     <section>

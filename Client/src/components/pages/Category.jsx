@@ -5,12 +5,14 @@ import { getCategoryAxios } from "../../Api/Query/userQuery";
 import NoData from "./NoData";
 import { Link } from "react-router-dom";
 import DeleteConfirm from "../pages/DeleteConfirm";
+import { useDispatch, useSelector } from "react-redux";
+import { addProductCategory } from "../../store/productSlice";
 
 const Category = () => {
+  const dispatch = useDispatch();
   const [isUploadCategory, setIsUploadCategory] = useState(false);
   const [category, setCategory] = useState([]);
   const [loading, setLoading] = useState(true);
-  // const [error, setError] = useState("");
   const [isdeleteOpen, setIsdeleteOpen] = useState(false);
   const [id, setId] = useState("");
 
@@ -22,7 +24,9 @@ const Category = () => {
       if (response.data.success) {
         setLoading(false);
         const { categoryProduct } = response.data;
+
         setCategory(categoryProduct);
+        // dispatch(addProductCategory(category));
       }
     } catch (error) {
       throw new Error(error);
@@ -30,7 +34,6 @@ const Category = () => {
       setLoading(false);
     }
   };
-
   useEffect(() => {
     fetchCategory();
   }, []);
