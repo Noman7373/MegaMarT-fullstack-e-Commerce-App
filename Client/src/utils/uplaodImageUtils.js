@@ -2,7 +2,7 @@ import { baseURL } from "../Api/apiSummery.js";
 import Axios from "../Api/Axios";
 
 const uploadImageUtils = async ({ file }) => {
-  if (!image) {
+  if (!file) {
     throw new Error("No image file provided for upload.");
   }
 
