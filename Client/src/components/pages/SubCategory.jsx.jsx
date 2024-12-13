@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import UploadSubcategory from "./UploadSubcategory";
 import { getSubCategoryAxios } from "../../Api/Query/userQuery";
 import Loader from "../status/Loader";
+import NoData from "./NoData";
 
 const SubCategory = () => {
   const [isOpen, setIsOpen] = useState(false);

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import uploadImageUtils from "../../utils/uplaodImageUtils";
 import { addSubCategoryAxios } from "../../Api/Query/userQuery";
+import Loader from "../status/Loader";
 
 const UploadSubcategory = ({ close, fetchSubCategories }) => {
   const [subCategoryDate, setSubCategoryData] = useState({
@@ -112,15 +113,17 @@ const UploadSubcategory = ({ close, fetchSubCategories }) => {
 
           <div className="flex items-center gap-5 p-3 xs:flex-col sm:flex-row md:flex-row lg:flex-row">
             <div className="w-24">
-              {subCategoryDate?.image && subCategoryDate?.image ? (
+              {loadingImage ? (
+                <Loader />
+              ) : subCategoryDate?.image && subCategoryDate?.image ? (
                 <img
                   src={subCategoryDate?.image}
                   alt={subCategoryDate?.name}
                   className="w-28 h-full object-scale-down"
                 />
               ) : (
-                <div className="w-full h-full border-1 flex items-center justify-center">
-                  <p>No Image</p>
+                <div className="w-full h-full border-2 border-dotted p-5 flex items-center justify-center">
+                  <p className="text-center text-gray-500">No Image</p>
                 </div>
               )}
             </div>

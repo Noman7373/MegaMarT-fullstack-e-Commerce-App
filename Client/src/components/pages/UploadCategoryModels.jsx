@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import uploadImageUtils from "../../utils/uplaodImageUtils.js";
 import { addCategoryAxios } from "../../Api/Query/userQuery";
 import { addProductCategory } from "../../store/productSlice.js";
+import Loader from "../status/Loader.jsx";
 
 const UploadCategoryModels = ({ closeModel, callFetchCategory }) => {
   const dispatch = useDispatch();
@@ -10,6 +11,7 @@ const UploadCategoryModels = ({ closeModel, callFetchCategory }) => {
   const [categoryData, setCategoryData] = useState({
     name: "",
     image: null, // Store uploaded image URL here
+    category: [],
   });
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingImage, setIsloadingImage] = useState(false);
@@ -124,15 +126,17 @@ const UploadCategoryModels = ({ closeModel, callFetchCategory }) => {
 
           <div className="flex items-center gap-5 p-3 xs:flex-col sm:flex-row md:flex-row lg:flex-row">
             <div className="w-24">
-              {categoryData?.image && categoryData?.image ? (
+              {isLoadingImage ? (
+                <Loader />
+              ) : categoryData?.image && categoryData?.image ? (
                 <img
                   src={categoryData?.image}
                   alt={categoryData?.name}
                   className="w-full h-full object-scale-down"
                 />
               ) : (
-                <div className="w-full h-full border-1 flex items-center justify-center">
-                  <p>No Image</p>
+                <div className="w-full h-full border-2 border-dotted p-5 flex items-center justify-center">
+                  <p className="text-center text-gray-500">No Image</p>
                 </div>
               )}
             </div>
@@ -154,6 +158,10 @@ const UploadCategoryModels = ({ closeModel, callFetchCategory }) => {
               disabled={isLoading}
             />
           </div>
+
+          <select name="subcategories" id="subcategories">
+            <option value=""></option>
+          </select>
 
           <div className="flex justify-end">
             <button
