@@ -218,6 +218,36 @@ const deleteCategoryAxios = async ({ _id }) => {
   }
 };
 
+// Add SubCategory Axios
+const addSubCategoryAxios = async ({ name, image }) => {
+  try {
+    const response = await Axios.post(`${baseURL}/api/add-Subcategory`, {
+      name,
+      image,
+    });
+
+    return response;
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message ||
+        "An error occurred while adding the category"
+    );
+  }
+};
+
+// Add SubCategory Axios
+const getSubCategoryAxios = async () => {
+  try {
+    const response = await Axios.get(`${baseURL}/api/get-subcategories`);
+    return response;
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message ||
+        "An error occurred while adding the category"
+    );
+  }
+};
+
 export {
   registerUser,
   userLogIn,
@@ -229,8 +259,12 @@ export {
   getUserLoginDetails,
   updloadAvater,
   updateUserDetails,
+  // Category
   addCategoryAxios,
   getCategoryAxios,
   updateCategoryAxios,
   deleteCategoryAxios,
+  // SubCategory
+  addSubCategoryAxios,
+  getSubCategoryAxios,
 };

@@ -1,28 +1,24 @@
 import React, { useState } from "react";
 import uploadImageUtils from "../../utils/uplaodImageUtils";
+import { addSubCategoryAxios } from "../../Api/Query/userQuery";
 
-const UploadSubcategory = ({ close }) => {
+const UploadSubcategory = ({ close, fetchSubCategories }) => {
   const [subCategoryDate, setSubCategoryData] = useState({
     name: "",
-    image: "",
+    image: null,
   });
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [loadingImage, setLaodingImage] = useState(false);
-  const [loadingSubcategory, serLoadingSubCategory] = useState(false);
+  const [loadingSubcategory, setLoadingSubCategory] = useState(false);
 
   // handle Onchange
   const handleOnChange = (e) => {
     const { name, value } = e.target;
-
-    setSubCategoryData({
-      ...subCategoryDate,
-      [name]: value,
-    });
+    setSubCategoryData((prev) => ({ ...prev, [name]: value }));
   };
 
   //    handle ImageChange
-
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
     if (!file) {
@@ -35,13 +31,14 @@ const UploadSubcategory = ({ close }) => {
 
       console.log(response);
 
+      setLaodingImage(false);
       const imageURL = response.data?.uploadImage.url;
 
       if (!imageURL) {
         return setErrorMessage("Image not selected");
       }
-
-      setSubCategoryData(imageURL);
+      setSubCategoryData((prev) => ({ ...prev, image: imageURL }));
+      setSuccessMessage("Image uploaded successfully");
     } catch (error) {
       setErrorMessage(error);
     }
@@ -50,13 +47,27 @@ const UploadSubcategory = ({ close }) => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
+    if (!subCategoryDate.name || !subCategoryDate.image) {
+      return setErrorMessage("Both fields are requried");
+    }
 
-
-    
-
+    setErrorMessage("");
+    setLoadingSubCategory(true);
     try {
+      const response = await addSubCategoryAxios({
+        name: subCategoryDate.name,
+        image: subCategoryDate.image,
+      });
+
+      setLoadingSubCategory(false);
+      if (response.data.success) {
+        fetchSubCategories();
+        close();
+      }
     } catch (error) {
       setErrorMessage("An error occured" || error);
+    } finally {
+      setLoadingSubCategory(false);
     }
   };
 
@@ -101,16 +112,23 @@ const UploadSubcategory = ({ close }) => {
 
           <div className="flex items-center gap-5 p-3 xs:flex-col sm:flex-row md:flex-row lg:flex-row">
             <div className="w-24">
-              <div className="w-full h-full border-1 flex items-center justify-center">
-                <p>No Image</p>
-              </div>
+              {subCategoryDate?.image && subCategoryDate?.image ? (
+                <img
+                  src={subCategoryDate?.image}
+                  alt={subCategoryDate?.name}
+                  className="w-28 h-full object-scale-down"
+                />
+              ) : (
+                <div className="w-full h-full border-1 flex items-center justify-center">
+                  <p>No Image</p>
+                </div>
+              )}
             </div>
-
             <label
               htmlFor="image"
               className="mb-1 font-medium bg-blue-500 p-2 rounded text-white hover:bg-blue-600 cursor-pointer"
             >
-              Upload Image
+              {loadingImage ? "Uploading....." : "Upload Image"}
             </label>
             <input
               type="file"
@@ -120,14 +138,19 @@ const UploadSubcategory = ({ close }) => {
               accept="image/*"
               className="hidden"
               onChange={handleImageChange}
-              //   disabled={isLoading}
+              disabled={loadingImage}
             />
           </div>
 
           <div className="flex justify-end">
-            <button type="submit" className=" px-4 py-2 rounded-md text-white">
-              Add Subcategory
-            </button>
+            {subCategoryDate?.image && subCategoryDate.name && (
+              <button
+                type="submit"
+                className="px-4 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600"
+              >
+                {loadingSubcategory ? "Adding....." : "Add Subcategory"}
+              </button>
+            )}
           </div>
         </form>
       </div>

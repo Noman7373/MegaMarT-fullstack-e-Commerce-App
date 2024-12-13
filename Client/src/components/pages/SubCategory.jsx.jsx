@@ -1,8 +1,36 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import UploadSubcategory from "./UploadSubcategory";
+import { getSubCategoryAxios } from "../../Api/Query/userQuery";
+import Loader from "../status/Loader";
 
 const SubCategory = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsloading] = useState(false);
+  const [subcategories, setSubcategories] = useState([]);
+
+  const fetchSubCategories = async () => {
+    setIsloading(true);
+
+    const response = await getSubCategoryAxios();
+    // console.log(response);
+
+    setIsloading(false);
+    if (response.data.success) {
+      const { savedSubCategory } = response.data;
+      setSubcategories(savedSubCategory);
+    }
+    try {
+    } catch (error) {
+      throw new Error("An error occured try again", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchSubCategories();
+  }, []);
+
+  console.log(subcategories);
+
   return (
     <section>
       <div className="flex justify-between items-center p-2 bg-white shadow-md ">
@@ -15,12 +43,14 @@ const SubCategory = () => {
         </button>
       </div>
 
-      {isOpen && <UploadSubcategory close={() => setIsOpen(false)} />}
+      {isOpen && (
+        <UploadSubcategory
+          close={() => setIsOpen(false)}
+          fetchSubCategories={fetchSubCategories}
+        />
+      )}
 
-      <div>
-        <div className="flex"></div>
-        <div></div>
-      </div>
+      {isLoading && <Loader />}
     </section>
   );
 };
