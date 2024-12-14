@@ -15,7 +15,16 @@ const AddCategoryController = async (req, res) => {
       });
     }
 
-    // process to add
+    const exitCategory = await categoryModel.findOne({ name });
+
+    if (exitCategory) {
+      return res.status(500).json({
+        message: "Category already exits!",
+        error: true,
+        success: false,
+      });
+    }
+
     const updateCategoryModel = new categoryModel({
       name,
       image,
@@ -23,14 +32,14 @@ const AddCategoryController = async (req, res) => {
 
     const addedCategory = await updateCategoryModel.save();
 
-    // validation
-    if (!addedCategory) {
-      return res.status(500).json({
-        message: "Category not added",
-        error: success,
-        success: false,
-      });
-    }
+    // // validation
+    // if (!addedCategory) {
+    //   return res.status(409).json({
+    //     message: `Category "${name}" already exists.`,
+    //     error: success,
+    //     success: false,
+    //   });
+    // }
 
     return res.json({
       message: "Category added successfully",
