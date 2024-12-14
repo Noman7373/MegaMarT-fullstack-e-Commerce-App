@@ -4,11 +4,14 @@ import "./index.css";
 import App from "./App.jsx";
 import { Provider } from "react-redux";
 import { store } from "./store/store.js";
+import { ProviderContext } from "./hooks/useContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Provider store={store}>
-      <App />
+      <ProviderContext>
+        <App />
+      </ProviderContext>
     </Provider>
   </StrictMode>
 );

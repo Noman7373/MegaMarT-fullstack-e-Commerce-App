@@ -11,7 +11,7 @@ const productSlice = createSlice({
   initialState: productCategory,
   reducers: {
     addProductCategory: (state, action) => {
-      state.allCategories.push(action.payload);
+      state.allCategories = [...state.allCategories, ...action.payload];
     },
   },
 });

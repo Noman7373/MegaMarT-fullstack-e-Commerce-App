@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import uploadImageUtils from "../../utils/uplaodImageUtils";
 import { addSubCategoryAxios } from "../../Api/Query/userQuery";
 import Loader from "../status/Loader";
-import { useSelector } from "react-redux";
+import useHook from "../../hooks/useHook";
 
 const UploadSubcategory = ({ close, fetchSubCategories }) => {
-  const categories = useSelector((state) => state?.Products.allCategories);
-  console.log("redux toolkit", categories);
+  // custom hook
+  const { category } = useHook();
 
   const [subCategoryDate, setSubCategoryData] = useState({
     name: "",
@@ -169,18 +169,18 @@ const UploadSubcategory = ({ close, fetchSubCategories }) => {
               className="bg-blue-50 p-2 w-full border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
               name="category"
               id="categories"
+              defaultValue=""
             >
-              {/* <option value="" disabled selected>
+              <option value="" disabled>
                 Select Category
-              </option> */}
-              {/* Add dynamic or static options here */}
-              {/* {categories.map((categor) => {
+              </option>
+              {category.map((categor) => {
                 return (
                   <option key={categor._id} value={categor.name}>
                     {categor.name}
                   </option>
                 );
-              })} */}
+              })}
             </select>
           </div>
         </form>

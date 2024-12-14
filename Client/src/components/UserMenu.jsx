@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import Divider from "./Divider";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { logOutUser } from "../Api/Query/userQuery";
 import { removeUserDetails } from "../store/userSlice";
 import { FiExternalLink } from "react-icons/fi";

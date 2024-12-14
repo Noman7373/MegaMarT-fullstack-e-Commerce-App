@@ -13,7 +13,7 @@ const Dashboard = () => {
         </div>
 
         {/* Section for User Profile */}
-        <div className="min-h-[70vh]">
+        <div className="min-h-[70vh] mx-5">
           <Outlet />
         </div>
       </div>

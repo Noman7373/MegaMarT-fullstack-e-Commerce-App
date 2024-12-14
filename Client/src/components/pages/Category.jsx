@@ -1,39 +1,19 @@
 import React, { useEffect, useState } from "react";
 import UploadCategoryModels from "./UploadCategoryModels";
 import Loader from "../status/Loader";
-import { getCategoryAxios } from "../../Api/Query/userQuery";
 import NoData from "./NoData";
 import { Link } from "react-router-dom";
 import DeleteConfirm from "../pages/DeleteConfirm";
-import { useDispatch, useSelector } from "react-redux";
-import { addProductCategory } from "../../store/productSlice";
+import useHook from "../../hooks/useHook";
 
 const Category = () => {
-  const dispatch = useDispatch();
+  // custom hook
+  const { fetchCategory, category, loading } = useHook();
   const [isUploadCategory, setIsUploadCategory] = useState(false);
-  const [category, setCategory] = useState([]);
-  const [loading, setLoading] = useState(true);
+
   const [isdeleteOpen, setIsdeleteOpen] = useState(false);
   const [id, setId] = useState("");
 
-  const fetchCategory = async () => {
-    setLoading(loading);
-    try {
-      const response = await getCategoryAxios();
-
-      if (response.data.success) {
-        setLoading(false);
-        const { categoryProduct } = response.data;
-
-        setCategory(categoryProduct);
-        // dispatch(addProductCategory(category));
-      }
-    } catch (error) {
-      throw new Error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
   useEffect(() => {
     fetchCategory();
   }, []);

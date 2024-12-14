@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import uploadImageUtils from "../../utils/uplaodImageUtils.js";
 import { addCategoryAxios } from "../../Api/Query/userQuery";
 
 import Loader from "../status/Loader.jsx";
+import { addProductCategory } from "../../store/productSlice.js";
+import { useDispatch } from "react-redux";
 
 const UploadCategoryModels = ({ closeModel, callFetchCategory }) => {
+  const dispatch = useDispatch();
   const [categoryData, setCategoryData] = useState({
     name: "",
     image: null, // Store uploaded image URL here
@@ -14,6 +17,17 @@ const UploadCategoryModels = ({ closeModel, callFetchCategory }) => {
   const [isLoadingImage, setIsloadingImage] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+
+  useEffect(() => {
+    if (successMessage || errorMessage) {
+      const timer = setTimeout(() => {
+        setSuccessMessage("");
+        setErrorMessage("");
+      }, 2000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [successMessage, errorMessage]);
 
   const handleOnChange = (e) => {
     setErrorMessage(""); // Clear error when user starts typing
@@ -41,7 +55,7 @@ const UploadCategoryModels = ({ closeModel, callFetchCategory }) => {
         throw new Error("Image upload failed. No URL returned.");
       }
     } catch (error) {
-      console.error("Error uploading image:", error);
+      setSuccessMessage("");
       setErrorMessage("An error occurred while uploading the image.");
     } finally {
       setIsloadingImage(false);
@@ -70,10 +84,13 @@ const UploadCategoryModels = ({ closeModel, callFetchCategory }) => {
 
       if (response.data.success) {
         setSuccessMessage(response.data?.message);
+        const { categoryProducts } = response.data;
+        // dispatch(addProductCategory(categoryProducts));
         closeModel();
         callFetchCategory();
       }
     } catch (error) {
+      setSuccessMessage("")
       setErrorMessage("An error occurred while saving the category.");
     } finally {
       setIsLoading(false);
