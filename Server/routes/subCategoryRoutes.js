@@ -8,6 +8,6 @@ import {
 const route = Router();
 
 route.post("/add-Subcategory", authMiddleware, subCategoryController);
-route.get("/get-subcategories", getSubcategories);
+route.post("/get-subcategories", getSubcategories);
 
 export default route;

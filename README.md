@@ -57,7 +57,6 @@ npm run dev
 Current Progress
 
 This project is ongoing. The following features are under development:
-[ ] User Authentication 
 
 [ ] Add To Cart , Add To Wishlist
 
