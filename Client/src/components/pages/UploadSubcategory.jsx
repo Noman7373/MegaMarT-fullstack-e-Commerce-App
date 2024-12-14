@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import uploadImageUtils from "../../utils/uplaodImageUtils";
 import { addSubCategoryAxios } from "../../Api/Query/userQuery";
 import Loader from "../status/Loader";
@@ -6,7 +6,7 @@ import useHook from "../../hooks/useHook";
 
 const UploadSubcategory = ({ close, fetchSubCategories }) => {
   // custom hook
-  const { category } = useHook();
+  const { category, fetchCategory } = useHook();
 
   const [subCategoryDate, setSubCategoryData] = useState({
     name: "",
@@ -17,6 +17,22 @@ const UploadSubcategory = ({ close, fetchSubCategories }) => {
   const [successMessage, setSuccessMessage] = useState("");
   const [loadingImage, setLaodingImage] = useState(false);
   const [loadingSubcategory, setLoadingSubCategory] = useState(false);
+
+  useEffect(() => {
+    if (errorMessage || successMessage) {
+      const timer = setTimeout(() => {
+        setErrorMessage("");
+        setSuccessMessage("");
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [errorMessage, successMessage]);
+
+  useEffect(() => {
+    if (subCategoryDate.category.length == 0) {
+      fetchCategory();
+    }
+  }, [subCategoryDate.category]);
 
   // handle Onchange
   const handleOnChange = (e) => {
@@ -34,9 +50,6 @@ const UploadSubcategory = ({ close, fetchSubCategories }) => {
     setLaodingImage(true);
     try {
       const response = await uploadImageUtils({ file });
-
-      console.log(response);
-
       setLaodingImage(false);
       const imageURL = response.data?.uploadImage.url;
 
@@ -56,15 +69,14 @@ const UploadSubcategory = ({ close, fetchSubCategories }) => {
     if (!subCategoryDate.name || !subCategoryDate.image) {
       return setErrorMessage("Both fields are requried");
     }
-
     setErrorMessage("");
     setLoadingSubCategory(true);
     try {
       const response = await addSubCategoryAxios({
         name: subCategoryDate.name,
         image: subCategoryDate.image,
+        category: subCategoryDate.category,
       });
-
       setLoadingSubCategory(false);
       if (response.data.success) {
         fetchSubCategories();
@@ -75,6 +87,16 @@ const UploadSubcategory = ({ close, fetchSubCategories }) => {
     } finally {
       setLoadingSubCategory(false);
     }
+  };
+
+  const handleRemoveCategory = (id) => {
+    const updatedCategories = subCategoryDate.category.filter(
+      (el) => el._id !== id
+    );
+    setSubCategoryData((prev) => ({
+      ...prev,
+      category: updatedCategories,
+    }));
   };
 
   return (
@@ -150,6 +172,59 @@ const UploadSubcategory = ({ close, fetchSubCategories }) => {
             />
           </div>
 
+          <div className="flex flex-wrap gap-2">
+            {subCategoryDate.category &&
+              subCategoryDate.category.map((value) => {
+                return (
+                  <div key={value?._id} className="flex gap-2 border p-1">
+                    <p>{value?.name}</p>
+                    <span
+                      className="text-gray-500 hover:text-gray-700 cursor-pointer"
+                      onClick={() => handleRemoveCategory(value._id)}
+                    >
+                      ✕
+                    </span>
+                  </div>
+                );
+              })}
+          </div>
+
+          <div className="w-full">
+            <select
+              className="bg-blue-50 p-2 w-full border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+              name="category"
+              id="categories"
+              defaultValue=""
+              onChange={(e) => {
+                const value = e.target.value;
+                const findCategory = category.find((el) => el.name == value);
+
+                if (
+                  findCategory &&
+                  !subCategoryDate.category.some(
+                    (el) => el._id === findCategory._id
+                  )
+                ) {
+                  setSubCategoryData((prev) => ({
+                    ...prev,
+                    category: [...prev.category, findCategory],
+                  }));
+                }
+              }}
+            >
+              <option value="" disabled>
+                Select Category
+              </option>
+              {category.map((categor) => {
+                return (
+                  <option key={categor?._id} value={categor?.name}>
+                    {categor?.name}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+
           <div className="flex justify-end">
             {subCategoryDate?.image && subCategoryDate.name && (
               <button
@@ -159,29 +234,6 @@ const UploadSubcategory = ({ close, fetchSubCategories }) => {
                 {loadingSubcategory ? "Adding....." : "Add Subcategory"}
               </button>
             )}
-          </div>
-
-          <div className="w-full">
-            {/* <label htmlFor="categories" className="block mb-2 font-semibold">
-              Select Category
-            </label> */}
-            <select
-              className="bg-blue-50 p-2 w-full border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-              name="category"
-              id="categories"
-              defaultValue=""
-            >
-              <option value="" disabled>
-                Select Category
-              </option>
-              {category.map((categor) => {
-                return (
-                  <option key={categor._id} value={categor.name}>
-                    {categor.name}
-                  </option>
-                );
-              })}
-            </select>
           </div>
         </form>
       </div>

@@ -7,9 +7,7 @@ export const ContextProvider = createContext();
 // Provider Component
 export const ProviderContext = ({ children }) => {
   const [category, setCategory] = useState([]);
-
   const [loading, setLoading] = useState(true);
-
 
 
   const fetchCategory = async () => {

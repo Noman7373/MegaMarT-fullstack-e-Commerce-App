@@ -11,9 +11,7 @@ const SubCategory = () => {
 
   const fetchSubCategories = async () => {
     setIsloading(true);
-
     const response = await getSubCategoryAxios();
-
     setIsloading(false);
     if (response.data.success) {
       const { savedSubCategory } = response.data;
@@ -49,6 +47,8 @@ const SubCategory = () => {
       )}
 
       {isLoading && <Loader />}
+
+      {!subcategories[0] && !isLoading && <NoData />}
     </section>
   );
 };

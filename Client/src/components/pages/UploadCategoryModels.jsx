@@ -4,8 +4,9 @@ import uploadImageUtils from "../../utils/uplaodImageUtils.js";
 import { addCategoryAxios } from "../../Api/Query/userQuery";
 
 import Loader from "../status/Loader.jsx";
-import { addProductCategory } from "../../store/productSlice.js";
+// import { addProductCategory } from "../../store/productSlice.js";
 import { useDispatch } from "react-redux";
+
 
 const UploadCategoryModels = ({ closeModel, callFetchCategory }) => {
   const dispatch = useDispatch();
@@ -23,7 +24,7 @@ const UploadCategoryModels = ({ closeModel, callFetchCategory }) => {
       const timer = setTimeout(() => {
         setSuccessMessage("");
         setErrorMessage("");
-      }, 2000);
+      }, 3000);
 
       return () => clearTimeout(timer);
     }
@@ -84,14 +85,14 @@ const UploadCategoryModels = ({ closeModel, callFetchCategory }) => {
 
       if (response.data.success) {
         setSuccessMessage(response.data?.message);
-        const { categoryProducts } = response.data;
+        // const { categoryProducts } = response.data;
         // dispatch(addProductCategory(categoryProducts));
         closeModel();
         callFetchCategory();
       }
     } catch (error) {
-      setSuccessMessage("")
-      setErrorMessage("An error occurred while saving the category.");
+      setSuccessMessage("");
+      setErrorMessage(`Category ${categoryData.name} already exits!`);
     } finally {
       setIsLoading(false);
     }
