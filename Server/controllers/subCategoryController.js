@@ -2,9 +2,9 @@ import subCategoryModel from "../models/subCategoryModel.js";
 
 const subCategoryController = async (req, res) => {
   try {
-    const { name, image } = req.body;
+    const { name, image, category } = req.body;
 
-    if (!name || !image) {
+    if (!name || !image || !category) {
       return res.status(400).json({
         message: "All fields are requried",
         error: true,
