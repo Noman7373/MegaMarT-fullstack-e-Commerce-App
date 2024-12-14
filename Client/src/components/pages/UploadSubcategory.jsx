@@ -13,6 +13,10 @@ const UploadSubcategory = ({ close, fetchSubCategories }) => {
     image: null,
     category: [],
   });
+
+  const filterCategories = subCategoryDate.category.map((el) => el.name);
+  console.log("filter subcategories", filterCategories);
+
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [loadingImage, setLaodingImage] = useState(false);
@@ -78,6 +82,8 @@ const UploadSubcategory = ({ close, fetchSubCategories }) => {
         category: subCategoryDate.category,
       });
       setLoadingSubCategory(false);
+      console.log(response);
+
       if (response.data.success) {
         fetchSubCategories();
         close();
@@ -198,17 +204,19 @@ const UploadSubcategory = ({ close, fetchSubCategories }) => {
               onChange={(e) => {
                 const value = e.target.value;
                 const findCategory = category.find((el) => el.name == value);
+                console.log("findCategory", findCategory);
 
                 if (
                   findCategory &&
                   !subCategoryDate.category.some(
-                    (el) => el._id === findCategory._id
+                    (el) => el._id === findCategory.name
                   )
                 ) {
                   setSubCategoryData((prev) => ({
                     ...prev,
                     category: [...prev.category, findCategory],
                   }));
+                  console.log(subCategoryDate.category);
                 }
               }}
             >
