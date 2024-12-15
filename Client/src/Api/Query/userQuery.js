@@ -249,6 +249,22 @@ const getSubCategoryAxios = async () => {
   }
 };
 
+// Add SubCategory Axios
+const updateSubcategoryAxios = async (_id) => {
+  try {
+    const { data } = await Axios.put(`${baseURL}/update-subcategories/${_id}`, {
+      _id,
+    });
+
+    return data;
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message ||
+        "An error occurred while adding the category"
+    );
+  }
+};
+
 export {
   registerUser,
   userLogIn,
@@ -268,4 +284,5 @@ export {
   // SubCategory
   addSubCategoryAxios,
   getSubCategoryAxios,
+  updateSubcategoryAxios,
 };
