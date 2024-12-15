@@ -14,8 +14,12 @@ const UploadSubcategory = ({ close, fetchSubCategories }) => {
     category: [],
   });
 
-  const filterCategories = subCategoryDate.category.map((el) => el);
-  console.log("filter subcategories", filterCategories[0]);
+  // const filterCategories = subCategoryDate.category.map((el) => el.name);
+  // console.log("subcategory", filterCategories);
+
+  // console.log(filterCategories, "filterCategory");
+
+  // console.log("filter subcategories", filterCategories[0]);
 
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
@@ -76,6 +80,7 @@ const UploadSubcategory = ({ close, fetchSubCategories }) => {
     setErrorMessage("");
     setLoadingSubCategory(true);
     try {
+      // const categoryIds = subCategoryDate.category.map((cat) => cat.name);
       const response = await addSubCategoryAxios({
         name: subCategoryDate.name,
         image: subCategoryDate.image,
@@ -186,7 +191,7 @@ const UploadSubcategory = ({ close, fetchSubCategories }) => {
                     <p>{value?.name}</p>
                     <span
                       className="text-gray-500 hover:text-gray-700 cursor-pointer"
-                      onClick={() => handleRemoveCategory(value._id)}
+                      onClick={() => handleRemoveCategory(value?._id)}
                     >
                       ✕
                     </span>
@@ -204,7 +209,7 @@ const UploadSubcategory = ({ close, fetchSubCategories }) => {
               onChange={(e) => {
                 const value = e.target.value;
                 const findCategory = category.find((el) => el.name == value);
-                console.log("findCategory", findCategory);
+                // console.log("findCategory", findCategory);
 
                 if (
                   findCategory &&
@@ -212,11 +217,12 @@ const UploadSubcategory = ({ close, fetchSubCategories }) => {
                     (el) => el._id === findCategory._id
                   )
                 ) {
+                  const { _id, name } = findCategory;
                   setSubCategoryData((prev) => ({
                     ...prev,
-                    category: [...prev.category, findCategory],
+                    category: [...prev.category, { name, _id }],
                   }));
-                  console.log(subCategoryDate.category);
+                  // console.log(subCategoryDate.category);
                 }
               }}
             >

@@ -13,6 +13,7 @@ const SubCategory = () => {
     fetchSubCategories();
   }, []);
 
+  console.log(subcategories, "final all subcategories");
   return (
     <section>
       <div className="flex justify-between items-center p-2 bg-white shadow-md ">
@@ -88,7 +89,7 @@ const SubCategory = () => {
                       state={{
                         name: item.name,
                         image: item.image,
-                        category: item.category,
+                        category: [item.category],
                         // fetchSubcategories: fetchSubCategories,
                       }}
                       className="text-blue-500 hover:underline"
