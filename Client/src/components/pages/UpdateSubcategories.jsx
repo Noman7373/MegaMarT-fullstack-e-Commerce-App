@@ -7,9 +7,9 @@ import useHook from "../../hooks/useHook";
 
 const UpdateSubcategories = () => {
   const { fetchSubCategories, subcategories } = useHook();
-//   console.log("subcategories useHook", subcategories);
+  //   console.log("subcategories useHook", subcategories);
 
-//   const navigate = useNavigate();
+  //   const navigate = useNavigate();
   const { _id } = useParams();
   const location = useLocation();
 
@@ -191,7 +191,7 @@ const UpdateSubcategories = () => {
           </div>
 
           <div className="flex flex-wrap gap-2">
-            {/* {updateSubCategoryData.category &&
+            {updateSubCategoryData.category &&
               updateSubCategoryData.category.map((value) => {
                 return (
                   <div key={value?._id} className="flex gap-2 border p-1">
@@ -204,7 +204,7 @@ const UpdateSubcategories = () => {
                     </span>
                   </div>
                 );
-              })} */}
+              })}
           </div>
 
           <div className="w-full">
@@ -215,7 +215,7 @@ const UpdateSubcategories = () => {
               defaultValue=""
               onChange={(e) => {
                 const value = e.target.value;
-                const findCategory = category.find((el) => el.name == value);
+                const findCategory = category.find((el) => el._id == value);
                 console.log("findCategory", findCategory);
 
                 if (
@@ -235,9 +235,11 @@ const UpdateSubcategories = () => {
               <option value="" disabled>
                 Select Category
               </option>
-              <option value={updateSubCategoryData.category}>
-                {updateSubCategoryData.category}
-              </option>
+              {updateSubCategoryData.category.map((value, index) => {
+                <option key={index} value={value}>
+                  {value}
+                </option>;
+              })}
             </select>
           </div>
 

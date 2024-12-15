@@ -81,7 +81,7 @@ const SubCategory = () => {
                     />
                   </td>
                   <td className="text-sm text-gray-800 border-r border-gray-200 px-6 py-2">
-                    {item.category}
+                    {item.name}
                   </td>
                   <td className="text-sm flex items-center text-center gap-2 px-6 py-2">
                     <Link
@@ -89,7 +89,7 @@ const SubCategory = () => {
                       state={{
                         name: item.name,
                         image: item.image,
-                        category: [item.category],
+                        category: item.category,
                         // fetchSubcategories: fetchSubCategories,
                       }}
                       className="text-blue-500 hover:underline"

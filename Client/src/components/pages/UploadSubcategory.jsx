@@ -14,12 +14,8 @@ const UploadSubcategory = ({ close, fetchSubCategories }) => {
     category: [],
   });
 
-  // const filterCategories = subCategoryDate.category.map((el) => el.name);
-  // console.log("subcategory", filterCategories);
-
-  // console.log(filterCategories, "filterCategory");
-
-  // console.log("filter subcategories", filterCategories[0]);
+  const getName = subCategoryDate.category.map((ele) => ele.name);
+  console.log(getName, "[[[[[[[]]]]]]]]");
 
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
@@ -80,14 +76,14 @@ const UploadSubcategory = ({ close, fetchSubCategories }) => {
     setErrorMessage("");
     setLoadingSubCategory(true);
     try {
-      // const categoryIds = subCategoryDate.category.map((cat) => cat.name);
+      // const categoriesName = subCategoryDate.category.map((el) => el.name);
       const response = await addSubCategoryAxios({
         name: subCategoryDate.name,
         image: subCategoryDate.image,
-        category: filterCategories,
+        category: subCategoryDate.category,
       });
       setLoadingSubCategory(false);
-      console.log(response);
+      console.log(response.data);
 
       if (response.data.success) {
         fetchSubCategories();
@@ -209,7 +205,6 @@ const UploadSubcategory = ({ close, fetchSubCategories }) => {
               onChange={(e) => {
                 const value = e.target.value;
                 const findCategory = category.find((el) => el.name == value);
-                // console.log("findCategory", findCategory);
 
                 if (
                   findCategory &&
