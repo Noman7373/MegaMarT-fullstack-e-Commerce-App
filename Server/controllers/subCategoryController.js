@@ -4,7 +4,7 @@ const subCategoryController = async (req, res) => {
   try {
     const { name, image, category } = req.body;
 
-    if (!name || !image || !category) {
+    if (!name || !image || !category[0]) {
       return res.status(400).json({
         message: "All fields are required and category cannot be empty",
         error: true,
