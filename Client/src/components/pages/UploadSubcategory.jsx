@@ -14,7 +14,7 @@ const UploadSubcategory = ({ close, fetchSubCategories }) => {
     category: [],
   });
 
-  const filterCategories = subCategoryDate.category.map((el) => el);
+  const filterCategories = subCategoryDate.category.map((el) => el.name);
   console.log("filter subcategories", filterCategories[0]);
 
   const [errorMessage, setErrorMessage] = useState("");
@@ -79,7 +79,7 @@ const UploadSubcategory = ({ close, fetchSubCategories }) => {
       const response = await addSubCategoryAxios({
         name: subCategoryDate.name,
         image: subCategoryDate.image,
-        category: subCategoryDate.category,
+        category: filterCategories,
       });
       setLoadingSubCategory(false);
       console.log(response);
