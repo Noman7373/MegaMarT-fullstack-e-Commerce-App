@@ -18,6 +18,9 @@ export default {
         "secondary-200": "00b050",
         "secondary-100": "#0b1a78",
       },
+      boxShadow: {
+        "left-outline": "-2px 0 0 0 #FB8114",
+      },
     },
   },
   plugins: [],

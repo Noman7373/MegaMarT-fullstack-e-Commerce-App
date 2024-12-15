@@ -14,8 +14,8 @@ const UploadSubcategory = ({ close, fetchSubCategories }) => {
     category: [],
   });
 
-  const filterCategories = subCategoryDate.category.map((el) => el.name);
-  console.log("filter subcategories", filterCategories);
+  const filterCategories = subCategoryDate.category.map((el) => el);
+  console.log("filter subcategories", filterCategories[0]);
 
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
@@ -209,7 +209,7 @@ const UploadSubcategory = ({ close, fetchSubCategories }) => {
                 if (
                   findCategory &&
                   !subCategoryDate.category.some(
-                    (el) => el._id === findCategory.name
+                    (el) => el._id === findCategory._id
                   )
                 ) {
                   setSubCategoryData((prev) => ({

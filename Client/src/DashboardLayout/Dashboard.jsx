@@ -8,12 +8,12 @@ const Dashboard = () => {
       <div className="container mx-auto p-1 grid lg:grid-cols-[200px,1fr]">
         {/* Section for SideBar Menu */}
 
-        <div className="py-4 sticky top-24 max-h-[cal(100vh-96px)] overflow-y-auto hidden lg:block border-r">
+        <div className=" py-4 sticky top-24 max-h-[cal(100vh-96px)] overflow-y-auto hidden lg:block border-r">
           <UserMenu />
         </div>
 
         {/* Section for User Profile */}
-        <div className="min-h-[70vh] mx-5">
+        <div className="min-h-[70vh] mx-1">
           <Outlet />
         </div>
       </div>

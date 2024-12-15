@@ -55,7 +55,7 @@ const UserMenu = ({ toogleMenu }) => {
               to={"/dashboard/admin-product"}
               className={({ isActive }) =>
                 isActive
-                  ? "bg-[#FFF7F0] p-2 border-l-4 border-[#FB8114]"
+                  ? "bg-[#FFF7F0] p-2 outline outline-1 outline-[#FB8114]  outline-l-1"
                   : "p-2 hover:bg-[#F2F2F2]"
               }
               onClick={toogleMenu}
@@ -66,7 +66,7 @@ const UserMenu = ({ toogleMenu }) => {
               to={"/dashboard/product-category"}
               className={({ isActive }) =>
                 isActive
-                  ? "bg-[#FFF7F0] p-2 border-l-4 border-[#FB8114]"
+                  ? "bg-[#FFF7F0] p-2 outline outline-1 outline-[#FB8114]  outline-l-1"
                   : "p-2 hover:bg-[#F2F2F2]"
               }
               onClick={toogleMenu}
@@ -77,7 +77,7 @@ const UserMenu = ({ toogleMenu }) => {
               to={"/dashboard/product-Subcategory"}
               className={({ isActive }) =>
                 isActive
-                  ? "bg-[#FFF7F0] p-2 border-l-4 border-[#FB8114]"
+                  ? "bg-[#FFF7F0] p-2 outline outline-1 outline-[#FB8114]  outline-l-1"
                   : "p-2 hover:bg-[#F2F2F2]"
               }
               onClick={toogleMenu}
@@ -88,7 +88,7 @@ const UserMenu = ({ toogleMenu }) => {
               to={"/dashboard/upload-product"}
               className={({ isActive }) =>
                 isActive
-                  ? "bg-[#FFF7F0] p-2 border-l-4 border-[#FB8114]"
+                  ? "bg-[#FFF7F0] p-2 outline outline-1 outline-[#FB8114]  outline-l-1"
                   : "p-2 hover:bg-[#F2F2F2]"
               }
               onClick={toogleMenu}
@@ -99,7 +99,7 @@ const UserMenu = ({ toogleMenu }) => {
               to={"/dashboard/save-order"}
               className={({ isActive }) =>
                 isActive
-                  ? "bg-[#FFF7F0] p-2 border-l-4 border-[#FB8114]"
+                  ? "bg-[#FFF7F0] p-2 outline outline-1 outline-[#FB8114]  outline-l-1"
                   : "p-2 hover:bg-[#F2F2F2]"
               }
               onClick={toogleMenu}
@@ -113,7 +113,7 @@ const UserMenu = ({ toogleMenu }) => {
               to={"/dashboard/your-order"}
               className={({ isActive }) =>
                 isActive
-                  ? "bg-[#FFF7F0] p-2 border-l-4 border-[#FB8114]"
+                  ? "bg-[#FFF7F0] p-2 outline outline-1 outline-[#FB8114]  outline-l-1"
                   : "p-2 hover:bg-[#F2F2F2]"
               }
               onClick={toogleMenu}
@@ -124,7 +124,7 @@ const UserMenu = ({ toogleMenu }) => {
               to={"/dashboard/save-order"}
               className={({ isActive }) =>
                 isActive
-                  ? "bg-[#FFF7F0] p-2 border-l-4 border-[#FB8114]"
+                  ? "bg-[#FFF7F0] p-2 outline outline-1 outline-[#FB8114]  outline-l-1"
                   : "p-2 hover:bg-[#F2F2F2]"
               }
               onClick={toogleMenu}

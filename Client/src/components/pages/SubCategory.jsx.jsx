@@ -50,7 +50,7 @@ const SubCategory = () => {
                 <th className="w-10 px-6 py-3 text-center text-sm font-semibold uppercase border-r border-gray-200">
                   Images
                 </th>
-                <th className="px-6 py-3 text-left text-sm font-semibold uppercase border-r border-gray-200">
+                <th className="w-10 px-6 py-3 text-left text-sm font-semibold uppercase border-r border-gray-200">
                   Categories
                 </th>
                 <th className="w-10 px-6 py-3 text-left text-sm font-semibold uppercase">

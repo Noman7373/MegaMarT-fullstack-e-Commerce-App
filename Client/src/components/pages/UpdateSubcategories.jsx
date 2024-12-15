@@ -7,9 +7,9 @@ import useHook from "../../hooks/useHook";
 
 const UpdateSubcategories = () => {
   const { fetchSubCategories, subcategories } = useHook();
-  console.log("subcategories useHook", subcategories);
+//   console.log("subcategories useHook", subcategories);
 
-  const navigate = useNavigate();
+//   const navigate = useNavigate();
   const { _id } = useParams();
   const location = useLocation();
 
