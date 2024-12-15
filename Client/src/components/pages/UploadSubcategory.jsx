@@ -84,7 +84,7 @@ const UploadSubcategory = ({ close, fetchSubCategories }) => {
       const response = await addSubCategoryAxios({
         name: subCategoryDate.name,
         image: subCategoryDate.image,
-        category: subCategoryDate.category,
+        category: filterCategories,
       });
       setLoadingSubCategory(false);
       console.log(response);
