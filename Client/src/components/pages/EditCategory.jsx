@@ -49,10 +49,9 @@ const EditCategory = () => {
       if (imageUrl) {
         setCategoryData((prev) => ({ ...prev, image: imageUrl }));
       } else {
-        throw new Error("Image upload failed. No URL returned.");
+        setErrorMessage("Image upload failed. No URL returned.");
       }
     } catch (error) {
-      console.error("Error uploading image:", error);
       setErrorMessage("An error occurred while uploading the image.");
     } finally {
       setIsloadingImage(false);

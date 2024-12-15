@@ -7,9 +7,25 @@ const useHook = () => {
     throw new Error("useHook must be used within a Provider");
   }
 
-  const { fetchCategory, category, setCategory,loading } = context;
+  const {
+    fetchCategory,
+    category,
+    setCategory,
+    loading,
+    isLoading,
+    subcategories,
+    fetchSubCategories,
+  } = context;
 
-  return { fetchCategory, category, setCategory,loading };
+  return {
+    fetchCategory,
+    category,
+    setCategory,
+    loading,
+    isLoading,
+    subcategories,
+    fetchSubCategories,
+  };
 };
 
 export default useHook;

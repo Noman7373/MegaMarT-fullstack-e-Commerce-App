@@ -1,34 +1,13 @@
 import React, { useEffect, useState } from "react";
 import UploadSubcategory from "./UploadSubcategory";
-import { getSubCategoryAxios } from "../../Api/Query/userQuery";
 import Loader from "../status/Loader";
 import NoData from "./NoData";
-
-import {
-  createColumnHelper,
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
+import { Link } from "react-router-dom";
+import useHook from "../../hooks/useHook";
 
 const SubCategory = () => {
+  const { isLoading, subcategories, fetchSubCategories } = useHook();
   const [isOpen, setIsOpen] = useState(false);
-  const [isLoading, setIsloading] = useState(false);
-  const [subcategories, setSubcategories] = useState([]);
-
-  const fetchSubCategories = async () => {
-    setIsloading(true);
-    const response = await getSubCategoryAxios();
-    setIsloading(false);
-    if (response.data.success) {
-      const { savedSubCategory } = response.data;
-      setSubcategories(savedSubCategory);
-    }
-    try {
-    } catch (error) {
-      throw new Error("An error occured try again", error);
-    }
-  };
 
   useEffect(() => {
     fetchSubCategories();
@@ -104,9 +83,18 @@ const SubCategory = () => {
                     {item.category}
                   </td>
                   <td className="text-sm flex items-center text-center gap-2 px-6 py-2">
-                    <button className="text-blue-500 hover:underline">
+                    <Link
+                      to={`/dashboard/updata-subcategory/${item._id}`}
+                      state={{
+                        name: item.name,
+                        image: item.image,
+                        category: item.category,
+                        // fetchSubcategories: fetchSubCategories,
+                      }}
+                      className="text-blue-500 hover:underline"
+                    >
                       Edit
-                    </button>
+                    </Link>
                     <button className="text-red-500 hover:underline">
                       Delete
                     </button>

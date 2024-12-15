@@ -24,6 +24,7 @@ import SubCategory from "./components/pages/SubCategory.jsx.jsx";
 import Adminproduct from "./components/pages/Adminproduct.jsx";
 import UploadProduct from "./components/pages/UploadProduct.jsx";
 import EditCategory from "./components/pages/EditCategory.jsx";
+import UpdateSubcategories from "./components/pages/UpdateSubcategories.jsx";
 
 function App() {
   const dispatch = useDispatch();
@@ -103,6 +104,10 @@ function App() {
             {
               path: "edit-category/:id",
               element: <EditCategory />,
+            },
+            {
+              path: "updata-subcategory/:id",
+              element: <UpdateSubcategories />,
             },
           ],
         },

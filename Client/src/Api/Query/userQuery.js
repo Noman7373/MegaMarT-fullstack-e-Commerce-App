@@ -250,10 +250,13 @@ const getSubCategoryAxios = async () => {
 };
 
 // Add SubCategory Axios
-const updateSubcategoryAxios = async (_id) => {
+const updateSubcategoryAxios = async ({ _id, name, image, category }) => {
   try {
     const { data } = await Axios.put(`${baseURL}/update-subcategories/${_id}`, {
       _id,
+      name,
+      image,
+      category,
     });
 
     return data;
