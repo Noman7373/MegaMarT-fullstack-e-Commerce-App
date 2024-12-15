@@ -4,7 +4,7 @@ const subCategoryController = async (req, res) => {
   try {
     const { name, image, category } = req.body;
 
-    if (!name || !image || !category || category.length === 0) {
+    if (!name || !image || !category) {
       return res.status(400).json({
         message: "All fields are required and category cannot be empty",
         error: true,
@@ -13,12 +13,12 @@ const subCategoryController = async (req, res) => {
     }
 
     // Map category to extract only _id if name and _id are sent
-    const categoryId = category.map((cat) => cat._id); // Ensure we are only sending _id values
+    // const categoryId = category.map((cat) => cat._id); // Ensure we are only sending _id values
 
     const createdCategoryModel = new subCategoryModel({
       name,
       image,
-      category: categoryId,
+      category,
     });
 
     const savedSubCategory = await createdCategoryModel.save();
