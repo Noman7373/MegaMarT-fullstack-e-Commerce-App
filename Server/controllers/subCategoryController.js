@@ -73,4 +73,57 @@ const getSubcategories = async (req, res) => {
   }
 };
 
+const updateSubCategoryController = async (req, res) => {
+  try {
+    const { _id } = req.params;
+    const { name, image, category } = req.body;
+
+    if (!_id) {
+      return res.status(404).json({
+        message: "Id is requried",
+        error: true,
+        success: false,
+      });
+    }
+
+    if (!name || !image || !category) {
+      return res.status(401).json({
+        message: "All fields are requried",
+        error: true,
+        success: false,
+      });
+    }
+
+    const savedUpdateSubCategory = await subCategoryModel.findByIdAndUpdate(
+      _id,
+      {
+        name,
+        image,
+        category,
+      }
+    );
+
+    if (!savedUpdateSubCategory) {
+      return res.status(404).json({
+        message: "Sub-category not found.",
+        error: true,
+        success: false,
+      });
+    }
+
+    return res.status(200).json({
+      message: "",
+      error: false,
+      success: true,
+      savedUpdateSubCategory,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};
+
 export { subCategoryController, getSubcategories };
