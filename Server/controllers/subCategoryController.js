@@ -126,4 +126,4 @@ const updateSubCategoryController = async (req, res) => {
   }
 };
 
-export { subCategoryController, getSubcategories };
+export { subCategoryController, getSubcategories, updateSubCategoryController };
