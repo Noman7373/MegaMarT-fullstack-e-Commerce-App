@@ -12,14 +12,8 @@ const subCategorySchema = new mongoose.Schema(
     },
     category: [
       {
-        _id: {
-          type: mongoose.Schema.ObjectId,
-          ref: "category", // Ensure 'Category' model name is correct
-        },
-        name: {
-          type: String,
-          required: true,
-        },
+        type: mongoose.Schema.ObjectId,
+        ref: "category",
       },
     ],
   },
