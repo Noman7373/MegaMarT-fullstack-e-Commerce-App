@@ -13,12 +13,12 @@ const subCategoryController = async (req, res) => {
     }
 
     // Map category to extract only _id if name and _id are sent
-    const categoryIds = category.map((cat) => cat._id); // Ensure we are only sending _id values
+    const categoryId = category.map((cat) => cat._id); // Ensure we are only sending _id values
 
     const createdCategoryModel = new subCategoryModel({
       name,
       image,
-      category: categoryIds,
+      category: categoryId,
     });
 
     const savedSubCategory = await createdCategoryModel.save();
