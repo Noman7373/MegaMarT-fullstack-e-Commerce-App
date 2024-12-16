@@ -1,6 +1,7 @@
 import { Router } from "express";
 import authMiddleware from "../middleware/authMiddleware.js";
 import {
+  deleteSubcategoriesController,
   getSubcategories,
   subCategoryController,
   updateSubCategoryController,
@@ -14,6 +15,11 @@ route.put(
   "/update-subcategories/:id",
   authMiddleware,
   updateSubCategoryController
+);
+route.delete(
+  "/delete-subcategory",
+  authMiddleware,
+  deleteSubcategoriesController
 );
 
 export default route;
