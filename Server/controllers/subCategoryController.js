@@ -1,5 +1,6 @@
 import subCategoryModel from "../models/subCategoryModel.js";
 
+// Create Subcategory Controller
 const subCategoryController = async (req, res) => {
   try {
     const { name, image, category } = req.body;
@@ -47,6 +48,7 @@ const subCategoryController = async (req, res) => {
   }
 };
 
+// Fetch Subcategory Controller
 const getSubcategories = async (req, res) => {
   try {
     const savedSubCategory = await subCategoryModel
@@ -76,6 +78,7 @@ const getSubcategories = async (req, res) => {
   }
 };
 
+// Update Subcategory Controller
 const updateSubCategoryController = async (req, res) => {
   try {
     const { _id } = req.params;
@@ -129,4 +132,43 @@ const updateSubCategoryController = async (req, res) => {
   }
 };
 
-export { subCategoryController, getSubcategories, updateSubCategoryController };
+// Delete Subcategory Controller
+const deleteSubcategoriesController = async (req, res) => {
+  try {
+    const { _id } = req.body;
+
+    if (!_id) {
+      return res.status(404).json({
+        message: "Id required",
+        error: true,
+        success: false,
+      });
+    }
+
+    const savedUpdateSubCategory = await subCategoryModel.findByIdAndDelete({
+      _id,
+    });
+
+    if (!savedUpdateSubCategory) {
+      return res.status(404).json({
+        message: "Subcategory not found",
+        error: true,
+        success: false,
+        savedUpdateSubCategory,
+      });
+    }
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};
+
+export {
+  subCategoryController,
+  getSubcategories,
+  updateSubCategoryController,
+  deleteSubcategoriesController,
+};
