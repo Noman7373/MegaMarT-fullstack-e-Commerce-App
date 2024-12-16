@@ -14,7 +14,6 @@ const UpdateSubcategories = () => {
   const location = useLocation();
 
   const { name, image, category } = location.state || {};
-  console.log("use Location", category[0]);
 
   const [updateSubCategoryData, setUpdateSubCategoryData] = useState({
     _id,
@@ -45,7 +44,6 @@ const UpdateSubcategories = () => {
   // fetching subcategories
   useEffect(() => {
     fetchSubCategories();
-    // fetchCategory();
   }, []);
 
   // handle go back
@@ -97,18 +95,18 @@ const UpdateSubcategories = () => {
     setErrorMessage("");
     setLoadingSubcategory(true);
     try {
-      const data = await updateSubcategoryAxios({
-        _id,
+      const response = await updateSubcategoryAxios({
+        _id: updateSubCategoryData?._id,
         name: updateSubCategoryData?.name,
         image: updateSubCategoryData?.image,
-        category,
+        category: updateSubCategoryData?.category || [],
       });
-      console.log("updated data", data);
+      console.log("updated data", response);
 
       setLoadingSubcategory(false);
-      if (data.success) {
+      if (response.data.success) {
         console.log("success");
-        setSuccessMessage(data.message);
+        setSuccessMessage(response.data.message);
         fetchSubCategories();
         closeEditPage();
       }
@@ -244,7 +242,7 @@ const UpdateSubcategories = () => {
                 type="submit"
                 className="px-4 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600"
               >
-                {loadingSubcategory ? "Adding....." : "Add Subcategory"}
+                {loadingSubcategory ? "Updating....." : "Update Subcategory"}
               </button>
             )}
           </div>

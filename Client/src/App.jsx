@@ -22,9 +22,9 @@ import SaveOrder from "./components/pages/SaveOrder.jsx";
 import Category from "./components/pages/Category.jsx";
 import SubCategory from "./components/pages/SubCategory.jsx.jsx";
 import Adminproduct from "./components/pages/Adminproduct.jsx";
-import UploadProduct from "./components/pages/UploadProduct.jsx";
 import EditCategory from "./components/pages/EditCategory.jsx";
 import UpdateSubcategories from "./components/pages/UpdateSubcategories.jsx";
+import Products from "./components/pages/Products.jsx";
 
 function App() {
   const dispatch = useDispatch();
@@ -91,7 +91,7 @@ function App() {
             },
             {
               path: "upload-product",
-              element: <UploadProduct />,
+              element: <Products />,
             },
             {
               path: "product-category",

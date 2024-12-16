@@ -252,14 +252,13 @@ const getSubCategoryAxios = async () => {
 // Add SubCategory Axios
 const updateSubcategoryAxios = async ({ _id, name, image, category }) => {
   try {
-    const { data } = await Axios.put(`${baseURL}/update-subcategories/${_id}`, {
-      _id,
+    const response = await Axios.put(`${baseURL}/update-subcategories/${_id}`, {
       name,
       image,
       category,
     });
 
-    return data;
+    return response;
   } catch (error) {
     throw new Error(
       error.response?.data?.message ||
@@ -269,7 +268,6 @@ const updateSubcategoryAxios = async ({ _id, name, image, category }) => {
 };
 
 // Delete SubCategory Axios
-
 const deleteSubcategoryAxios = async ({ _id }) => {
   try {
     const response = await Axios.delete(`${baseURL}/api/delete-subcategory`, {
@@ -277,7 +275,6 @@ const deleteSubcategoryAxios = async ({ _id }) => {
     });
     console.log(response);
     return response;
-
   } catch (error) {
     throw new Error(
       error.response?.data?.message ||
