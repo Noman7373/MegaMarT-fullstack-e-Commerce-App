@@ -268,6 +268,24 @@ const updateSubcategoryAxios = async ({ _id, name, image, category }) => {
   }
 };
 
+// Delete SubCategory Axios
+
+const deleteSubcategoryAxios = async ({ _id }) => {
+  try {
+    const response = await Axios.delete(`${baseURL}/api/delete-subcategory`, {
+      data: { _id },
+    });
+    console.log(response);
+    return response;
+
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message ||
+        "An error occurred while adding the category"
+    );
+  }
+};
+
 export {
   registerUser,
   userLogIn,
@@ -288,4 +306,5 @@ export {
   addSubCategoryAxios,
   getSubCategoryAxios,
   updateSubcategoryAxios,
+  deleteSubcategoryAxios,
 };

@@ -4,19 +4,39 @@ import Loader from "../status/Loader";
 import NoData from "./NoData";
 import { Link } from "react-router-dom";
 import useHook from "../../hooks/useHook";
-import ConfirmDelete from "../../utils/ConfirmDelete";
+import DeleteConfirmation from "../../utils/DeleteConfirmation";
+import { deleteSubcategoryAxios } from "../../Api/Query/userQuery";
 
 const SubCategory = () => {
   const { isLoading, subcategories, fetchSubCategories } = useHook();
   const [isOpen, setIsOpen] = useState(false);
-  const [isOpenConfirmBox, setIsOpenConfirm] = useState(false);
+  const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
+  const [deleteCategory, setDeleteCategory] = useState("");
+
+  const handleDelete = () => {
+    setIsDeletePopupOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    try {
+      const response = await deleteSubcategoryAxios({ _id: deleteCategory });
+
+      if (response.data.error) {
+        return console.log("Error show");
+      }
+
+      if (response.data.success) {
+        fetchSubCategories();
+        setIsDeletePopupOpen(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     fetchSubCategories();
   }, []);
-
-  // const fetchCategory = subcategories.map((value) => value.category);
-  // console.log(fetchCategory[0], "getCategoreis");
 
   return (
     <section className="">
@@ -39,9 +59,9 @@ const SubCategory = () => {
 
       {isLoading && <Loader />}
 
-      {/* {!subcategories[0] && !isLoading && <NoData />} */}
+      {subcategories.length < 1 && !isLoading && <NoData />}
 
-      {!isLoading && (
+      {subcategories.length > 0 && !isLoading && (
         <div className="overflow-y-auto">
           <table className="bg-white border border-gray-200 shadow-md rounded-lg xs:w-full lg:w-full md:w-full sm:w-full ">
             <thead>
@@ -102,7 +122,10 @@ const SubCategory = () => {
                     </Link>
                     <button
                       className="text-red-500 hover:underline"
-                      onClick={() => setIsOpenConfirm(true)}
+                      onClick={() => {
+                        setDeleteCategory(item._id);
+                        handleDelete();
+                      }}
                     >
                       Delete
                     </button>
@@ -115,7 +138,14 @@ const SubCategory = () => {
       )}
 
       {/* open Confirm Delete Box */}
-      {isOpenConfirmBox && <ConfirmDelete />}
+      {isDeletePopupOpen && (
+        <DeleteConfirmation
+          isOpen={isDeletePopupOpen}
+          onClose={() => setIsDeletePopupOpen(false)}
+          onConfirm={confirmDelete}
+          deleteCategory={deleteCategory}
+        />
+      )}
     </section>
   );
 };

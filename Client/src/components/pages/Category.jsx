@@ -3,16 +3,36 @@ import UploadCategoryModels from "./UploadCategoryModels";
 import Loader from "../status/Loader";
 import NoData from "./NoData";
 import { Link } from "react-router-dom";
-import DeleteConfirm from "../pages/DeleteConfirm";
+
 import useHook from "../../hooks/useHook";
+import DeleteConfirmation from "../../utils/DeleteConfirmation";
+import { deleteCategoryAxios } from "../../Api/Query/userQuery";
 
 const Category = () => {
   // custom hook
   const { fetchCategory, category, loading } = useHook();
   const [isUploadCategory, setIsUploadCategory] = useState(false);
 
-  const [isdeleteOpen, setIsdeleteOpen] = useState(false);
-  const [id, setId] = useState("");
+  const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
+  const [categoryId, setCategoryId] = useState("");
+
+  const handleDelete = () => {
+    setIsDeletePopupOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    try {
+      const response = await deleteCategoryAxios({
+        _id: categoryId,
+      });
+      if (response.data.success) {
+        fetchCategory();
+        setIsDeletePopupOpen(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     fetchCategory();
@@ -56,8 +76,8 @@ const Category = () => {
                 <button
                   className="bg-red-600 text-white p-1 rounded font-medium hover:bg-red-500"
                   onClick={() => {
-                    setIsdeleteOpen(true);
-                    setId(category._id);
+                    setCategoryId(category._id);
+                    handleDelete();
                   }}
                 >
                   Delete
@@ -75,11 +95,11 @@ const Category = () => {
         />
       )}
 
-      {isdeleteOpen && (
-        <DeleteConfirm
-          closeDelete={() => setIsdeleteOpen(false)}
-          categoryId={id}
-          fetchCategory={fetchCategory}
+      {isDeletePopupOpen && (
+        <DeleteConfirmation
+          isOpen={isDeletePopupOpen}
+          onClose={() => setIsDeletePopupOpen(false)}
+          onConfirm={confirmDelete}
         />
       )}
     </section>

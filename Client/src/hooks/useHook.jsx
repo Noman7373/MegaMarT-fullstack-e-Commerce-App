@@ -14,6 +14,7 @@ const useHook = () => {
     loading,
     isLoading,
     subcategories,
+   
     fetchSubCategories,
   } = context;
 
@@ -24,6 +25,7 @@ const useHook = () => {
     loading,
     isLoading,
     subcategories,
+   
     fetchSubCategories,
   };
 };

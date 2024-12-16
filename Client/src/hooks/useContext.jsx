@@ -51,6 +51,7 @@ export const ProviderContext = ({ children }) => {
         loading,
         isLoading,
         subcategories,
+        setSubcategories,
         fetchSubCategories,
       }}
     >

@@ -20,7 +20,7 @@ const UpdateSubcategories = () => {
     _id,
     name,
     image,
-    category,
+    category: category || [],
   });
 
   console.log("updateSubcategory", updateSubCategoryData.category);
