@@ -85,13 +85,13 @@ const updateSubCategoryController = async (req, res) => {
     const { _id } = req.params;
     const { name, image, category } = req.body;
 
-    if (!_id) {
-      return res.status(404).json({
-        message: "Id is requried",
-        error: true,
-        success: false,
-      });
-    }
+    // if (!_id) {
+    //   return res.status(404).json({
+    //     message: "Id is requried",
+    //     error: true,
+    //     success: false,
+    //   });
+    // }
 
     if (!name || !image || !category) {
       return res.status(401).json({
@@ -101,7 +101,7 @@ const updateSubCategoryController = async (req, res) => {
       });
     }
 
-    const savedUpdateSubCategory = await subCategoryModel.findByIdAndUpdate(
+    const savedSubCategory = await subCategoryModel.findByIdAndUpdate(
       _id,
       {
         name,
@@ -110,19 +110,11 @@ const updateSubCategoryController = async (req, res) => {
       }
     );
 
-    if (!savedUpdateSubCategory) {
-      return res.status(404).json({
-        message: "Sub-category not found.",
-        error: true,
-        success: false,
-      });
-    }
-
     return res.status(200).json({
       message: "Successfully Updated",
       error: false,
       success: true,
-      savedUpdateSubCategory,
+      savedSubCategory,
     });
   } catch (error) {
     return res.status(500).json({
@@ -137,18 +129,8 @@ const updateSubCategoryController = async (req, res) => {
 const deleteSubcategoriesController = async (req, res) => {
   try {
     const { _id } = req.body;
-    console.log("server ID", _id);
 
     const savedSubCategory = await subCategoryModel.findByIdAndDelete(_id);
-
-    // if (!savedUpdateSubCategory) {
-    //   return res.status(404).json({
-    //     message: "Subcategory not found",
-    //     error: true,
-    //     success: false,
-    //     savedUpdateSubCategory,
-    //   });
-    // }
 
     return res.status(200).json({
       message: "Subcategory Deleted Successfully",
