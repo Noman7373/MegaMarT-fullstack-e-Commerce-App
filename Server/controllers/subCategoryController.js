@@ -1,3 +1,4 @@
+import productModel from "../models/productModel.js";
 import subCategoryModel from "../models/subCategoryModel.js";
 
 // Create Subcategory Controller
@@ -145,9 +146,21 @@ const deleteSubcategoriesController = async (req, res) => {
       });
     }
 
-    const savedUpdateSubCategory = await subCategoryModel.findByIdAndDelete({
-      _id,
+    const checkSubCategory = await productModel.find({
+      subCategory: { $in: [_id] },
     });
+
+    if (checkSubCategory.length > 0) {
+      return res.status(400).json({
+        message: "Subcategory is in use",
+        error: true,
+        success: false,
+      });
+    }
+
+    const savedUpdateSubCategory = await subCategoryModel.findByIdAndDelete(
+      _id
+    );
 
     if (!savedUpdateSubCategory) {
       return res.status(404).json({
