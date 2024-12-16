@@ -45,7 +45,7 @@ const Search = () => {
   return (
     <>
       <div
-        className="w-full min-w-[300px] lg:min-w-[420px] bg-white h-11 rounded flex justify-between items-center border p-2 overflow-hidden"
+        className="w-full min-w-[300px] lg:min-w-[420px] xs:w-full sm:w-full bg-white h-11 rounded flex justify-between items-center border p-2 overflow-hidden"
         onClick={handleNavigate}
       >
         {/* condition buttons */}

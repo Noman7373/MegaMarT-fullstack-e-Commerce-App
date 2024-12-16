@@ -4,8 +4,8 @@ import { Outlet } from "react-router-dom";
 
 const Dashboard = () => {
   return (
-    <section className="bg-white lg:min-h-[70vh]">
-      <div className="container mx-auto p-1 grid lg:grid-cols-[200px,1fr]">
+    <section className="bg-white">
+      <div className="mx-auto p-1 grid lg:grid-cols-[200px,1fr]">
         {/* Section for SideBar Menu */}
 
         <div className=" py-4 sticky top-24 max-h-[cal(100vh-96px)] overflow-y-auto hidden lg:block border-r">
@@ -13,7 +13,7 @@ const Dashboard = () => {
         </div>
 
         {/* Section for User Profile */}
-        <div className="min-h-[70vh] mx-1">
+        <div className="mx-1">
           <Outlet />
         </div>
       </div>

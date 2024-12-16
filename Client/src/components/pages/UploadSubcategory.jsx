@@ -6,7 +6,8 @@ import useHook from "../../hooks/useHook";
 
 const UploadSubcategory = ({ close, fetchSubCategories }) => {
   // custom hook
-  const { category, fetchCategory } = useHook();
+  const { subcategories, category, fetchCategory } = useHook();
+  console.log("useHook", subcategories);
 
   const [subCategoryDate, setSubCategoryData] = useState({
     name: "",
@@ -14,8 +15,8 @@ const UploadSubcategory = ({ close, fetchSubCategories }) => {
     category: [],
   });
 
-  const getName = subCategoryDate.category.map((ele) => ele.name);
-  console.log(getName, "[[[[[[[]]]]]]]]");
+  const getName = subCategoryDate.category.map((ele) => ele.category);
+  // console.log(getName, "[[[[[[[]]]]]]]]");
 
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
@@ -71,7 +72,7 @@ const UploadSubcategory = ({ close, fetchSubCategories }) => {
     e.preventDefault();
 
     if (!subCategoryDate.name || !subCategoryDate.image) {
-      return setErrorMessage("Both fields are requried");
+      return setErrorMessage("All fields are requried");
     }
     setErrorMessage("");
     setLoadingSubCategory(true);
@@ -217,7 +218,7 @@ const UploadSubcategory = ({ close, fetchSubCategories }) => {
                     ...prev,
                     category: [...prev.category, { name, _id }],
                   }));
-                  // console.log(subCategoryDate.category);
+                  console.log(subCategoryDate.category);
                 }
               }}
             >

@@ -6,7 +6,7 @@ import { updateSubcategoryAxios } from "../../Api/Query/userQuery";
 import useHook from "../../hooks/useHook";
 
 const UpdateSubcategories = () => {
-  const { fetchSubCategories, subcategories } = useHook();
+  const { fetchSubCategories, subcategories, fetchCategory } = useHook();
   //   console.log("subcategories useHook", subcategories);
 
   //   const navigate = useNavigate();
@@ -14,7 +14,7 @@ const UpdateSubcategories = () => {
   const location = useLocation();
 
   const { name, image, category } = location.state || {};
-  console.log("use Location", category);
+  console.log("use Location", category[0]);
 
   const [updateSubCategoryData, setUpdateSubCategoryData] = useState({
     _id,
@@ -22,6 +22,8 @@ const UpdateSubcategories = () => {
     image,
     category,
   });
+
+  console.log("updateSubcategory", updateSubCategoryData.category);
 
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
@@ -43,6 +45,7 @@ const UpdateSubcategories = () => {
   // fetching subcategories
   useEffect(() => {
     fetchSubCategories();
+    // fetchCategory();
   }, []);
 
   // handle go back
@@ -98,7 +101,7 @@ const UpdateSubcategories = () => {
         _id,
         name: updateSubCategoryData?.name,
         image: updateSubCategoryData?.image,
-        category: updateSubCategoryData?.category,
+        category,
       });
       console.log("updated data", data);
 
@@ -190,11 +193,14 @@ const UpdateSubcategories = () => {
             />
           </div>
 
-          <div className="flex flex-wrap gap-2">
+          {/* <div className="flex flex-wrap gap-2">
             {updateSubCategoryData.category &&
-              updateSubCategoryData.category.map((value) => {
+              updateSubCategoryData.category.map((value, index) => {
                 return (
-                  <div key={value?._id} className="flex gap-2 border p-1">
+                  <div
+                    key={value?._id || index}
+                    className="flex gap-2 border p-1"
+                  >
                     <p>{value?.name}</p>
                     <span
                       className="text-gray-500 hover:text-gray-700 cursor-pointer"
@@ -205,7 +211,7 @@ const UpdateSubcategories = () => {
                   </div>
                 );
               })}
-          </div>
+          </div> */}
 
           <div className="w-full">
             <select
@@ -215,30 +221,19 @@ const UpdateSubcategories = () => {
               defaultValue=""
               onChange={(e) => {
                 const value = e.target.value;
-                const findCategory = category.find((el) => el._id == value);
-                console.log("findCategory", findCategory);
-
-                if (
-                  findCategory &&
-                  !updateSubCategoryData.category.some(
-                    (el) => el._id === findCategory.name
-                  )
-                ) {
-                  setUpdateSubCategoryData((prev) => ({
-                    ...prev,
-                    category: [...prev.category, findCategory],
-                  }));
-                  console.log(updateSubCategoryData.category);
-                }
+                console.log(value);
               }}
             >
               <option value="" disabled>
                 Select Category
               </option>
-              {updateSubCategoryData.category.map((value, index) => {
-                <option key={index} value={value}>
-                  {value}
-                </option>;
+
+              {updateSubCategoryData?.category?.map((value, index) => {
+                return (
+                  <option key={index} value={value}>
+                    {value}
+                  </option>
+                );
               })}
             </select>
           </div>
