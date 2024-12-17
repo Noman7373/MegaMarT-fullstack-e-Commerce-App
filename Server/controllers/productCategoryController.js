@@ -32,20 +32,11 @@ const AddCategoryController = async (req, res) => {
 
     const addedCategory = await updateCategoryModel.save();
 
-    // // validation
-    // if (!addedCategory) {
-    //   return res.status(409).json({
-    //     message: `Category "${name}" already exists.`,
-    //     error: success,
-    //     success: false,
-    //   });
-    // }
-
     return res.json({
       message: "Category added successfully",
       success: true,
       error: false,
-      categoryProducts: addedCategory,
+      categoryProduct: addedCategory,
     });
   } catch (error) {
     res.status(500).json({
