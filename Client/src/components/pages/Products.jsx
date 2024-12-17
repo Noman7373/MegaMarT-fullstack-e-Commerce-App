@@ -3,14 +3,22 @@ import { FaCloudUploadAlt } from "react-icons/fa";
 import uploadImageUtils from "../../utils/uplaodImageUtils";
 import Loader from "../status/Loader";
 import Viewimage from "./Viewimage";
+import useHook from "../../hooks/useHook";
 
 const Products = () => {
+  const { category, fetchCategory, subcategories, fetchSubCategories } =
+    useHook();
+  // console.log(subcategories);
+
   const [isImageOpen, setIsImageOpen] = useState(false);
   const [viewImageURL, setViewImageURL] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
   const [loadingImage, setLoadingImage] = useState(false);
   const [loading, setLoadind] = useState(false);
+
+  const [selectedCategories, setSelectedCategories] = useState("");
+
   const [productData, setProductData] = useState({
     name: "",
     image: [],
@@ -24,6 +32,12 @@ const Products = () => {
     more_details: {},
   });
 
+  // fetch Categories
+  useEffect(() => {
+    fetchCategory();
+    fetchSubCategories();
+  }, []);
+
   // Remove Message
   useEffect(() => {
     if (errorMessage || successMsg) {
@@ -35,6 +49,7 @@ const Products = () => {
     }
   }, [errorMessage, successMsg]);
 
+  /// handle formOnChange
   const onChangeHandle = (e) => {
     const { name, value } = e.target;
     setProductData((prev) => {
@@ -69,21 +84,31 @@ const Products = () => {
     }
   };
 
+  // Handle Form
+  const handleOnSubmit = (e) => {
+    e.preventDefault();
+  };
+
   // Handle RemoveImage
   const handleRemoveImage = (indexToRemove) => {
     const filterImages = productData.image.filter(
       (img, idx) => idx !== indexToRemove
     );
-
     setProductData({
       ...productData,
       image: filterImages,
     });
   };
 
-  // Handle Form
-  const handleOnSubmit = (e) => {
-    e.preventDefault();
+  //  Handle Remove Selected Category
+  const handleRemoveSelectedCategory = (id) => {
+    const remaningCategories = productData.category.filter(
+      (category) => category._id !== id
+    );
+    setProductData((prev) => ({
+      ...prev,
+      category: [...remaningCategories],
+    }));
   };
 
   return (
@@ -194,16 +219,54 @@ const Products = () => {
             {/* Category */}
             <div className="flex flex-col gap-1">
               <label>Category *</label>
-              <div>
+              <div className="flex flex-col gap-2">
+                <div className="flex gap-2 flex-wrap">
+                  {productData.category.map((selectCat, index) => (
+                    <span key={index} className="flex gap-1 border">
+                      <p>{selectCat.name}</p>
+                      <span
+                        className="cursor-pointer hover:text-gray-700"
+                        onClick={() =>
+                          handleRemoveSelectedCategory(selectCat._id)
+                        }
+                      >
+                        ✕
+                      </span>
+                    </span>
+                  ))}
+                </div>
                 <select
                   name="category"
                   id="category"
                   defaultValue=""
-                  className="bg-blue-50 w-full border rounded px-2 py-1 outline-none focus:border-yellow-300 "
+                  className="bg-blue-50 w-full border rounded px-2 py-1 outline-none focus:border-yellow-300"
+                  // value={selectedCategories}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    const findCategory = category.find(
+                      (val) => val.name === value
+                    );
+                    if (findCategory) {
+                      setProductData((prev) => {
+                        return {
+                          ...prev,
+                          category: [...prev.category, findCategory],
+                        };
+                      });
+                    }
+                  }}
                 >
                   <option value="" disabled>
                     Select Category
                   </option>
+
+                  {category.map((cat) => {
+                    return (
+                      <option key={cat._id} value={cat.name}>
+                        {cat.name}
+                      </option>
+                    );
+                  })}
                 </select>
               </div>
             </div>
@@ -221,6 +284,12 @@ const Products = () => {
                   <option value="" disabled>
                     Select Subcategory
                   </option>
+
+                  {subcategories.map((subcat, index) => (
+                    <option key={index || subcat._id} value={subcat.name}>
+                      {subcat.name}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>

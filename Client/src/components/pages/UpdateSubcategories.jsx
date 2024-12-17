@@ -149,7 +149,7 @@ const UpdateSubcategories = () => {
               id="name"
               autoFocus
               required
-              placeholder="Enter Category Name"
+              placeholder="Enter Subcategory Name"
               className="border border-gray-300 rounded-md p-2 focus:ring focus:ring-indigo-200 outline-none"
               value={updateSubCategoryData.name}
               onChange={handleOnChange}

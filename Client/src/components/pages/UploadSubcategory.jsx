@@ -7,16 +7,12 @@ import useHook from "../../hooks/useHook";
 const UploadSubcategory = ({ close, fetchSubCategories }) => {
   // custom hook
   const { subcategories, category, fetchCategory } = useHook();
-  console.log("useHook", subcategories);
 
   const [subCategoryDate, setSubCategoryData] = useState({
     name: "",
     image: null,
     category: [],
   });
-
-  const getName = subCategoryDate.category.map((ele) => ele.category);
-  // console.log(getName, "[[[[[[[]]]]]]]]");
 
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
@@ -34,10 +30,16 @@ const UploadSubcategory = ({ close, fetchSubCategories }) => {
   }, [errorMessage, successMessage]);
 
   useEffect(() => {
-    if (subCategoryDate.category.length == 0) {
-      fetchCategory();
-    }
-  }, [subCategoryDate.category]);
+    fetchCategory();
+  }, []);
+
+  // Reset Form
+  const resetForm = () => {
+    setSubCategoryData({ name: "", image: null, category: [] });
+    setErrorMessage("");
+    setSuccessMessage("");
+    close();
+  };
 
   // handle Onchange
   const handleOnChange = (e) => {
@@ -68,27 +70,25 @@ const UploadSubcategory = ({ close, fetchSubCategories }) => {
     }
   };
 
+  // Handle Subcategory Submit
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-
     if (!subCategoryDate.name || !subCategoryDate.image) {
       return setErrorMessage("All fields are requried");
     }
     setErrorMessage("");
     setLoadingSubCategory(true);
     try {
-      // const categoriesName = subCategoryDate.category.map((el) => el.name);
       const response = await addSubCategoryAxios({
         name: subCategoryDate.name,
         image: subCategoryDate.image,
-        category: subCategoryDate.category,
+        category: subCategoryDate.category, // Pass only the name
       });
       setLoadingSubCategory(false);
-      console.log(response.data);
-
       if (response.data.success) {
         fetchSubCategories();
         close();
+        resetForm();
       }
     } catch (error) {
       setErrorMessage("An error occured" || error);
@@ -97,6 +97,7 @@ const UploadSubcategory = ({ close, fetchSubCategories }) => {
     }
   };
 
+  // handle remove select subcategory
   const handleRemoveCategory = (id) => {
     const updatedCategories = subCategoryDate.category.filter(
       (el) => el._id !== id
@@ -139,7 +140,7 @@ const UploadSubcategory = ({ close, fetchSubCategories }) => {
               id="name"
               autoFocus
               required
-              placeholder="Enter Category Name"
+              placeholder="Enter Subcategory Name"
               className="border border-gray-300 rounded-md p-2 focus:ring focus:ring-indigo-200 outline-none"
               value={subCategoryDate.name}
               onChange={handleOnChange}
@@ -182,9 +183,12 @@ const UploadSubcategory = ({ close, fetchSubCategories }) => {
 
           <div className="flex flex-wrap gap-2">
             {subCategoryDate.category &&
-              subCategoryDate.category.map((value) => {
+              subCategoryDate.category.map((value, index) => {
                 return (
-                  <div key={value?._id} className="flex gap-2 border p-1">
+                  <div
+                    key={value?._id || index}
+                    className="flex gap-2 border p-1"
+                  >
                     <p>{value?.name}</p>
                     <span
                       className="text-gray-500 hover:text-gray-700 cursor-pointer"
@@ -206,6 +210,7 @@ const UploadSubcategory = ({ close, fetchSubCategories }) => {
               onChange={(e) => {
                 const value = e.target.value;
                 const findCategory = category.find((el) => el.name == value);
+                console.log(fetchCategory);
 
                 if (
                   findCategory &&
@@ -216,19 +221,18 @@ const UploadSubcategory = ({ close, fetchSubCategories }) => {
                   const { _id, name } = findCategory;
                   setSubCategoryData((prev) => ({
                     ...prev,
-                    category: [...prev.category, { name, _id }],
+                    category: [...prev.category, { _id, name }],
                   }));
-                  console.log(subCategoryDate.category);
                 }
               }}
             >
               <option value="" disabled>
                 Select Category
               </option>
-              {category.map((categor) => {
+              {category.map((cate) => {
                 return (
-                  <option key={categor?._id} value={categor?.name}>
-                    {categor?.name}
+                  <option key={cate?._id} value={cate?.name}>
+                    {cate?.name}
                   </option>
                 );
               })}
