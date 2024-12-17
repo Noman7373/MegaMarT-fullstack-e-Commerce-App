@@ -8,3 +8,22 @@ body {
   @apply bg-blue-50;
   font-family: "Poppins", sans-serif;
 }
+
+/* index.css */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 3px; /* Scrollbar width */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background-color: #f3f4f6; /* Light gray track (Tailwind gray-200) */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #60a5fa; /* Blue thumb (Tailwind blue-400) */
+  border-radius: 10px; /* Rounded thumb */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #3b82f6; /* Hover state: darker blue (Tailwind blue-500) */
+}
+
