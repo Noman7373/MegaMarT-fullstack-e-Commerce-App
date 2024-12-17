@@ -1,4 +1,4 @@
-import productModel from "../models/productModel.js";
+// import productModel from "../models/productModel.js";/
 import subCategoryModel from "../models/subCategoryModel.js";
 
 // Create Subcategory Controller
@@ -6,7 +6,7 @@ const subCategoryController = async (req, res) => {
   try {
     const { name, image, category } = req.body;
 
-    if (!name || !image || !category[0]) {
+    if (!name || !image || !category[0] || category.length === 0) {
       return res.status(400).json({
         message: "All fields are required and category cannot be empty",
         error: true,
@@ -14,13 +14,10 @@ const subCategoryController = async (req, res) => {
       });
     }
 
-    // Map category to extract only _id if name and _id are sent
-    // const categoryId = category.map((cat) => cat._id); // Ensure we are only sending _id values
-
     const createdCategoryModel = new subCategoryModel({
       name,
       image,
-      category,
+      category
     });
 
     const savedSubCategory = await createdCategoryModel.save();
@@ -33,6 +30,8 @@ const subCategoryController = async (req, res) => {
         success: false,
       });
     }
+
+    // Populate the category field for a detailed response
 
     return res.status(201).json({
       message: "Subcategory created successfully",
@@ -101,14 +100,11 @@ const updateSubCategoryController = async (req, res) => {
       });
     }
 
-    const savedSubCategory = await subCategoryModel.findByIdAndUpdate(
-      _id,
-      {
-        name,
-        image,
-        category,
-      }
-    );
+    const savedSubCategory = await subCategoryModel.findByIdAndUpdate(_id, {
+      name,
+      image,
+      category,
+    });
 
     return res.status(200).json({
       message: "Successfully Updated",
