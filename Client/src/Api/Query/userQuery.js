@@ -273,7 +273,6 @@ const deleteSubcategoryAxios = async ({ _id }) => {
     const response = await Axios.delete(`${baseURL}/api/delete-subcategory`, {
       data: { _id },
     });
-    console.log(response);
     return response;
   } catch (error) {
     throw new Error(

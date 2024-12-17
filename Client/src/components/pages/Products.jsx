@@ -4,8 +4,14 @@ import uploadImageUtils from "../../utils/uplaodImageUtils";
 import Loader from "../status/Loader";
 import Viewimage from "./Viewimage";
 import useHook from "../../hooks/useHook";
+import { useSelector } from "react-redux";
 
 const Products = () => {
+  const allSubcategories = useSelector(
+    (state) => state.Products?.allCategories
+  );
+  console.log("Store", allSubcategories);
+
   const { category, fetchCategory, subcategories, fetchSubCategories } =
     useHook();
   // console.log(subcategories);

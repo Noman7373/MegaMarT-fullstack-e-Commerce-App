@@ -6,8 +6,10 @@ import { Link } from "react-router-dom";
 import useHook from "../../hooks/useHook";
 import DeleteConfirmation from "../../utils/DeleteConfirmation";
 import { deleteSubcategoryAxios } from "../../Api/Query/userQuery";
+import { useSelector } from "react-redux";
 
 const SubCategory = () => {
+
   const { isLoading, subcategories, fetchSubCategories } = useHook();
   const [isOpen, setIsOpen] = useState(false);
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
@@ -105,7 +107,7 @@ const SubCategory = () => {
                     />
                   </td>
                   <td className="text-sm text-gray-800 border-r border-gray-200 py-2">
-                    {item.name}
+                    {item.category}
                   </td>
                   <td className="text-sm flex items-center text-center gap-2 py-2">
                     <Link
@@ -114,7 +116,6 @@ const SubCategory = () => {
                         name: item.name,
                         image: item.image,
                         category: item.category,
-                        // fetchSubcategories: fetchSubCategories,
                       }}
                       className="text-blue-500 hover:underline"
                     >

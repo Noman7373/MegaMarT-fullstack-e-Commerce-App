@@ -3,10 +3,13 @@ import uploadImageUtils from "../../utils/uplaodImageUtils";
 import { addSubCategoryAxios } from "../../Api/Query/userQuery";
 import Loader from "../status/Loader";
 import useHook from "../../hooks/useHook";
+import { useSelector } from "react-redux";
 
-const UploadSubcategory = ({ close, fetchSubCategories }) => {
+const UploadSubcategory = ({ close }) => {
   // custom hook
-  const { subcategories, category, fetchCategory } = useHook();
+  const { fetchCategory, fetchSubCategories } = useHook();
+
+  const allCategories = useSelector((state) => state.Products?.allCategories);
 
   const [subCategoryDate, setSubCategoryData] = useState({
     name: "",
@@ -82,7 +85,7 @@ const UploadSubcategory = ({ close, fetchSubCategories }) => {
       const response = await addSubCategoryAxios({
         name: subCategoryDate.name,
         image: subCategoryDate.image,
-        category: subCategoryDate.category, // Pass only the name
+        category: subCategoryDate.category,
       });
       setLoadingSubCategory(false);
       if (response.data.success) {
@@ -209,8 +212,9 @@ const UploadSubcategory = ({ close, fetchSubCategories }) => {
               defaultValue=""
               onChange={(e) => {
                 const value = e.target.value;
-                const findCategory = category.find((el) => el.name == value);
-                console.log(fetchCategory);
+                const findCategory = allCategories.find(
+                  (el) => el._id == value
+                );
 
                 if (
                   findCategory &&
@@ -219,9 +223,11 @@ const UploadSubcategory = ({ close, fetchSubCategories }) => {
                   )
                 ) {
                   const { _id, name } = findCategory;
+                  console.log(name);
+
                   setSubCategoryData((prev) => ({
                     ...prev,
-                    category: [...prev.category, { _id, name }],
+                    category: [...prev.category, { name, _id }],
                   }));
                 }
               }}
@@ -229,9 +235,9 @@ const UploadSubcategory = ({ close, fetchSubCategories }) => {
               <option value="" disabled>
                 Select Category
               </option>
-              {category.map((cate) => {
+              {allCategories.map((cate) => {
                 return (
-                  <option key={cate?._id} value={cate?.name}>
+                  <option key={cate?._id} value={cate?._id}>
                     {cate?.name}
                   </option>
                 );

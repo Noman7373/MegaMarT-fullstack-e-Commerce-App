@@ -1,11 +1,13 @@
 import { createContext, useState } from "react";
 import { getCategoryAxios, getSubCategoryAxios } from "../Api/Query/userQuery";
-
+import { useDispatch } from "react-redux";
+import { addProductCategory, addSubcategory } from "../store/productSlice";
 // Create Context
 export const ContextProvider = createContext();
 
 // Provider Component
 export const ProviderContext = ({ children }) => {
+  const dispatch = useDispatch();
   const [category, setCategory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isLoading, setIsloading] = useState(false);
@@ -21,6 +23,7 @@ export const ProviderContext = ({ children }) => {
         const { categoryProduct } = response.data;
 
         setCategory(categoryProduct);
+        dispatch(addProductCategory(categoryProduct));
       }
     } catch (error) {
       throw new Error(error);
@@ -36,6 +39,7 @@ export const ProviderContext = ({ children }) => {
     if (response.data.success) {
       const { savedSubCategory } = response?.data;
       setSubcategories(savedSubCategory);
+      dispatch(addSubcategory(savedSubCategory));
     }
     try {
     } catch (error) {
