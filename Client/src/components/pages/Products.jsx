@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import uploadImageUtils from "../../utils/uplaodImageUtils";
+import Loader from "../status/Loader";
+import Viewimage from "./Viewimage";
 
 const Products = () => {
-  const [error, setError] = useState("");
+  const [isImageOpen, setIsImageOpen] = useState(false);
+  const [viewImageURL, setViewImageURL] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
   const [loadingImage, setLoadingImage] = useState(false);
   const [loading, setLoadind] = useState(false);
@@ -20,6 +24,17 @@ const Products = () => {
     more_details: {},
   });
 
+  // Remove Message
+  useEffect(() => {
+    if (errorMessage || successMsg) {
+      const timer = setTimeout(() => {
+        setErrorMessage("");
+        setSuccessMsg("");
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [errorMessage, successMsg]);
+
   const onChangeHandle = (e) => {
     const { name, value } = e.target;
     setProductData((prev) => {
@@ -33,17 +48,37 @@ const Products = () => {
   // handle Image Upload
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
-    if (!file) return setError("Image not selected");
-    setError("");
+    if (!file) return setErrorMessage("Image not selected");
+    setErrorMessage("");
+    setLoadingImage(true);
     try {
       const response = await uploadImageUtils({ file });
-      const { imageURL } = response.data?.uploadImage;
-      if (!imageURL) return setError("Image URL Error");
-      setError("");
-      setProductData((prev) => ({ ...prev, image: imageURL }));
+
+      const { url } = response.data?.uploadImage;
+      if (!url) return setErrorMessage("Image URL undefined");
+      setErrorMessage("");
+      setLoadingImage(false);
+      setSuccessMsg("Image successfully Uplaoded");
+      setProductData((prev) => ({ ...prev, image: [...prev.image, url] }));
     } catch (error) {
-      console.log(error);
+      setErrorMessage("An error Occurd" || error);
+      setSuccessMsg("");
+      setLoadingImage(false);
+    } finally {
+      setLoadingImage(false);
     }
+  };
+
+  // Handle RemoveImage
+  const handleRemoveImage = (indexToRemove) => {
+    const filterImages = productData.image.filter(
+      (img, idx) => idx !== indexToRemove
+    );
+
+    setProductData({
+      ...productData,
+      image: filterImages,
+    });
   };
 
   // Handle Form
@@ -94,18 +129,59 @@ const Products = () => {
 
             <p>Image *</p>
 
+            {errorMessage && (
+              <div className="mt-2 text-red-500">{errorMessage}</div>
+            )}
+            {successMsg && (
+              <div className="mt-2 text-green-500">{successMsg}</div>
+            )}
+
             <label
               htmlFor="image"
               className="p-2 bg-[#EFF6FF] rounded flex flex-col justify-center items-center cursor-pointer"
             >
               <FaCloudUploadAlt size={35} />
-              <h1>Upload Image</h1>
-
-              {/*Show All selected Images */}
-              {/* <div className="flex justify-start items-start w-full">
-                <h1>Show All Selected Images</h1>
-              </div> */}
+              <h1>{loadingImage ? "Uploading....." : "Upload Image"}</h1>
             </label>
+            {/*Show All selected Images */}
+            <div className="flex justify-start items-start gap-2 flex-wrap w-full py-2">
+              {loadingImage ? (
+                <Loader />
+              ) : (
+                productData.image.map((img, index) => {
+                  return (
+                    <>
+                      <div className="relative group">
+                        <img
+                          className="w-20 cursor-pointer"
+                          key={img + index}
+                          src={img}
+                          alt="productImage"
+                          onClick={() => {
+                            setViewImageURL(img);
+                            setIsImageOpen(true);
+                          }}
+                        />
+
+                        <span
+                          className="bg-red-500 rounded-[50%] text-white absolute top-0  right-0 px-1 cursor-pointer hover:bg-red-700 hidden group-hover:block"
+                          onClick={() => handleRemoveImage(index)}
+                        >
+                          ✕
+                        </span>
+                      </div>
+                      {isImageOpen && (
+                        <Viewimage
+                          imageSrc={viewImageURL}
+                          altText="Product-Image"
+                          closeModel={() => setIsImageOpen(false)}
+                        />
+                      )}
+                    </>
+                  );
+                })
+              )}
+            </div>
 
             <input
               type="file"
@@ -114,6 +190,40 @@ const Products = () => {
               className="hidden"
               onChange={handleImageChange}
             />
+
+            {/* Category */}
+            <div className="flex flex-col gap-1">
+              <label>Category *</label>
+              <div>
+                <select
+                  name="category"
+                  id="category"
+                  defaultValue=""
+                  className="bg-blue-50 w-full border rounded px-2 py-1 outline-none focus:border-yellow-300 "
+                >
+                  <option value="" disabled>
+                    Select Category
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            {/* Subcategory */}
+            <div className="flex flex-col gap-1">
+              <label className="mt-2">Subcategory *</label>
+              <div>
+                <select
+                  name="subcategory"
+                  id="subcategory"
+                  defaultValue=""
+                  className="bg-blue-50 w-full border rounded px-2 py-1 outline-none focus:border-yellow-300"
+                >
+                  <option value="" disabled>
+                    Select Subcategory
+                  </option>
+                </select>
+              </div>
+            </div>
 
             {/* Units */}
             <div className="flex flex-col gap-1">

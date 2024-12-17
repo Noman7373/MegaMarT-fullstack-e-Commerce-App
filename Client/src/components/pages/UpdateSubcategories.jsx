@@ -215,7 +215,7 @@ const UpdateSubcategories = () => {
             <select
               className="bg-blue-50 p-2 w-full border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
               name="category"
-              id="categories"
+              id="category"
               defaultValue=""
               onChange={(e) => {
                 const value = e.target.value;
