@@ -15,16 +15,6 @@ const AddCategoryController = async (req, res) => {
       });
     }
 
-    const exitCategory = await categoryModel.findOne({ name });
-
-    if (exitCategory) {
-      return res.status(500).json({
-        message: "Category already exits!",
-        error: true,
-        success: false,
-      });
-    }
-
     const updateCategoryModel = new categoryModel({
       name,
       image,

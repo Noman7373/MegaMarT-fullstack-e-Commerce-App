@@ -10,6 +10,7 @@ import router from "./routes/userRoute.js";
 import categoryRoute from "./routes/categoryRoute.js";
 import imageRoute from "./routes/uploadImageRoute.js";
 import subCategoryRoutes from "./routes/subCategoryRoutes.js";
+import productRoute from "./routes/productRoutes.js";
 
 dotenv.config();
 
@@ -35,8 +36,10 @@ app.use(
 app.use("/api/user", router);
 app.use("/api/category", categoryRoute);
 app.use("/api/file", imageRoute);
-
 app.use("/api", subCategoryRoutes);
+
+app.use("/api", productRoute)
+
 
 mongoose.set("strictQuery", false);
 DbConnection()
