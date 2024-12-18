@@ -1,4 +1,4 @@
-import productModel from "../models/productModel";
+import productModel from "../models/productModel.js";
 
 const createProductController = async (req, res) => {
   try {
@@ -28,7 +28,7 @@ const createProductController = async (req, res) => {
       discount,
       more_details,
     });
-    
+
     // save Product Data
     const productData = await createProduct.save();
 

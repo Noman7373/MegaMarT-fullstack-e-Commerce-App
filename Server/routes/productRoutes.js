@@ -6,7 +6,7 @@ import validateProduct from "../middleware/productMiddleware.js";
 const productRoute = Router();
 
 productRoute.post(
-  "/product/add",
+  "/product",
   authMiddleware,
   validateProduct,
   createProductController
