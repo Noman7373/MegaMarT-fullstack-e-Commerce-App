@@ -15,18 +15,15 @@ const validateProduct = (req, res, next) => {
 
     if (
       !name ||
+      !image[0] ||
       !description ||
+      !category[0] ||
+      !subCategory[0] ||
       !price ||
-      !unit ||
-      !Array.isArray(image) ||
-      image.length === 0 ||
-      !Array.isArray(category) ||
-      category.length === 0 ||
-      !Array.isArray(subCategory) ||
-      subCategory.length === 0
+      !unit
     ) {
       return res.status(401).json({
-        message: "All fields are requried",
+        message: "All fields are required", // Fixed the typo here
         error: true,
         success: false,
       });
