@@ -9,7 +9,6 @@ import { deleteSubcategoryAxios } from "../../Api/Query/userQuery";
 import { useSelector } from "react-redux";
 
 const SubCategory = () => {
-
   const { isLoading, subcategories, fetchSubCategories } = useHook();
   const [isOpen, setIsOpen] = useState(false);
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
@@ -19,14 +18,13 @@ const SubCategory = () => {
     setIsDeletePopupOpen(true);
   };
 
+  // delete subcategory
   const confirmDelete = async () => {
     try {
       const response = await deleteSubcategoryAxios({ _id: deleteCategory });
-
       if (response.data.error) {
         return console.log("Error show");
       }
-
       if (response.data.success) {
         fetchSubCategories();
         setIsDeletePopupOpen(false);
@@ -36,6 +34,7 @@ const SubCategory = () => {
     }
   };
 
+  // fetchSubcategory
   useEffect(() => {
     fetchSubCategories();
   }, []);
@@ -107,7 +106,7 @@ const SubCategory = () => {
                     />
                   </td>
                   <td className="text-sm text-gray-800 border-r border-gray-200 py-2">
-                    {item.category}
+                    {item.name}
                   </td>
                   <td className="text-sm flex items-center text-center gap-2 py-2">
                     <Link

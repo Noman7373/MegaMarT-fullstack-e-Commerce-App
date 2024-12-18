@@ -2,11 +2,10 @@ import { useEffect, useState } from "react";
 import uploadImageUtils from "../../utils/uplaodImageUtils.js";
 import { addCategoryAxios } from "../../Api/Query/userQuery";
 import Loader from "../status/Loader.jsx";
-import { useDispatch } from "react-redux";
-import { addProductCategory } from "../../store/productSlice.js";
+
 
 const UploadCategoryModels = ({ closeModel, callFetchCategory }) => {
-  const dispatch = useDispatch();
+
   const [categoryData, setCategoryData] = useState({
     name: "",
     image: null, // Store uploaded image URL here
@@ -76,18 +75,13 @@ const UploadCategoryModels = ({ closeModel, callFetchCategory }) => {
         image: categoryData.image,
       });
 
-      console.log(response);
 
       if (response.data.error) {
         return setErrorMessage(response.data?.message);
       }
 
       if (response.data.success) {
-        const { categoryProduct } = response.data;
-        console.log(categoryProduct);
-
-        dispatch(addProductCategory(categoryProduct));
-        console.log("success");
+        // const { categoryProduct } = response.data;
 
         setSuccessMessage(response.data?.message);
         closeModel();

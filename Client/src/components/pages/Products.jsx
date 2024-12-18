@@ -5,16 +5,15 @@ import Loader from "../status/Loader";
 import Viewimage from "./Viewimage";
 import useHook from "../../hooks/useHook";
 import { useSelector } from "react-redux";
+import AddMoreFields from "./AddMoreFields";
 
 const Products = () => {
   const allSubcategories = useSelector(
     (state) => state.Products?.allCategories
   );
-  console.log("Store", allSubcategories);
 
   const { category, fetchCategory, subcategories, fetchSubCategories } =
     useHook();
-  // console.log(subcategories);
 
   const [isImageOpen, setIsImageOpen] = useState(false);
   const [viewImageURL, setViewImageURL] = useState("");
@@ -24,17 +23,20 @@ const Products = () => {
   const [loading, setLoadind] = useState(false);
 
   const [selectedCategories, setSelectedCategories] = useState("");
+  const [selectedSubCategories, setSelectedSubCategories] = useState("");
+  const [moreFields, setMoreFields] = useState([]);
+  const [isOpenAddField, setIsOpenAddFiled] = useState(false);
 
   const [productData, setProductData] = useState({
     name: "",
+    description: "",
     image: [],
     category: [],
     subCategory: [],
-    units: [],
+    units: "",
     stock: "",
     price: "",
     discount: "",
-    description: "",
     more_details: {},
   });
 
@@ -93,6 +95,7 @@ const Products = () => {
   // Handle Form
   const handleOnSubmit = (e) => {
     e.preventDefault();
+    console.log(productData);
   };
 
   // Handle RemoveImage
@@ -117,6 +120,17 @@ const Products = () => {
     }));
   };
 
+  //  Handle Remove Selected subCategory
+  const handleRemoveSelectedSubCategory = (id) => {
+    const remaningCategories = productData.subCategory.filter(
+      (subCategory) => subCategory._id !== id
+    );
+    setProductData((prev) => ({
+      ...prev,
+      subCategory: [...remaningCategories],
+    }));
+  };
+
   return (
     <>
       <section>
@@ -138,6 +152,7 @@ const Products = () => {
                 placeholder="Enter Product Name"
                 autoFocus
                 autoComplete="name"
+                required
                 className="bg-blue-50 border rounded px-2 py-1 outline-none focus:border-yellow-300"
               />
             </div>
@@ -150,6 +165,7 @@ const Products = () => {
                 name="description"
                 id="description"
                 placeholder="description....."
+                required
                 rows={3}
                 value={productData.description}
                 onChange={onChangeHandle}
@@ -214,6 +230,7 @@ const Products = () => {
               )}
             </div>
 
+            {/* Image */}
             <input
               type="file"
               id="image"
@@ -246,11 +263,12 @@ const Products = () => {
                   id="category"
                   defaultValue=""
                   className="bg-blue-50 w-full border rounded px-2 py-1 outline-none focus:border-yellow-300"
-                  // value={selectedCategories}
+                  value={selectedCategories}
+                  // required
                   onChange={(e) => {
                     const value = e.target.value;
                     const findCategory = category.find(
-                      (val) => val.name === value
+                      (val) => val._id === value
                     );
                     if (findCategory) {
                       setProductData((prev) => {
@@ -259,6 +277,7 @@ const Products = () => {
                           category: [...prev.category, findCategory],
                         };
                       });
+                      setSelectedCategories("");
                     }
                   }}
                 >
@@ -268,7 +287,7 @@ const Products = () => {
 
                   {category.map((cat) => {
                     return (
-                      <option key={cat._id} value={cat.name}>
+                      <option key={cat._id} value={cat._id}>
                         {cat.name}
                       </option>
                     );
@@ -280,37 +299,71 @@ const Products = () => {
             {/* Subcategory */}
             <div className="flex flex-col gap-1">
               <label className="mt-2">Subcategory *</label>
-              <div>
-                <select
-                  name="subcategory"
-                  id="subcategory"
-                  defaultValue=""
-                  className="bg-blue-50 w-full border rounded px-2 py-1 outline-none focus:border-yellow-300"
-                >
-                  <option value="" disabled>
-                    Select Subcategory
-                  </option>
-
-                  {subcategories.map((subcat, index) => (
-                    <option key={index || subcat._id} value={subcat.name}>
-                      {subcat.name}
-                    </option>
+              <div className="flex flex-col gap-2">
+                <div className="flex gap-2 flex-wrap">
+                  {productData.subCategory.map((selectCat, index) => (
+                    <span key={index} className="flex gap-1 border">
+                      <p>{selectCat.name}</p>
+                      <span
+                        className="cursor-pointer hover:text-gray-700"
+                        onClick={() =>
+                          handleRemoveSelectedSubCategory(selectCat._id)
+                        }
+                      >
+                        ✕
+                      </span>
+                    </span>
                   ))}
-                </select>
+
+                  <select
+                    name="subcategory"
+                    id="subcategory"
+                    defaultValue=""
+                    value={selectedSubCategories}
+                    className="bg-blue-50 w-full border rounded px-2 py-1 outline-none focus:border-yellow-300"
+                    onChange={(e) => {
+                      const optionValue = e.target.value;
+                      const findSubcategory = subcategories.find(
+                        (subCate) => subCate._id === optionValue
+                      );
+
+                      if (findSubcategory) {
+                        const { _id, name } = findSubcategory;
+                        setProductData((prev) => {
+                          return {
+                            ...prev,
+                            subCategory: [...prev.subCategory, { _id, name }],
+                          };
+                        });
+                        setSelectedCategories("");
+                      }
+                    }}
+                  >
+                    <option value="" disabled>
+                      Select Subcategory
+                    </option>
+
+                    {subcategories.map((subcat, index) => (
+                      <option key={index || subcat._id} value={subcat._id}>
+                        {subcat.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
             </div>
 
             {/* Units */}
             <div className="flex flex-col gap-1">
-              <label htmlFor="unit">Units *</label>
+              <label htmlFor="units">Units *</label>
               <input
                 type="text"
-                id="unit"
-                name="unit"
+                id="units"
+                name="units"
+                placeholder="Enter units"
                 value={productData.units}
                 onChange={onChangeHandle}
-                placeholder="Enter Product Units"
-                autoComplete="units"
+                // required
                 className="bg-blue-50 border rounded px-2 py-1 outline-none focus:border-yellow-300"
               />
             </div>
@@ -323,6 +376,7 @@ const Products = () => {
                 name="stock"
                 value={productData.stock}
                 onChange={onChangeHandle}
+                required
                 placeholder="Enter Stock"
                 autoComplete="stock"
                 className="bg-blue-50 border rounded px-2 py-1 outline-none focus:border-yellow-300"
@@ -339,6 +393,7 @@ const Products = () => {
                 onChange={onChangeHandle}
                 placeholder="Enter Product Price"
                 autoComplete="price"
+                required
                 className="bg-blue-50 border rounded px-2 py-1 outline-none focus:border-yellow-300"
               />
             </div>
@@ -357,7 +412,17 @@ const Products = () => {
               />
             </div>
 
-            {/* More_Details */}
+            <div
+              className="mt-3 p-2 bg-blue-500 text-center max-w-[8rem] text-white rounded cursor-pointer hover:bg-blue-400"
+              onClick={() => setIsOpenAddFiled(true)}
+            >
+              Add Fields
+            </div>
+            {/* Add-more fields Box Open*/}
+
+            {isOpenAddField && (
+              <AddMoreFields closePage={() => setIsOpenAddFiled(false)} />
+            )}
 
             <div className="text-center">
               <button className="p-2 w-full bg-green-500 text-white rounded hover:bg-green-700">

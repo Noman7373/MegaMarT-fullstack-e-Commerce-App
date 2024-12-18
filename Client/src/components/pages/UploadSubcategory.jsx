@@ -87,6 +87,9 @@ const UploadSubcategory = ({ close }) => {
         image: subCategoryDate.image,
         category: subCategoryDate.category,
       });
+
+      console.log(response);
+
       setLoadingSubCategory(false);
       if (response.data.success) {
         fetchSubCategories();
