@@ -6,7 +6,7 @@ const validateProduct = (req, res, next) => {
       description,
       category,
       subCategory,
-      units,
+      unit,
       stock,
       price,
       discount,
@@ -15,10 +15,9 @@ const validateProduct = (req, res, next) => {
 
     if (
       !name ||
-      !image ||
       !description ||
       !price ||
-      !units ||
+      !unit ||
       !Array.isArray(image) ||
       image.length === 0 ||
       !Array.isArray(category) ||
