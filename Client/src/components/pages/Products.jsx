@@ -4,14 +4,9 @@ import uploadImageUtils from "../../utils/uplaodImageUtils";
 import Loader from "../status/Loader";
 import Viewimage from "./Viewimage";
 import useHook from "../../hooks/useHook";
-import { useSelector } from "react-redux";
 import AddMoreFields from "./AddMoreFields";
 
 const Products = () => {
-  const allSubcategories = useSelector(
-    (state) => state.Products?.allCategories
-  );
-
   const { category, fetchCategory, subcategories, fetchSubCategories } =
     useHook();
 
@@ -24,7 +19,6 @@ const Products = () => {
 
   const [selectedCategories, setSelectedCategories] = useState("");
   const [selectedSubCategories, setSelectedSubCategories] = useState("");
-  const [moreFields, setMoreFields] = useState([]);
   const [isOpenAddField, setIsOpenAddFiled] = useState(false);
   const [fieldName, setFieldName] = useState("");
 
@@ -145,6 +139,15 @@ const Products = () => {
     });
     setFieldName("");
     setIsOpenAddFiled(false);
+  };
+
+  // handle Remove Fields
+  const handleRemoveFields = (fieldName) => {
+    setProductData((prev) => {
+      const updateDetailts = { ...prev.more_details };
+      delete updateDetailts[fieldName];
+      return { ...prev, more_details: updateDetailts };
+    });
   };
 
   return (
@@ -351,7 +354,7 @@ const Products = () => {
                             subCategory: [...prev.subCategory, { _id, name }],
                           };
                         });
-                        setSelectedCategories("");
+                        setSelectedSubCategories("");
                       }
                     }}
                   >
@@ -432,7 +435,15 @@ const Products = () => {
             {Object.keys(productData?.more_details)?.map((fields, index) => {
               return (
                 <div key={index} className="flex flex-col gap-1">
-                  <label htmlFor={fields}>{fields}</label>
+                  <div className="flex justify-between">
+                    <label htmlFor={fields}>{fields}</label>
+                    <span
+                      className="text-[1.4rem] cursor-pointer hover:text-gray-700"
+                      onClick={() => handleRemoveFields(fields)}
+                    >
+                      ✕
+                    </span>
+                  </div>
                   <input
                     type="text"
                     id={fields}
