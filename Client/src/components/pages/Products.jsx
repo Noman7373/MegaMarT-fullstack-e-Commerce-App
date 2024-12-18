@@ -26,6 +26,7 @@ const Products = () => {
   const [selectedSubCategories, setSelectedSubCategories] = useState("");
   const [moreFields, setMoreFields] = useState([]);
   const [isOpenAddField, setIsOpenAddFiled] = useState(false);
+  const [fieldName, setFieldName] = useState("");
 
   const [productData, setProductData] = useState({
     name: "",
@@ -129,6 +130,21 @@ const Products = () => {
       ...prev,
       subCategory: [...remaningCategories],
     }));
+  };
+
+  // handle Add Fields
+  const handleAddFields = () => {
+    setProductData((prev) => {
+      return {
+        ...prev,
+        more_details: {
+          ...prev.more_details,
+          [fieldName]: "",
+        },
+      };
+    });
+    setFieldName("");
+    setIsOpenAddFiled(false);
   };
 
   return (
@@ -412,16 +428,50 @@ const Products = () => {
               />
             </div>
 
+            {/* display extra Fields */}
+            {Object.keys(productData?.more_details)?.map((fields, index) => {
+              return (
+                <div key={index} className="flex flex-col gap-1">
+                  <label htmlFor={fields}>{fields}</label>
+                  <input
+                    type="text"
+                    id={fields}
+                    name={fields}
+                    value={productData?.more_details[fields]}
+                    onChange={(e) => {
+                      const fieldValue = e.target.value;
+                      setProductData((prev) => {
+                        return {
+                          ...prev,
+                          more_details: {
+                            ...prev.more_details,
+                            [fields]: fieldValue,
+                          },
+                        };
+                      });
+                    }}
+                    placeholder={`Enter Product ${fields}`}
+                    className="bg-blue-50 border rounded px-2 py-1 outline-none focus:border-yellow-300"
+                  />
+                </div>
+              );
+            })}
+
             <div
               className="mt-3 p-2 bg-blue-500 text-center max-w-[8rem] text-white rounded cursor-pointer hover:bg-blue-400"
               onClick={() => setIsOpenAddFiled(true)}
             >
               Add Fields
             </div>
-            {/* Add-more fields Box Open*/}
 
+            {/* Add-more fields Box Open*/}
             {isOpenAddField && (
-              <AddMoreFields closePage={() => setIsOpenAddFiled(false)} />
+              <AddMoreFields
+                closePage={() => setIsOpenAddFiled(false)}
+                value={fieldName}
+                onChange={(e) => setFieldName(e.target.value)}
+                onSubmit={handleAddFields}
+              />
             )}
 
             <div className="text-center">
