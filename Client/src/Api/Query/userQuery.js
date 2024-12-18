@@ -282,6 +282,22 @@ const deleteSubcategoryAxios = async ({ _id }) => {
   }
 };
 
+// Add Product Axios
+
+const addProductAxios = async ({ data }) => {
+  try {
+    const response = await Axios.post(`${baseURL}/api/product`, {
+      data: { data },
+    });
+    return response;
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message ||
+        "An error occurred while adding the category"
+    );
+  }
+};
+
 export {
   registerUser,
   userLogIn,
@@ -303,4 +319,6 @@ export {
   getSubCategoryAxios,
   updateSubcategoryAxios,
   deleteSubcategoryAxios,
+  // Product
+  addProductAxios,
 };

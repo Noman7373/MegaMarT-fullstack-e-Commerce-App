@@ -5,6 +5,7 @@ import Loader from "../status/Loader";
 import Viewimage from "./Viewimage";
 import useHook from "../../hooks/useHook";
 import AddMoreFields from "./AddMoreFields";
+import { addProductAxios } from "../../Api/Query/userQuery";
 
 const Products = () => {
   const { category, fetchCategory, subcategories, fetchSubCategories } =
@@ -24,11 +25,11 @@ const Products = () => {
 
   const [productData, setProductData] = useState({
     name: "",
-    description: "",
     image: [],
+    description: "",
     category: [],
     subCategory: [],
-    units: "",
+    unit: "",
     stock: "",
     price: "",
     discount: "",
@@ -88,15 +89,36 @@ const Products = () => {
   };
 
   // Handle Form
-  const handleOnSubmit = (e) => {
+  const handleOnSubmit = async (e) => {
     e.preventDefault();
     console.log(productData);
+    setErrorMessage("");
+    setLoadind(true);
+    try {
+      const response = await addProductAxios({
+        data: productData,
+      });
+      setLoadind(false);
+      console.log(response);
+      if (response.data.success) {
+        console.log("Success");
+        console.log(response);
+        setSuccessMsg("Product added successfully!");
+      }
+    } catch (error) {
+      setErrorMessage(
+        error?.message || "An error occurred while adding the product"
+      );
+      setLoadind(false);
+    } finally {
+      setLoadind(false); // Ensure loading is stopped after try/catch block
+    }
   };
 
   // Handle RemoveImage
   const handleRemoveImage = (indexToRemove) => {
     const filterImages = productData.image.filter(
-      (img, idx) => idx !== indexToRemove
+      (idx) => idx !== indexToRemove
     );
     setProductData({
       ...productData,
@@ -155,6 +177,12 @@ const Products = () => {
       <section>
         <div className="flex p-2 bg-white shadow-md flex-col">
           <h1 className="font-semibold">Add Products</h1>
+          {errorMessage && (
+            <div className="mt-2 text-red-500">{errorMessage}</div>
+          )}
+          {successMsg && (
+            <div className="mt-2 text-green-500">{successMsg}</div>
+          )}
         </div>
 
         <div className="p-2 overflow-y-auto h-[54vh] py-5 custom-scrollbar">
@@ -192,15 +220,7 @@ const Products = () => {
             </div>
 
             {/* Image Upload */}
-
             <p>Image *</p>
-
-            {errorMessage && (
-              <div className="mt-2 text-red-500">{errorMessage}</div>
-            )}
-            {successMsg && (
-              <div className="mt-2 text-green-500">{successMsg}</div>
-            )}
 
             <label
               htmlFor="image"
@@ -220,7 +240,7 @@ const Products = () => {
                       <div className="relative group">
                         <img
                           className="w-20 cursor-pointer"
-                          key={img + index}
+                          key={img || index}
                           src={img}
                           alt="productImage"
                           onClick={() => {
@@ -260,7 +280,7 @@ const Products = () => {
 
             {/* Category */}
             <div className="flex flex-col gap-1">
-              <label>Category *</label>
+              <label htmlFor="category">Category *</label>
               <div className="flex flex-col gap-2">
                 <div className="flex gap-2 flex-wrap">
                   {productData.category.map((selectCat, index) => (
@@ -280,22 +300,18 @@ const Products = () => {
                 <select
                   name="category"
                   id="category"
-                  defaultValue=""
                   className="bg-blue-50 w-full border rounded px-2 py-1 outline-none focus:border-yellow-300"
                   value={selectedCategories}
-                  // required
                   onChange={(e) => {
                     const value = e.target.value;
                     const findCategory = category.find(
                       (val) => val._id === value
                     );
                     if (findCategory) {
-                      setProductData((prev) => {
-                        return {
-                          ...prev,
-                          category: [...prev.category, findCategory],
-                        };
-                      });
+                      setProductData((prev) => ({
+                        ...prev,
+                        category: [...prev.category, findCategory],
+                      }));
                       setSelectedCategories("");
                     }
                   }}
@@ -317,7 +333,9 @@ const Products = () => {
 
             {/* Subcategory */}
             <div className="flex flex-col gap-1">
-              <label className="mt-2">Subcategory *</label>
+              <label htmlFor="subCategory" className="mt-2">
+                Subcategory *
+              </label>
               <div className="flex flex-col gap-2">
                 <div className="flex gap-2 flex-wrap">
                   {productData.subCategory.map((selectCat, index) => (
@@ -335,9 +353,8 @@ const Products = () => {
                   ))}
 
                   <select
-                    name="subcategory"
-                    id="subcategory"
-                    defaultValue=""
+                    name="subCategory"
+                    id="subCategory"
                     value={selectedSubCategories}
                     className="bg-blue-50 w-full border rounded px-2 py-1 outline-none focus:border-yellow-300"
                     onChange={(e) => {
@@ -347,13 +364,10 @@ const Products = () => {
                       );
 
                       if (findSubcategory) {
-                        const { _id, name } = findSubcategory;
-                        setProductData((prev) => {
-                          return {
-                            ...prev,
-                            subCategory: [...prev.subCategory, { _id, name }],
-                          };
-                        });
+                        setProductData((prev) => ({
+                          ...prev,
+                          subCategory: [...prev.subCategory, findSubcategory],
+                        }));
                         setSelectedSubCategories("");
                       }
                     }}
@@ -374,13 +388,13 @@ const Products = () => {
 
             {/* Units */}
             <div className="flex flex-col gap-1">
-              <label htmlFor="units">Units *</label>
+              <label htmlFor="unit">Units *</label>
               <input
                 type="text"
-                id="units"
-                name="units"
+                id="unit"
+                name="unit"
                 placeholder="Enter units"
-                value={productData.units}
+                value={productData.unit}
                 onChange={onChangeHandle}
                 // required
                 className="bg-blue-50 border rounded px-2 py-1 outline-none focus:border-yellow-300"
@@ -390,7 +404,7 @@ const Products = () => {
             <div className="flex flex-col gap-1">
               <label htmlFor="stock">Stocks *</label>
               <input
-                type="text"
+                type="number"
                 id="stock"
                 name="stock"
                 value={productData.stock}
@@ -403,7 +417,7 @@ const Products = () => {
             </div>
             {/* Price */}
             <div className="flex flex-col gap-1">
-              <label htmlFor="price">Price*</label>
+              <label htmlFor="price">Price *</label>
               <input
                 type="number"
                 id="price"
