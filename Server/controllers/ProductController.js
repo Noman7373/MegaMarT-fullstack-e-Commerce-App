@@ -15,23 +15,6 @@ const createProductController = async (req, res) => {
       more_details,
     } = req.body;
 
-    //  validation
-    if (
-      !name ||
-      !image[0] ||
-      !description ||
-      !category[0] ||
-      !subCategory[0] ||
-      !price ||
-      !units
-    ) {
-      return res.status(401).json({
-        message: "All fields are requried",
-        error: true,
-        success: false,
-      });
-    }
-
     // Create Product
     const createProduct = new productModel({
       name,
@@ -45,7 +28,7 @@ const createProductController = async (req, res) => {
       discount,
       more_details,
     });
-
+    
     // save Product Data
     const productData = await createProduct.save();
 
