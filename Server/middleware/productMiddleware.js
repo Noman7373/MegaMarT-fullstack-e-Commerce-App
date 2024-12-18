@@ -23,7 +23,7 @@ const validateProduct = (req, res, next) => {
       !unit
     ) {
       return res.status(401).json({
-        message: "All fields are required", // Fixed the typo here
+        message: "All fields are required",
         error: true,
         success: false,
       });
