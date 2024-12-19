@@ -14,6 +14,6 @@ productRoute.post(
   validateProduct,
   createProductController
 );
-productRoute.get("/product/all", getAllProductController);
+productRoute.post("/product/all", getAllProductController);
 
 export default productRoute;

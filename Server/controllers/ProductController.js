@@ -50,21 +50,39 @@ const createProductController = async (req, res) => {
 // Fetch All product
 const getAllProductController = async (req, res) => {
   try {
-    const productData = await productModel.find();
+    // for users
+    const { page, limit, search } = req.body;
 
-    if (!productData) {
-      return res.status(404).json({
-        message: "No Data Found",
-        error: true,
-        success: false,
-      });
+    if (!page) {
+      page = 1;
     }
+
+    if (!limit) {
+      limit = 10;
+    }
+
+    // query for search
+    const query = search
+      ? {
+          $text: {
+            $search: search,
+          },
+        }
+      : {};
+
+    const skip = (page - 1) * limit;
+    const [data, totalCount] = await Promise.all([
+      productModel.find(query).sort({ createdAt: -1 }).skip(skip).limit(limit),
+      productModel.countDocuments(query),
+    ]);
 
     return res.status(200).json({
       message: "Products retrieved successfully",
       error: false,
       success: true,
-      productData,
+      totalCount,
+      totalNoPage: Math.ceil(totalCount / limit),
+      data,
     });
   } catch (error) {
     res.status(500).json({
