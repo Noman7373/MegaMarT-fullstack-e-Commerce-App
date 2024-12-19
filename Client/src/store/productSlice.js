@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const productCategory = {
   allCategories: [],
   allSubcategories: [],
-  product: [],
+  allProducts: [],
 };
 
 const productSlice = createSlice({
@@ -16,9 +16,13 @@ const productSlice = createSlice({
     addSubcategory: (state, action) => {
       state.allSubcategories = [...action.payload];
     },
+    addAllProducts: (state, action) => {
+      state.allProducts = [...action.payload];
+    },
   },
 });
 
-export const { addProductCategory, addSubcategory } = productSlice.actions;
+export const { addProductCategory, addSubcategory, addAllProducts } =
+  productSlice.actions;
 
 export default productSlice.reducer;
