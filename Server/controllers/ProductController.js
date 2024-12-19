@@ -51,7 +51,7 @@ const createProductController = async (req, res) => {
 const getAllProductController = async (req, res) => {
   try {
     // for users
-    const { page, limit, search } = req.body;
+    let { page, limit, search } = req.body;
 
     if (!page) {
       page = 1;
