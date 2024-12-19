@@ -318,10 +318,11 @@ const addProductAxios = async ({
 };
 
 // Get all Product
-const getAllProductAxios = async ({ page }) => {
+const getAllProductAxios = async ({ page, limit }) => {
   try {
     const response = Axios.post(`${baseURL}/api/product/all`, {
-      data: { page },
+      page,
+      limit,
     });
     return response;
   } catch (error) {

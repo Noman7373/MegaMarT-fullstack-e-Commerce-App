@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import useHook from "../../hooks/useHook";
 import DeleteConfirmation from "../../utils/DeleteConfirmation";
 import { deleteSubcategoryAxios } from "../../Api/Query/userQuery";
+import AllLoader from "../../utils/AllLoader";
 
 const SubCategory = () => {
   const { isLoading, subcategories, fetchSubCategories } = useHook();
@@ -57,7 +58,7 @@ const SubCategory = () => {
         />
       )}
 
-      {isLoading && <Loader />}
+      {isLoading && <AllLoader />}
 
       {subcategories.length < 1 && !isLoading && <NoData />}
 

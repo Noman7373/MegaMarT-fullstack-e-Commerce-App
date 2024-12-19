@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import UploadCategoryModels from "./UploadCategoryModels";
-import Loader from "../status/Loader";
+import AllLoader from "../../utils/AllLoader.jsx";
 import NoData from "./NoData";
 import { Link } from "react-router-dom";
 
@@ -49,7 +49,7 @@ const Category = () => {
           Add Category
         </button>
       </div>
-      {loading && <Loader />}
+      {loading && <AllLoader />}
 
       {!category[0] && !loading && <NoData />}
 
