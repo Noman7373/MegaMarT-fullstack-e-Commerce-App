@@ -88,6 +88,22 @@ const Products = () => {
     }
   };
 
+  // Reset Form
+  const resetForm = () => {
+    setProductData({
+      name: "",
+      image: "",
+      description: "",
+      category: "",
+      subCategory: "",
+      unit: "",
+      stock: "",
+      price: "",
+      discount: "",
+      more_details: "",
+    });
+  };
+
   // Handle Form
   const handleOnSubmit = async (e) => {
     e.preventDefault();
@@ -96,13 +112,23 @@ const Products = () => {
     setLoadind(true);
     try {
       const response = await addProductAxios({
-        data: productData,
+        name: productData.name,
+        image: productData.image || [],
+        description: productData.description,
+        category: productData.category || [],
+        subCategory: productData.subCategory || [],
+        unit: productData.unit,
+        stock: productData.stock,
+        price: productData.price,
+        discount: productData.discount,
+        more_details: productData.more_details,
       });
       setLoadind(false);
       console.log(response);
       if (response.data.success) {
         console.log("Success");
         console.log(response);
+        resetForm();
         setSuccessMsg("Product added successfully!");
       }
     } catch (error) {

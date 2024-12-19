@@ -284,10 +284,30 @@ const deleteSubcategoryAxios = async ({ _id }) => {
 
 // Add Product Axios
 
-const addProductAxios = async ({ data }) => {
+const addProductAxios = async ({
+  name,
+  image,
+  description,
+  category,
+  subCategory,
+  unit,
+  stock,
+  price,
+  discount,
+  more_details,
+}) => {
   try {
     const response = await Axios.post(`${baseURL}/api/product`, {
-      data: { data },
+      name,
+      image,
+      description,
+      category,
+      subCategory,
+      unit,
+      stock,
+      price,
+      discount,
+      more_details,
     });
     return response;
   } catch (error) {

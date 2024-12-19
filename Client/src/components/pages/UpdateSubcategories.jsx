@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Loader from "../status/Loader";
 import uploadImageUtils from "../../utils/uplaodImageUtils";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { updateSubcategoryAxios } from "../../Api/Query/userQuery";
 import useHook from "../../hooks/useHook";
 
 const UpdateSubcategories = () => {
   const { fetchSubCategories, subcategories, fetchCategory } = useHook();
-  //   console.log("subcategories useHook", subcategories);
 
-  //   const navigate = useNavigate();
   const { _id } = useParams();
   const location = useLocation();
 
@@ -101,11 +99,9 @@ const UpdateSubcategories = () => {
         image: updateSubCategoryData?.image,
         category: updateSubCategoryData?.category || [],
       });
-      console.log("updated data", response);
 
       setLoadingSubcategory(false);
       if (response.data.success) {
-        console.log("success");
         setSuccessMessage(response.data.message);
         fetchSubCategories();
         closeEditPage();

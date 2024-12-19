@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import useHook from "../../hooks/useHook";
 import DeleteConfirmation from "../../utils/DeleteConfirmation";
 import { deleteSubcategoryAxios } from "../../Api/Query/userQuery";
-import { useSelector } from "react-redux";
+
 
 const SubCategory = () => {
   const { isLoading, subcategories, fetchSubCategories } = useHook();

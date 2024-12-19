@@ -33,7 +33,7 @@ function Header() {
       {!(isSearchPage && isMobile) && (
         <div className="h-full w-full flex justify-between items-center">
           <Link to={"/"} className="flex justify-center">
-            <h1 className="xs:text-[2.2rem] sm:text-[3rem] flex md:text-[3rem] font-bold text-yellow-400">
+            <h1 className="xs:text-[2rem] sm:text-[2.5rem] flex md:text-[2.7rem] font-bold text-yellow-400">
               Shop<p className="text-green-700">HuB</p>
             </h1>
           </Link>
