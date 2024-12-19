@@ -21,10 +21,10 @@ import MyOrder from "./components/pages/MyOrder.jsx";
 import SaveOrder from "./components/pages/SaveOrder.jsx";
 import Category from "./components/pages/Category.jsx";
 import SubCategory from "./components/pages/SubCategory.jsx.jsx";
-import Adminproduct from "./components/pages/Adminproduct.jsx";
 import EditCategory from "./components/pages/EditCategory.jsx";
 import UpdateSubcategories from "./components/pages/UpdateSubcategories.jsx";
 import Products from "./components/pages/Products.jsx";
+import DisplayAdminProduct from "./components/pages/DisplayAdminProduct.jsx";
 
 function App() {
   const dispatch = useDispatch();
@@ -87,7 +87,7 @@ function App() {
             },
             {
               path: "admin-product",
-              element: <Adminproduct />,
+              element: <DisplayAdminProduct />,
             },
             {
               path: "upload-product",
@@ -114,9 +114,6 @@ function App() {
       ],
     },
   ]);
-
-
-  
 
   const fetchUserData = async () => {
     try {

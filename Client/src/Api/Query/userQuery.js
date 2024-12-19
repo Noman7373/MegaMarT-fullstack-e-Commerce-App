@@ -318,9 +318,11 @@ const addProductAxios = async ({
 };
 
 // Get all Product
-const getAllProductAxios = async () => {
+const getAllProductAxios = async ({ page }) => {
   try {
-    const response = Axios.post(`${baseURL}/api/product/all`);
+    const response = Axios.post(`${baseURL}/api/product/all`, {
+      data: { page },
+    });
     return response;
   } catch (error) {
     throw new Error(
