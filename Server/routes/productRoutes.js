@@ -1,5 +1,8 @@
 import { Router } from "express";
-import { createProductController } from "../controllers/ProductController.js";
+import {
+  createProductController,
+  getAllProductController,
+} from "../controllers/ProductController.js";
 import authMiddleware from "../middleware/authMiddleware.js";
 import validateProduct from "../middleware/productMiddleware.js";
 
@@ -11,5 +14,6 @@ productRoute.post(
   validateProduct,
   createProductController
 );
+productRoute.get("/product/all", getAllProductController);
 
 export default productRoute;

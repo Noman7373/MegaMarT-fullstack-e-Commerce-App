@@ -47,4 +47,32 @@ const createProductController = async (req, res) => {
   }
 };
 
-export { createProductController };
+// Fetch All product
+const getAllProductController = async (req, res) => {
+  try {
+    const productData = await productModel.find();
+
+    if (!productData) {
+      return res.status(404).json({
+        message: "No Data Found",
+        error: true,
+        success: false,
+      });
+    }
+
+    return res.status(200).json({
+      message: "Products retrieved successfully",
+      error: false,
+      success: true,
+      productData,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};
+
+export { createProductController, getAllProductController };
