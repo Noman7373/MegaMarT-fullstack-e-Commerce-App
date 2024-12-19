@@ -53,7 +53,7 @@ const Category = () => {
 
       {!category[0] && !loading && <NoData />}
 
-      <div className="p-4 grid xs:grid-cols-2 xs:gap-6 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-6 gap-2">
+      <div className="p-4 grid xs:grid-cols-2 xs:gap-6 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-6 gap-2 h-[20rem] overflow-y-auto custom-scrollbar">
         {category.map((category, index) => {
           return (
             <div

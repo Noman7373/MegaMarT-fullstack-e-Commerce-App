@@ -107,7 +107,6 @@ const Products = () => {
   // Handle Form
   const handleOnSubmit = async (e) => {
     e.preventDefault();
-    console.log(productData);
     setErrorMessage("");
     setLoadind(true);
     try {
@@ -124,10 +123,8 @@ const Products = () => {
         more_details: productData.more_details,
       });
       setLoadind(false);
-      console.log(response);
+
       if (response.data.success) {
-        console.log("Success");
-        console.log(response);
         resetForm();
         setSuccessMsg("Product added successfully!");
       }
