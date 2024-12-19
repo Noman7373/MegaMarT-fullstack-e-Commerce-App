@@ -7,7 +7,6 @@ import useHook from "../../hooks/useHook";
 import DeleteConfirmation from "../../utils/DeleteConfirmation";
 import { deleteSubcategoryAxios } from "../../Api/Query/userQuery";
 
-
 const SubCategory = () => {
   const { isLoading, subcategories, fetchSubCategories } = useHook();
   const [isOpen, setIsOpen] = useState(false);
@@ -63,7 +62,7 @@ const SubCategory = () => {
       {subcategories.length < 1 && !isLoading && <NoData />}
 
       {subcategories.length > 0 && !isLoading && (
-        <div className="overflow-y-auto">
+        <div className="overflow-y-auto h-[20rem] mt-2 py-5 custom-scrollbar sm:w-full lg:w-full xs:px-1">
           <table className="bg-white border border-gray-200 shadow-md rounded-lg xs:w-full lg:w-full md:w-full sm:w-full ">
             <thead>
               <tr className="bg-black text-white border-b">

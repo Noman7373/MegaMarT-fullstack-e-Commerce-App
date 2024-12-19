@@ -92,15 +92,15 @@ const Products = () => {
   const resetForm = () => {
     setProductData({
       name: "",
-      image: "",
+      image: [],
       description: "",
-      category: "",
-      subCategory: "",
+      category: [],
+      subCategory: [],
       unit: "",
       stock: "",
       price: "",
       discount: "",
-      more_details: "",
+      more_details: {},
     });
   };
 
