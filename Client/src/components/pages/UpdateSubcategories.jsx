@@ -6,6 +6,8 @@ import { updateSubcategoryAxios } from "../../Api/Query/userQuery";
 import useHook from "../../hooks/useHook";
 
 const UpdateSubcategories = () => {
+
+
   const { fetchSubCategories, subcategories, fetchCategory } = useHook();
 
   const { _id } = useParams();

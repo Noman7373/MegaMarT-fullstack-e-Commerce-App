@@ -3,13 +3,16 @@ import uploadImageUtils from "../../utils/uplaodImageUtils";
 import { addSubCategoryAxios } from "../../Api/Query/userQuery";
 import Loader from "../status/Loader";
 import useHook from "../../hooks/useHook";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addSubcategory } from "../../store/productSlice";
 
 const UploadSubcategory = ({ close }) => {
+  const dispatch = useDispatch();
   // custom hook
   const { fetchCategory, fetchSubCategories } = useHook();
 
   const allCategories = useSelector((state) => state.Products?.allCategories);
+  // console.log("UploadSubcategory", allCategories);
 
   const [subCategoryDate, setSubCategoryData] = useState({
     name: "",
@@ -87,6 +90,9 @@ const UploadSubcategory = ({ close }) => {
         image: subCategoryDate.image,
         category: subCategoryDate.category,
       });
+      // console.log(response);
+      dispatch(addSubcategory([subCategoryDate.category]));
+      console.log("success");
 
       setLoadingSubCategory(false);
       if (response.data.success) {
@@ -214,7 +220,7 @@ const UploadSubcategory = ({ close }) => {
               onChange={(e) => {
                 const value = e.target.value;
                 const findCategory = allCategories.find(
-                  (el) => el._id == value
+                  (el) => el.name === value
                 );
 
                 if (
@@ -238,7 +244,7 @@ const UploadSubcategory = ({ close }) => {
               </option>
               {allCategories.map((cate) => {
                 return (
-                  <option key={cate?._id} value={cate?._id}>
+                  <option key={cate?._id} value={cate?._name}>
                     {cate?.name}
                   </option>
                 );

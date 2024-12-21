@@ -7,8 +7,14 @@ import useHook from "../../hooks/useHook";
 import DeleteConfirmation from "../../utils/DeleteConfirmation";
 import { deleteSubcategoryAxios } from "../../Api/Query/userQuery";
 import AllLoader from "../../utils/AllLoader";
+import { useSelector } from "react-redux";
 
 const SubCategory = () => {
+  const allSuCategory = useSelector(
+    (state) => state.Products?.allSubcategories
+  );
+  // console.log("All subcaegory", allSuCategory);
+
   const { isLoading, subcategories, fetchSubCategories } = useHook();
   const [isOpen, setIsOpen] = useState(false);
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
