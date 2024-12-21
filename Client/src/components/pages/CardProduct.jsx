@@ -7,7 +7,7 @@ const CardProduct = ({ categoryProduct }) => {
   return (
     <>
       {" "}
-      <div className="border p-2 grid gap-1 max-w-52 rounded">
+      <div className="border p-2 grid gap-1 max-w-52 lg:min-w-52 rounded">
         <div className="min-h-20 max-h-28 rounded">
           <img
             src={categoryProduct?.image[0]}
