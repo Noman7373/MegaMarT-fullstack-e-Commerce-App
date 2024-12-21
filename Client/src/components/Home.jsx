@@ -4,14 +4,15 @@ import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import validateURL from "../utils/validateURL.js";
 import { useNavigate } from "react-router-dom";
+import CategoryProductDisplay from "./pages/CategoryProductDisplay.jsx";
 const Home = () => {
   const navigate = useNavigate();
   const allCategory = useSelector((state) => state?.Products?.allCategories);
   const allSubcategories = useSelector(
     (state) => state?.Products?.allSubcategories
   );
-  console.log("Subcategory", allSubcategories);
-  console.log("Category", allCategory);
+  // console.log("Subcategory", allSubcategories);
+  // console.log("Category", allCategory);
 
   const [loading, setLoading] = useState(true);
 
@@ -23,7 +24,7 @@ const Home = () => {
   }, []);
 
   const handleNavigation = (cate, id) => {
-    console.log("id", id);
+    // console.log("id", id);
 
     // Find subcategory
     const subcategory = allSubcategories.find((subcat) =>
@@ -98,6 +99,18 @@ const Home = () => {
               );
             })}
       </div>
+
+      {/* Display Category Product */}
+
+      {allCategory.map((cate) => {
+        return (
+          <CategoryProductDisplay
+            key={cate._id + "categroyProduct"}
+            id={cate._id}
+            name={cate.name}
+          />
+        );
+      })}
     </section>
   );
 };
