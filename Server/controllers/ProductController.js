@@ -93,4 +93,41 @@ const getAllProductController = async (req, res) => {
   }
 };
 
-export { createProductController, getAllProductController };
+// get Product Data by Category
+const getProductByCategory = async (req, res) => {
+  try {
+    const { id } = req.body;
+
+    if (!id) {
+      return res.status(401).json({
+        message: "id required",
+        error: true,
+        success: false,
+      });
+    }
+    const categoryProduct = await productModel
+      .find({
+        category: { $in: id },
+      })
+      .limit(20);
+
+    return res.json({
+      message: "Category Product List",
+      error: false,
+      success: true,
+      categoryProduct,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};
+
+export {
+  createProductController,
+  getAllProductController,
+  getProductByCategory,
+};
