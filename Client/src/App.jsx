@@ -26,6 +26,7 @@ import UpdateSubcategories from "./components/pages/UpdateSubcategories.jsx";
 import Products from "./components/pages/Products.jsx";
 import DisplayAdminProduct from "./components/pages/DisplayAdminProduct.jsx";
 import useHook from "./hooks/useHook.jsx";
+import ListProduct from "./components/pages/ListProduct.jsx";
 
 function App() {
   const dispatch = useDispatch();
@@ -109,6 +110,16 @@ function App() {
             {
               path: "updata-subcategory/:id",
               element: <UpdateSubcategories />,
+            },
+          ],
+        },
+
+        {
+          path: ":category/:id",
+          children: [
+            {
+              path: ":subcategory",
+              element: <ListProduct />,
             },
           ],
         },

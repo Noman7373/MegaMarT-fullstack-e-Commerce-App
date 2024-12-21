@@ -333,6 +333,22 @@ const getAllProductAxios = async ({ page, limit, search }) => {
     );
   }
 };
+
+// Get-Product-By-Category
+const getProductByCategoryAxios = async ({ id }) => {
+  try {
+    const respone = await Axios.post(`${baseURL}/api/product/by-category`, {
+      id,
+    });
+    return respone;
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message ||
+        "An error occurred while adding the category"
+    );
+  }
+};
+
 export {
   registerUser,
   userLogIn,
@@ -357,4 +373,5 @@ export {
   // Product
   addProductAxios,
   getAllProductAxios,
+  getProductByCategoryAxios  // get product by category
 };

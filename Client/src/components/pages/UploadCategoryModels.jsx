@@ -75,8 +75,7 @@ const UploadCategoryModels = ({ closeModel, callFetchCategory }) => {
         name: categoryData.name,
         image: categoryData.image,
       });
-      dispatch(addProductCategory([categoryData.name, categoryData.image]));
-      console.log("success");
+      // dispatch(addProductCategory([categoryData.name, categoryData.image]));
 
       if (response.data.error) {
         return setErrorMessage(response.data?.message);

@@ -2,9 +2,16 @@ import banner from "../../src/assets/banner.jpg";
 import bannerMobile from "../../src/assets/banner-mobile.jpg";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-
+import validateURL from "../utils/validateURL.js";
+import { useNavigate } from "react-router-dom";
 const Home = () => {
+  const navigate = useNavigate();
   const allCategory = useSelector((state) => state?.Products?.allCategories);
+  const allSubcategories = useSelector(
+    (state) => state?.Products?.allSubcategories
+  );
+  console.log("Subcategory", allSubcategories);
+  console.log("Category", allCategory);
 
   const [loading, setLoading] = useState(true);
 
@@ -14,6 +21,27 @@ const Home = () => {
     }, 1000);
     return () => clearTimeout(timer);
   }, []);
+
+  const handleNavigation = (cate, id) => {
+    console.log("id", id);
+
+    // Find subcategory
+    const subcategory = allSubcategories.find((subcat) =>
+      subcat.category.some((category) => category._id === id)
+    );
+
+    // // Check if subcategory exists
+    // if (!subcategory) {
+    //   console.error("Subcategory not found for the given ID");
+    //   return;
+    // }
+
+    // Validate URL components
+    const url = `/${validateURL(cate)}-${id}/${validateURL(subcategory)}`;
+
+    // Navigate to the constructed URL
+    navigate(url);
+  };
 
   return (
     <section className="bg-white py-2 ">
@@ -52,10 +80,14 @@ const Home = () => {
           : allCategory.map((category, index) => {
               return (
                 <div
-                  key={index || category._id}
+                  key={index || category._id + "displayCategory"}
                   className="cursor-pointer w-full h-full"
                 >
-                  <div>
+                  <div
+                    onClick={() =>
+                      handleNavigation(category.name, category._id)
+                    }
+                  >
                     <img
                       src={category.image}
                       alt={category.name}

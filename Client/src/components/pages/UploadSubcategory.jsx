@@ -4,10 +4,10 @@ import { addSubCategoryAxios } from "../../Api/Query/userQuery";
 import Loader from "../status/Loader";
 import useHook from "../../hooks/useHook";
 import { useDispatch, useSelector } from "react-redux";
-import { addSubcategory } from "../../store/productSlice";
+// import { addSubcategory } from "../../store/productSlice";
 
 const UploadSubcategory = ({ close }) => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   // custom hook
   const { fetchCategory, fetchSubCategories } = useHook();
 
@@ -218,7 +218,7 @@ const UploadSubcategory = ({ close }) => {
               onChange={(e) => {
                 const value = e.target.value;
                 const findCategory = allCategories.find(
-                  (el) => el.name === value
+                  (el) => el._id === value
                 );
 
                 if (
@@ -227,14 +227,9 @@ const UploadSubcategory = ({ close }) => {
                     (el) => el._id === findCategory._id
                   )
                 ) {
-                  dispatch(addSubcategory([...findCategory]));
-                  console.log("success");
-                  const { _id, name } = findCategory;
-                  console.log(name);
-
                   setSubCategoryData((prev) => ({
                     ...prev,
-                    category: [...prev.category, { name, _id }],
+                    category: [...prev.category, findCategory],
                   }));
                 }
               }}
@@ -244,7 +239,7 @@ const UploadSubcategory = ({ close }) => {
               </option>
               {allCategories.map((cate) => {
                 return (
-                  <option key={cate?._id} value={cate?._name}>
+                  <option key={cate?._id} value={cate?._id}>
                     {cate?.name}
                   </option>
                 );
