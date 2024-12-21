@@ -25,6 +25,7 @@ import EditCategory from "./components/pages/EditCategory.jsx";
 import UpdateSubcategories from "./components/pages/UpdateSubcategories.jsx";
 import Products from "./components/pages/Products.jsx";
 import DisplayAdminProduct from "./components/pages/DisplayAdminProduct.jsx";
+import useHook from "./hooks/useHook.jsx";
 
 function App() {
   const dispatch = useDispatch();
@@ -114,6 +115,7 @@ function App() {
       ],
     },
   ]);
+  const { fetchCategory, fetchSubCategories } = useHook();
 
   const fetchUserData = async () => {
     try {
@@ -128,6 +130,8 @@ function App() {
 
   useEffect(() => {
     fetchUserData();
+    fetchCategory();
+    fetchSubCategories();
   }, []);
 
   return (

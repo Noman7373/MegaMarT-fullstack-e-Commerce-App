@@ -91,8 +91,6 @@ const UploadSubcategory = ({ close }) => {
         category: subCategoryDate.category,
       });
       // console.log(response);
-      dispatch(addSubcategory([subCategoryDate.category]));
-      console.log("success");
 
       setLoadingSubCategory(false);
       if (response.data.success) {
@@ -229,6 +227,8 @@ const UploadSubcategory = ({ close }) => {
                     (el) => el._id === findCategory._id
                   )
                 ) {
+                  dispatch(addSubcategory([...findCategory]));
+                  console.log("success");
                   const { _id, name } = findCategory;
                   console.log(name);
 
