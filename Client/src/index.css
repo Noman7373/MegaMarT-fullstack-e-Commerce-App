@@ -7,9 +7,8 @@
 body {
   @apply bg-blue-50;
   font-family: "Poppins", sans-serif;
+  user-select: none;
 }
-
-
 
 /* index.css */
 .custom-scrollbar::-webkit-scrollbar {
@@ -29,3 +28,6 @@ body {
   background-color: #3b82f6; /* Hover state: darker blue (Tailwind blue-500) */
 }
 
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}

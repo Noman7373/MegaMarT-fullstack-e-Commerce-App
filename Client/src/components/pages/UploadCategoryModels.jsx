@@ -2,11 +2,8 @@ import { useEffect, useState } from "react";
 import uploadImageUtils from "../../utils/uplaodImageUtils.js";
 import { addCategoryAxios } from "../../Api/Query/userQuery";
 import Loader from "../status/Loader.jsx";
-import { useDispatch } from "react-redux";
-import { addProductCategory } from "../../store/productSlice.js";
 
 const UploadCategoryModels = ({ closeModel, callFetchCategory }) => {
-  const dispatch = useDispatch();
   const [categoryData, setCategoryData] = useState({
     name: "",
     image: null, // Store uploaded image URL here
@@ -16,6 +13,7 @@ const UploadCategoryModels = ({ closeModel, callFetchCategory }) => {
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
+  // clear show message
   useEffect(() => {
     if (successMessage || errorMessage) {
       const timer = setTimeout(() => {
@@ -27,12 +25,14 @@ const UploadCategoryModels = ({ closeModel, callFetchCategory }) => {
     }
   }, [successMessage, errorMessage]);
 
+  // handle form onChange
   const handleOnChange = (e) => {
     setErrorMessage(""); // Clear error when user starts typing
     const { name, value } = e.target;
     setCategoryData((prev) => ({ ...prev, [name]: value }));
   };
 
+  // handle Iupload Image
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
     if (!file) {
@@ -60,6 +60,7 @@ const UploadCategoryModels = ({ closeModel, callFetchCategory }) => {
     }
   };
 
+  // hanle form submition
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     if (!categoryData.name || !categoryData.image) {
@@ -75,15 +76,12 @@ const UploadCategoryModels = ({ closeModel, callFetchCategory }) => {
         name: categoryData.name,
         image: categoryData.image,
       });
-      // dispatch(addProductCategory([categoryData.name, categoryData.image]));
 
       if (response.data.error) {
         return setErrorMessage(response.data?.message);
       }
 
       if (response.data.success) {
-        // const { categoryProduct } = response.data;
-
         setSuccessMessage(response.data?.message);
         closeModel();
         callFetchCategory();

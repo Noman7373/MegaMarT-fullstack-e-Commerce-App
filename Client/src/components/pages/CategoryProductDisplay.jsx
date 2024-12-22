@@ -101,8 +101,8 @@ const CategoryProductDisplay = ({ name, id }) => {
             onMouseLeave={handleMouseUpOrLeave}
             className={`${
               isDragging
-                ? "flex items-center gap-4 md:gap-6 lg:gap-8 mx-auto px-4 overflow-hidden scroll-smooth cursor-grabbing"
-                : "flex items-center gap-4 md:gap-6 lg:gap-8 mx-auto px-4 overflow-hidden scroll-smooth"
+                ? "flex  gap-4 md:gap-6 lg:gap-8 mx-auto px-4 overflow-x-scroll scrollbar-none  scroll-smooth cursor-grabbing"
+                : "flex gap-4 md:gap-6 lg:gap-8 mx-auto px-4 overflow-x-scroll scrollbar-none scroll-smooth"
             }`}
           >
             {loading &&
@@ -121,15 +121,15 @@ const CategoryProductDisplay = ({ name, id }) => {
               })}
 
             <button
-              className={`absolute top-1/2 -translate-y-1/2 left-2 z-10 ${
-                isLeftButtonVisible ? "block" : "hidden"
+              className={`absolute top-1/2 hidden lg:block -translate-y-1/2 left-2 z-10 ${
+                isLeftButtonVisible ? "lg:block hidden" : "hidden"
               } bg-white rounded-full p-2 shadow-lg hover:bg-gray-300`}
               onClick={handleScrollLeft}
             >
               <FaAngleLeft size={23} />
             </button>
             <button
-              className="absolute top-1/2 -translate-y-1/2 right-2 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-300"
+              className="absolute top-1/2 hidden lg:block -translate-y-1/2 right-2 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-300"
               onClick={handleScrollRight}
             >
               <FaAngleRight size={23} />

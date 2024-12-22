@@ -6,10 +6,14 @@ import Viewimage from "./Viewimage";
 import useHook from "../../hooks/useHook";
 import AddMoreFields from "./AddMoreFields";
 import { addProductAxios } from "../../Api/Query/userQuery";
+import { useSelector } from "react-redux";
 
 const Products = () => {
-  const { category, fetchCategory, subcategories, fetchSubCategories } =
-    useHook();
+  const allCategory = useSelector((state) => state?.Products?.allCategories);
+  const allSubcategories = useSelector(
+    (state) => state?.Products?.allSubcategories
+  );
+  const { fetchCategory, fetchSubCategories } = useHook();
 
   const [isImageOpen, setIsImageOpen] = useState(false);
   const [viewImageURL, setViewImageURL] = useState("");
@@ -260,10 +264,12 @@ const Products = () => {
                 productData.image.map((img, index) => {
                   return (
                     <>
-                      <div className="relative group">
+                      <div
+                        key={img || index + "showImage"}
+                        className="relative group"
+                      >
                         <img
                           className="w-20 cursor-pointer"
-                          key={img || index}
                           src={img}
                           alt="productImage"
                           onClick={() => {
@@ -327,7 +333,7 @@ const Products = () => {
                   value={selectedCategories}
                   onChange={(e) => {
                     const value = e.target.value;
-                    const findCategory = category.find(
+                    const findCategory = allCategory.find(
                       (val) => val._id === value
                     );
                     if (findCategory) {
@@ -343,7 +349,7 @@ const Products = () => {
                     Select Category
                   </option>
 
-                  {category.map((cat) => {
+                  {allCategory.map((cat) => {
                     return (
                       <option key={cat._id} value={cat._id}>
                         {cat.name}
@@ -382,7 +388,7 @@ const Products = () => {
                     className="bg-blue-50 w-full border rounded px-2 py-1 outline-none focus:border-yellow-300"
                     onChange={(e) => {
                       const optionValue = e.target.value;
-                      const findSubcategory = subcategories.find(
+                      const findSubcategory = allSubcategories.find(
                         (subCate) => subCate._id === optionValue
                       );
 
@@ -399,7 +405,7 @@ const Products = () => {
                       Select Subcategory
                     </option>
 
-                    {subcategories.map((subcat, index) => (
+                    {allSubcategories.map((subcat, index) => (
                       <option key={index || subcat._id} value={subcat._id}>
                         {subcat.name}
                       </option>

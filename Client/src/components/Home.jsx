@@ -23,25 +23,29 @@ const Home = () => {
   //   return () => clearTimeout(timer);
   // }, []);
 
-  const handleNavigation = (cate, id) => {
-    // console.log("id", id);
+  const handleNavigation = (name, id) => {
+    console.log("Category ID:", id, "Category Name:", name);
 
-    // Find subcategory
-    const subcategory = allSubcategories.find((subcat) =>
-      subcat.category.some((category) => category._id === id)
+    // Find the subcategory based on the category ID
+    const subcategory = allSubcategories.find((sub) =>
+      sub.category.some((c) => c === id)
     );
 
-    // // Check if subcategory exists
-    // if (!subcategory) {
-    //   console.error("Subcategory not found for the given ID");
-    //   return;
-    // }
+    // Check if subcategory exists
+    if (!subcategory) {
+      console.error("Subcategory not found for category ID:", id);
+      return;
+    }
 
-    // Validate URL components
-    const url = `/${validateURL(cate)}-${id}/${validateURL(subcategory)}`;
+    // Generate the URL
+    const url = `/${validateURL(name)}-${id}/${validateURL(subcategory.name)}-${
+      subcategory._id
+    }`;
 
-    // Navigate to the constructed URL
+    // Navigate to the URL
     navigate(url);
+
+    console.log("Navigated URL:", url);
   };
 
   return (

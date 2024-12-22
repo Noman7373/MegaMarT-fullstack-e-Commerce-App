@@ -31,6 +31,25 @@ import MainProductPage from "./components/pages/MainProductPage.jsx";
 
 function App() {
   const dispatch = useDispatch();
+  const { fetchCategory, fetchSubCategories } = useHook();
+
+  const fetchUserData = async () => {
+    try {
+      const response = await getUserLoginDetails();
+      if (response.data.success) {
+        dispatch(setUserDetials(response?.data?.userData));
+      }
+    } catch (error) {
+      throw new Error("Data fetching Error", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserData();
+    fetchCategory();
+    fetchSubCategories();
+  }, []);
+
   const router = createBrowserRouter([
     {
       path: "/",
@@ -116,10 +135,10 @@ function App() {
         },
 
         {
-          path: ":category/:id",
+          path: ":category",
           children: [
             {
-              path: ":subcategory",
+              path: ":subCategory",
               element: <ListProduct />,
             },
           ],
@@ -131,24 +150,6 @@ function App() {
       ],
     },
   ]);
-  const { fetchCategory, fetchSubCategories } = useHook();
-
-  const fetchUserData = async () => {
-    try {
-      const response = await getUserLoginDetails();
-      if (response.data.success) {
-        dispatch(setUserDetials(response?.data?.userData));
-      }
-    } catch (error) {
-      throw new Error("Data fetching Error", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchUserData();
-    fetchCategory();
-    fetchSubCategories();
-  }, []);
 
   return (
     <Provider store={store}>
