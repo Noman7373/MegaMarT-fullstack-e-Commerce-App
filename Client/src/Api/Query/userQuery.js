@@ -334,12 +334,32 @@ const getAllProductAxios = async ({ page, limit, search }) => {
   }
 };
 
-// Get-Product-By-Category
+// Get-Product-By-Category and Category
 const getProductByCategoryAxios = async ({ id }) => {
   try {
     const respone = await Axios.post(`${baseURL}/api/product/by-category`, {
       id,
     });
+    return respone;
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message ||
+        "An error occurred while adding the category"
+    );
+  }
+};
+const getProductByCategorySubcategoryAxios = async ({
+  categoryId,
+  subCategoryId,
+}) => {
+  try {
+    const respone = await Axios.post(
+      `${baseURL}/api/product/by-category&subcategory`,
+      {
+        categoryId,
+        subCategoryId,
+      }
+    );
     return respone;
   } catch (error) {
     throw new Error(
@@ -373,5 +393,6 @@ export {
   // Product
   addProductAxios,
   getAllProductAxios,
-  getProductByCategoryAxios  // get product by category
+  getProductByCategoryAxios, // Get product by category
+  getProductByCategorySubcategoryAxios, // Get product by category and Subcategory
 };

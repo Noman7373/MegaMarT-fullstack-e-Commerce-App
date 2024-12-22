@@ -24,8 +24,6 @@ const Home = () => {
   // }, []);
 
   const handleNavigation = (name, id) => {
-    console.log("Category ID:", id, "Category Name:", name);
-
     // Find the subcategory based on the category ID
     const subcategory = allSubcategories.find((sub) =>
       sub.category.some((c) => c === id)
@@ -36,16 +34,12 @@ const Home = () => {
       console.error("Subcategory not found for category ID:", id);
       return;
     }
-
     // Generate the URL
     const url = `/${validateURL(name)}-${id}/${validateURL(subcategory.name)}-${
       subcategory._id
     }`;
-
     // Navigate to the URL
     navigate(url);
-
-    console.log("Navigated URL:", url);
   };
 
   return (

@@ -81,6 +81,7 @@ const DisplayAdminProduct = () => {
           <h1 className="font-semibold xs:text-[0.8rem] xs:hidden md:text-[1rem] sm:block lg:block md:block">
             Admin Product
           </h1>
+          {message && <p className="text-green-500 text-sm mb-4">{message}</p>}
           <div className="flex justify-center items-center gap-2 bg-blue-50 border rounded outline-none">
             <CiSearch size={30} />
             <input
@@ -91,7 +92,6 @@ const DisplayAdminProduct = () => {
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
-          {message && <p className="text-green-500 text-sm mb-4">{message}</p>}
         </div>
 
         <div className="py-4 bg-blue-50">

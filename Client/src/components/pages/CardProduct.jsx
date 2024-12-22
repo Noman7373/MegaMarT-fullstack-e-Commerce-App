@@ -8,7 +8,7 @@ const CardProduct = ({ categoryProduct }) => {
       {" "}
       <Link
         to={`/product-page/${categoryProduct._id}`}
-        className="border p-2 grid gap-2 lg:gap-3 min-w-36 max-w-40 lg:min-w-52 rounded"
+        className="border p-2 grid gap-2 lg:gap-3 min-w-36 max-w-40 lg:min-w-52 rounded hover:shadow-lg bg-white"
       >
         <div className="lg:ml-10 min-h-20 max-w-24 lg:max-h-32 rounded mt-[0.75rem] ">
           <img
