@@ -141,8 +141,8 @@ const getProductBySubcategory = async (req, res) => {
     }
 
     const productBySubcategory = await productModel.find({
-      subCategory: { $in: subCategoryId },
       category: { $in: categoryId },
+      subCategory: { $in: subCategoryId },
     });
 
     return res.json({
