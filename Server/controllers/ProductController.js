@@ -126,8 +126,43 @@ const getProductByCategory = async (req, res) => {
   }
 };
 
+// get Product Data by Subcategory
+
+const getProductBySubcategory = async (req, res) => {
+  try {
+    const { categoryId, subCategoryId } = req.body;
+
+    if (!categoryId || !subCategoryId) {
+      return res.status(401).json({
+        message: "Id not match",
+        error: true,
+        success: false,
+      });
+    }
+
+    const productBySubcategory = await productModel.find({
+      subCategory: { $in: subCategoryId },
+      category: { $in: categoryId },
+    });
+
+    return res.json({
+      message: "Get All Products Successfully",
+      error: false,
+      success: true,
+      productBySubcategory,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};
+
 export {
   createProductController,
   getAllProductController,
   getProductByCategory,
+  getProductBySubcategory,
 };
