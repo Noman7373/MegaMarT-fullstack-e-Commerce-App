@@ -1,7 +1,7 @@
 import banner from "../../src/assets/banner.jpg";
 import bannerMobile from "../../src/assets/banner-mobile.jpg";
 import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import validateURL from "../utils/validateURL.js";
 import { useNavigate } from "react-router-dom";
 import CategoryProductDisplay from "./pages/CategoryProductDisplay.jsx";
@@ -14,14 +14,14 @@ const Home = () => {
   // console.log("Subcategory", allSubcategories);
   // console.log("Category", allCategory);
 
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, []);
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     setLoading(false);
+  //   }, 1000);
+  //   return () => clearTimeout(timer);
+  // }, []);
 
   const handleNavigation = (cate, id) => {
     // console.log("id", id);
@@ -66,7 +66,27 @@ const Home = () => {
       </div>
 
       <div className="mx-auto px-4 my-2 grid grid-cols-4 md:grid-cols-8 lg:grid-cols-10 gap-2">
-        {loading
+        {allCategory.map((category, index) => {
+          return (
+            <div
+              key={index || category._id + "displayCategory"}
+              className="cursor-pointer w-full h-full"
+            >
+              <div
+                onClick={() => handleNavigation(category.name, category._id)}
+              >
+                <img
+                  src={category.image}
+                  alt={category.name}
+                  className="w-full h-full object-scale-down"
+                />
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* {loading
           ? new Array(14).fill(null).map((cat, index) => {
               return (
                 <div
@@ -78,7 +98,8 @@ const Home = () => {
                 </div>
               );
             })
-          : allCategory.map((category, index) => {
+          :
+          { allCategory.map((category, index) => { 
               return (
                 <div
                   key={index || category._id + "displayCategory"}

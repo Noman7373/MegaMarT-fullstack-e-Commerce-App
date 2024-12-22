@@ -27,6 +27,7 @@ import Products from "./components/pages/Products.jsx";
 import DisplayAdminProduct from "./components/pages/DisplayAdminProduct.jsx";
 import useHook from "./hooks/useHook.jsx";
 import ListProduct from "./components/pages/ListProduct.jsx";
+import MainProductPage from "./components/pages/MainProductPage.jsx";
 
 function App() {
   const dispatch = useDispatch();
@@ -122,6 +123,10 @@ function App() {
               element: <ListProduct />,
             },
           ],
+        },
+        {
+          path: "/product-page/:id",
+          element: <MainProductPage />,
         },
       ],
     },
