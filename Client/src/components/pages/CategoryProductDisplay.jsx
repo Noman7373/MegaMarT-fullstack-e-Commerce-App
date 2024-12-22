@@ -10,17 +10,19 @@ const CategoryProductDisplay = ({ name, id }) => {
   const [categoryProduct, setCategoryProduct] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isLeftButtonVisible, setIsLeftButtonVisible] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
 
+  // Fetch Product Data
   const getCategoryProduct = async () => {
     setLoading(true);
     try {
       const response = await getProductByCategoryAxios({ id });
-      console.log(response);
       setLoading(false);
       if (response.data.success) {
         const { categoryProduct } = response.data;
         setCategoryProduct(categoryProduct);
-        console.log("sucess");
       }
     } catch (error) {
       console.log(error.message);
@@ -28,19 +30,18 @@ const CategoryProductDisplay = ({ name, id }) => {
       setLoading(false);
     }
   };
-
+  // Fetch Product Data
   useEffect(() => {
     getCategoryProduct();
   }, []);
 
   // check Scroll Position
-
   const checkScrollPosition = () => {
     const scrollLeft = containerRef.current.scrollLeft;
     setIsLeftButtonVisible(scrollLeft > 0);
   };
 
-  // for scroll-Right
+  // for Checking scroll
   useEffect(() => {
     const container = containerRef.current;
     container.addEventListener("scroll", checkScrollPosition);
@@ -61,6 +62,27 @@ const CategoryProductDisplay = ({ name, id }) => {
     checkScrollPosition();
   };
 
+  // Drag scroll Handler
+  const handleMouseDown = (event) => {
+    setIsDragging(true);
+    setStartX(event.pageX - containerRef.current.offsetLeft);
+    setScrollLeft(containerRef.current.scrollLeft);
+  };
+
+  const handleMouseMove = (event) => {
+    if (!isDragging) return;
+
+    event.preventDefault(); // Prevent text selection
+    const x = event.pageX - containerRef.current.offsetLeft;
+    const walk = (x - startX) * 2; // Adjust scrolling speed
+    containerRef.current.scrollLeft = scrollLeft - walk;
+  };
+
+  // handle MouseUp or Leave
+  const handleMouseUpOrLeave = () => {
+    setIsDragging(false);
+  };
+
   return (
     <>
       <div>
@@ -73,7 +95,15 @@ const CategoryProductDisplay = ({ name, id }) => {
         <div className="relative">
           <div
             ref={containerRef}
-            className="flex items-center gap-4 md:gap-6 lg:gap-8 mx-auto px-4 overflow-hidden scroll-smooth"
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUpOrLeave}
+            onMouseLeave={handleMouseUpOrLeave}
+            className={`${
+              isDragging
+                ? "flex items-center gap-4 md:gap-6 lg:gap-8 mx-auto px-4 overflow-hidden scroll-smooth cursor-grabbing"
+                : "flex items-center gap-4 md:gap-6 lg:gap-8 mx-auto px-4 overflow-hidden scroll-smooth"
+            }`}
           >
             {loading &&
               new Array(5).fill(null).map((arr, index) => {
