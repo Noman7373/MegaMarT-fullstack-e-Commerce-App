@@ -348,6 +348,8 @@ const getProductByCategoryAxios = async ({ id }) => {
     );
   }
 };
+
+// Get-Product-By-Category and Category
 const getProductByCategorySubcategoryAxios = async ({
   categoryId,
   subCategoryId,
