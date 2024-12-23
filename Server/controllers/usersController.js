@@ -43,7 +43,7 @@ const registerUsersController = async (req, res) => {
     const newUser = await userModel(Payload);
     const saveUser = await newUser.save();
 
-    const Verify_URL = `${process.env.FRONTEND_URL}/verify-email?id=${saveUser.id}`;
+    const Verify_URL = `${process.env.FRONTEND_URL}/verify-email`;
     const sendEmailVerify = sendEmail({
       sendTo: email,
       subject: "Verification email from Resend",
@@ -392,7 +392,7 @@ const uploadAvatarController = async (req, res) => {
     const upload = await uploadImagesCloudinary(file);
 
     console.log(upload);
-    
+
     const updateUser = await userModel.findByIdAndUpdate(userId, {
       avater: upload.url,
     });
@@ -420,7 +420,7 @@ const updateUserDetailsController = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const { name, email,  mobile } = req.body;
+    const { name, email, mobile } = req.body;
 
     // const hashPassword = await bcrypt.hash(password, 10);F
 
