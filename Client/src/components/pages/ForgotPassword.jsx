@@ -54,10 +54,10 @@ const ForgotPassword = () => {
   return (
     <section className="container w-full mx-auto px-2">
       <div className="bg-white my-2 w-full max-w-sm mx-auto rounded py-2 px-4">
-        <p>Verify Email</p>
+        <p className="text-xl font-semibold">Verify Email</p>
         {errorMessage && <p className="text-red-500">{errorMessage}</p>}
         {successMessage && <p className="text-green-600">{successMessage}</p>}
-
+        {/* <p className="mt-4">Enter Your Email</p> */}
         <div>
           <form
             className="flex gap-3 flex-col mt-4 py-2"
@@ -77,19 +77,21 @@ const ForgotPassword = () => {
               onChange={handleOnChange}
             />
 
-            <p className="flex items-end justify-end">
+            <p className="flex items-end justify-end font-semibold hover:text-green-600">
               <Link to={"/login"}>Log In?</Link>
             </p>
             <button
               disabled={!validFormValues}
               type="submit"
-              className={`mt-4 border py-2 rounded text-white font-bold ${
+              className={`${
                 validFormValues
-                  ? "bg-orange-600 hover:bg-orange-500"
-                  : "bg-orange-400 cursor-not-allowed"
-              }`}
+                  ? "bg-orange-600 text-center"
+                  : "bg-orange-400  text-center cursor-not-allowed"
+              } "mt-4 border py-2 bg-orange-800 text-center"  ${
+                validFormValues ? " hover:bg-orange-700  text-center" : ""
+              } rounded text-white font-bold  text-center"`}
             >
-              Send OTP
+              Verify Email
             </button>
           </form>
         </div>

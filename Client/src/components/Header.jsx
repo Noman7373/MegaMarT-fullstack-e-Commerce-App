@@ -34,7 +34,7 @@ function Header() {
         <div className="h-full w-full flex justify-between items-center">
           <Link to={"/"} className="flex justify-center">
             <h1 className="xs:text-[2rem] sm:text-[2.5rem] flex md:text-[2.7rem] font-bold text-yellow-400">
-              Shop<p className="text-green-700">HuB</p>
+              Mega<p className="text-green-700">MarT</p>
             </h1>
           </Link>
 
@@ -79,7 +79,7 @@ function Header() {
                 <Link
                   to={"/register-user"}
                   className="xs:hidden sm:hidden md:hidden lg:block p-2
-                bg-green-800 rounded text-white hover:bg-green-700"
+                bg-green-600 rounded text-white hover:bg-green-700"
                 >
                   Register
                 </Link>

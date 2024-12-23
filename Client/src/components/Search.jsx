@@ -84,7 +84,7 @@ const Search = () => {
             />
           ) : (
             <div className="w-full outline-none border-none p-1 bg-transparent">
-              <p>{`Search by ${categoryList[categories]}`}</p>
+              <p>{`Search by "${categoryList[categories]}"`}</p>
             </div>
           )}
         </div>

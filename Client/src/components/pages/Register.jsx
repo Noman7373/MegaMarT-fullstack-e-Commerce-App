@@ -81,7 +81,7 @@ const Register = () => {
   return (
     <section className="container mx-auto px-2 flex justify-between">
       <div className="bg-white my-2 w-full max-w-sm mx-auto rounded py-2 px-4">
-        <p>Welcome to ShopHub</p>
+        <p className="text-xl font-semibold">Welcome to MegaMarT</p>
         <p className="text-red-500">{error}</p>
         <div>
           <form
@@ -140,11 +140,11 @@ const Register = () => {
               type="submit"
               className={`${
                 validFormValues
-                  ? "bg-orange-600"
-                  : "bg-orange-400 cursor-not-allowed"
-              } "mt-4 border py-2 bg-orange-600 ${
-                validFormValues ? " hover:bg-orange-400" : ""
-              } rounded text-white font-bold"`}
+                  ? "bg-orange-600 text-center"
+                  : "bg-orange-400  text-center cursor-not-allowed"
+              } "mt-4 border py-2 bg-orange-800 text-center"  ${
+                validFormValues ? " hover:bg-orange-700  text-center" : ""
+              } rounded text-white font-bold  text-center"`}
             >
               {isIDLE && "Register"}
               {isLoading && <Loader />}

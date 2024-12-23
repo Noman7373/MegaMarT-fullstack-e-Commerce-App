@@ -87,10 +87,9 @@ const Login = () => {
   return (
     <section className="container w-full mx-auto px-2">
       <div className="bg-white my-2 w-full max-w-sm mx-auto rounded py-2 px-4">
-        <p>Log In To Access</p>
+        <p className="text-xl font-semibold">Log In To Access</p>
         {errorMessage && <p className="text-red-500">{errorMessage}</p>}
         {successMessage && <p className="text-green-600">{successMessage}</p>}
-
         <div>
           <form
             className="flex gap-3 flex-col mt-4 py-2"

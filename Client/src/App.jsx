@@ -28,6 +28,7 @@ import DisplayAdminProduct from "./components/pages/DisplayAdminProduct.jsx";
 import useHook from "./hooks/useHook.jsx";
 import ListProduct from "./components/pages/ListProduct.jsx";
 import MainProductPage from "./components/pages/MainProductPage.jsx";
+import SuccessVerifyEmail from "./components/pages/SuccessVerifyEmail.jsx";
 
 function App() {
   const dispatch = useDispatch();
@@ -70,6 +71,10 @@ function App() {
         {
           path: "/register-user",
           element: <Register />,
+        },
+        {
+          path: `/verify-email`,
+          element: <SuccessVerifyEmail />,
         },
         {
           path: "/login",

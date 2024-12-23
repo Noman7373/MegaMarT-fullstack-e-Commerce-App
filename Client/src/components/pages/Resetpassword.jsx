@@ -77,7 +77,7 @@ const Resetpassword = () => {
   return (
     <section className="container w-full mx-auto px-2">
       <div className="bg-white my-2 w-full max-w-sm mx-auto rounded py-2 px-4">
-        <p>Reset Password</p>
+        <p className="text-lg font-semibold">Reset Password</p>
         {errorMessage && <p className="text-red-500">{errorMessage}</p>}
         {successMessage && <p className="text-green-600">{successMessage}</p>}
         <div>
@@ -134,9 +134,9 @@ const Resetpassword = () => {
               className={`${
                 validFormValues
                   ? "bg-orange-600"
-                  : "bg-orange-400 cursor-not-allowed"
+                  : "bg-orange-800 cursor-not-allowed"
               } "mt-4 border py-2 bg-green-800 ${
-                validFormValues ? " hover:bg-green-700" : ""
+                validFormValues ? " hover:bg-orange-400" : ""
               } rounded text-white font-bold"`}
             >
               {isLoading ? <Loader /> : "Reset Password"}
