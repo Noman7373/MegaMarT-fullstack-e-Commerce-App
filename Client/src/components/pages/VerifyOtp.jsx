@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { verifyOTP } from "../../Api/Query/userQuery";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { userForgotPassword, verifyOTP } from "../../Api/Query/userQuery";
+import { useLocation, useNavigate } from "react-router-dom";
 import { FETCH_STATUS } from "../status/fetchStatus";
 import Loader from "../status/Loader";
+import useHook from "../../hooks/useHook";
 
 const VerifyOtp = () => {
+  const { email } = useHook();
   const inputRef = useRef([]);
   const navigate = useNavigate();
   const location = useLocation();
@@ -14,25 +16,48 @@ const VerifyOtp = () => {
   const [otp, setOtp] = useState(new Array(6).fill("")); // OTP state as an array
   const [timer, setTimer] = useState(60);
   const [otpSent, setOtpSent] = useState(false);
-  const [resendDisabled, setResendDisabled] = useState(true);
-
+  const [resendDisabled, setResendDisabled] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
+  // handleResetPassword
+  const handleResendOTP = async () => {
+    try {
+      const response = await userForgotPassword({ email });
+      if (response.data.success) {
+        setResendDisabled(false);
+        setTimer(60);
+        setSuccessMessage("OPT Resend SuccFully");
+      }
+    } catch (error) {
+      setErrorMessage("An error occurred. Please try again.");
+    }
+  };
   // handle otp expire timer
+  // useEffect(() => {
+  //   let countDown;
+  //   if (otpSent && timer > 0) {
+  //     countDown = setInterval(() => {
+  //       setTimer((prev) => prev - 1);
+  //     }, 1000);
+  //   } else if (timer == 0) {
+  //     setResendDisabled(false);
+  //     clearInterval(countDown);
+  //   }
+
+  //   return () => clearInterval(countDown);
+  // }, [otpSent, timer]);
+
   useEffect(() => {
-    let countDown;
-    if (otpSent && timer > 0) {
-      countDown = setInterval(() => {
+    if (timer > 0) {
+      let timeOut = setTimeout(() => {
         setTimer((prev) => prev - 1);
       }, 1000);
+      return () => clearTimeout(timeOut);
     } else if (timer == 0) {
-      setResendDisabled(false);
-      clearInterval(countDown);
+      setResendDisabled(true);
     }
-
-    return () => clearInterval(countDown);
-  }, [otpSent, timer]);
+  }, [timer]);
 
   useEffect(() => {
     if (!location?.state) {
@@ -102,41 +127,51 @@ const VerifyOtp = () => {
         </p>
         {errorMessage && <p className="text-red-500">{errorMessage}</p>}
         {successMessage && <p className="text-green-600">{successMessage}</p>}
-        <p>{timer}</p>
-        <div>
-          <form
-            className="flex gap-3 flex-col mt-4 py-2"
-            onSubmit={handleSubmit}
-          >
-            <label htmlFor="otp">Enter Your OTP-Code *</label>
-
-            <div className="flex gap-4">
-              {otp.map((digit, index) => (
-                <input
-                  key={index}
-                  type="text"
-                  maxLength="1"
-                  value={digit}
-                  onChange={(e) => handleOnChange(e, index)}
-                  ref={(el) => (inputRef.current[index] = el)} // Save input reference
-                  className="bg-blue-50 border font-semibold rounded px-2 w-full py-1 outline-none text-center focus:border-yellow-300"
-                />
-              ))}
-            </div>
-
-            <button
-              type="submit"
-              className="mt-4 border py-2 rounded bg-orange-600 text-white font-bold"
+        {!resendDisabled && <p className="font-bold">Timer : {timer}</p>}
+        {!resendDisabled && (
+          <div>
+            <form
+              className="flex gap-3 flex-col mt-4 py-2"
+              onSubmit={handleSubmit}
             >
-              {isLoading ? <Loader /> : " Verify OTP"}
+              <label htmlFor="otp">Enter Your OTP-Code *</label>
+
+              <div className="flex gap-4">
+                {otp.map((digit, index) => (
+                  <input
+                    key={index}
+                    type="text"
+                    maxLength="1"
+                    value={digit}
+                    onChange={(e) => handleOnChange(e, index)}
+                    ref={(el) => (inputRef.current[index] = el)} // Save input reference
+                    className="bg-blue-50 border font-semibold rounded px-2 w-full py-1 outline-none text-center focus:border-yellow-300"
+                  />
+                ))}
+              </div>
+
+              <button
+                type="submit"
+                className="mt-4 border py-2 rounded bg-orange-600 text-white font-bold"
+              >
+                {isLoading ? <Loader /> : " Verify OTP"}
+              </button>
+            </form>
+          </div>
+        )}
+
+        {/* Resend Handle */}
+        {resendDisabled && (
+          <div className="mt-5">
+            {" "}
+            <button
+              className="p-2 rounded bg-green-800 text-white border-none w-full"
+              onClick={handleResendOTP}
+            >
+              {isLoading ? <Loader /> : "Resend OTP"}
             </button>
-          </form>
-        </div>
-        {/* <Link to={"/forgot-password"}>
-          <button className="p-2 rounded bg-green-800 text-white border-none">
-            Resend OTP
-          </button>
-        </Link> */}
+          </div>
+        )}
       </div>
     </section>
   );

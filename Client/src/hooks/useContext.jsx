@@ -12,7 +12,7 @@ export const ProviderContext = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [isLoading, setIsloading] = useState(false);
   const [subcategories, setSubcategories] = useState([]);
-
+  const [email, setEmail] = useState("");
   const fetchCategory = async () => {
     setLoading(loading);
     try {
@@ -46,6 +46,7 @@ export const ProviderContext = ({ children }) => {
       throw new Error("An error occured try again", error);
     }
   };
+
   return (
     <ContextProvider.Provider
       value={{
@@ -57,6 +58,8 @@ export const ProviderContext = ({ children }) => {
         subcategories,
         setSubcategories,
         fetchSubCategories,
+        email,
+        setEmail,
       }}
     >
       {children}

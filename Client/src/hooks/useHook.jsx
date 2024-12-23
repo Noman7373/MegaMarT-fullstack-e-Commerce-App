@@ -14,8 +14,9 @@ const useHook = () => {
     loading,
     isLoading,
     subcategories,
-   
     fetchSubCategories,
+    email,
+    setEmail,
   } = context;
 
   return {
@@ -25,8 +26,9 @@ const useHook = () => {
     loading,
     isLoading,
     subcategories,
-   
     fetchSubCategories,
+    email,
+    setEmail,
   };
 };
 
