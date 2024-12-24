@@ -81,11 +81,11 @@ const Register = () => {
   return (
     <section className="container mx-auto px-2 flex justify-between">
       <div className="bg-white my-2 w-full max-w-sm mx-auto rounded py-2 px-4">
-        <p className="text-xl font-semibold">Welcome to MegaMarT</p>
+        <p className="text-xl font-semibold text-center">Welcome to MegaMarT</p>
         <p className="text-red-500">{error}</p>
         <div>
           <form
-            className="flex gap-3 flex-col mt-4 py-2"
+            className="flex gap-3 flex-col mt-2 py-2"
             onSubmit={handleSubmit}
           >
             <label htmlFor="name">Name *</label>
@@ -135,6 +135,16 @@ const Register = () => {
               </span>
             </div>
 
+            <p className="text-center">
+              Already Hava Account?{" "}
+              <Link
+                to={"/login"}
+                className="text-blue-700 font-semibold hover:text-green-600"
+              >
+                SIGN IN NOW
+              </Link>
+            </p>
+
             <button
               disabled={!validFormValues}
               type="submit"
@@ -146,22 +156,12 @@ const Register = () => {
                 validFormValues ? " hover:bg-orange-700  text-center" : ""
               } rounded text-white font-bold  text-center"`}
             >
-              {isIDLE && "Register"}
+              {isIDLE && "SIGN UP"}
               {isLoading && <Loader />}
-              {isError && "Register"}
+              {isError && "SIGN UP"}
             </button>
           </form>
         </div>
-
-        <p>
-          Already Hava Account?{" "}
-          <Link
-            to={"/login"}
-            className="text-green-800 font-semibold hover:text-green-600"
-          >
-            Log In
-          </Link>
-        </p>
       </div>
       {/* <div>
         <img src={bgImage} alt="bg-image" />

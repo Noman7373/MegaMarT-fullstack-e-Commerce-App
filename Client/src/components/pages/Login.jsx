@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaFacebook, FaGoogle } from "react-icons/fa";
 import { userLogIn } from "../../Api/Query/userQuery";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUserDetials } from "../../store/userSlice";
 import { FETCH_STATUS } from "../status/fetchStatus";
 import Loader from "../status/Loader";
+import facebookLogoImage from "../../assets/facevook.webp";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -87,12 +88,12 @@ const Login = () => {
   return (
     <section className="container w-full mx-auto px-2">
       <div className="bg-white my-2 w-full max-w-sm mx-auto rounded py-2 px-4">
-        <p className="text-xl font-semibold">Log In To Access</p>
+        <p className="text-xl font-semibold text-center">Log In To Your Account</p>
         {errorMessage && <p className="text-red-500">{errorMessage}</p>}
         {successMessage && <p className="text-green-600">{successMessage}</p>}
         <div>
           <form
-            className="flex gap-3 flex-col mt-4 py-2"
+            className="flex gap-2 flex-col mt-1 py-2"
             onSubmit={handleSubmit}
           >
             <label htmlFor="email">Email *</label>
@@ -129,9 +130,17 @@ const Login = () => {
                 {showPassword ? <FaEyeSlash size={25} /> : <FaEye size={25} />}
               </span>
             </div>
-            <p className="flex items-end justify-end">
-              <Link to={"/forgot-password"}>Forgot Password?</Link>
-            </p>
+            <div className="flex justify-between">
+              <Link
+                className="text-green-800 font-semibold hover:text-green-600"
+                to={"/register-user"}
+              >
+                SIGN UP?
+              </Link>
+              <p className="flex items-end justify-end">
+                <Link to={"/forgot-password"}>Forgot Password?</Link>
+              </p>
+            </div>
             <button
               disabled={!validFormValues}
               type="submit"
@@ -143,22 +152,36 @@ const Login = () => {
                 validFormValues ? " hover:bg-orange-700  text-center" : ""
               } rounded text-white font-bold  text-center"`}
             >
-              {isIDLE && "Log In"}
+              {isIDLE && "SIGN IN"}
               {isLoading && <Loader />}
-              {isError && "Log In"}
+              {isError && "SIGN IN"}
             </button>
           </form>
         </div>
-        <div className="flex justify-between">
-          <p>
-            Dont have accout?{" "}
-            <Link
-              className="text-green-800 font-semibold hover:text-green-600"
-              to={"/register-user"}
-            >
-              Register
-            </Link>
-          </p>
+
+        <p className="flex items-center justify-center text-gray-400">
+          ------------- or --------------
+        </p>
+
+        <div className="flex flex-col gap-3">
+          <div className="flex bg-blue-900 rounded p-2 items-center gap-2 cursor-pointer hover:bg-blue-700">
+            <span>
+              {" "}
+              <FaFacebook className="text-white" size={25} />
+            </span>
+            <p className="text-white flex-2 w-full text-center">
+              LOGIN WITH FACEBOOK
+            </p>
+          </div>
+          <div className="flex bg-red-500 rounded p-2 items-center gap-2 cursor-pointer hover:bg-red-700">
+            <span>
+              {" "}
+              <FaGoogle className="text-white" size={25} />
+            </span>
+            <p className="text-white flex-2 w-full text-center">
+              LOGIN WITH GOOGLE
+            </p>
+          </div>
         </div>
       </div>
     </section>
