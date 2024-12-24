@@ -3,6 +3,7 @@ import uploadImageUtils from "../../utils/uplaodImageUtils";
 import { addSubCategoryAxios } from "../../Api/Query/userQuery";
 import Loader from "../status/Loader";
 import useHook from "../../hooks/useHook";
+import { useSelector } from "react-redux";
 
 const UploadSubcategory = ({ close }) => {
   // custom hook

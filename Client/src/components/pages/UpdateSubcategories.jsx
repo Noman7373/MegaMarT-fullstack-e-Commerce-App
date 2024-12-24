@@ -4,6 +4,7 @@ import uploadImageUtils from "../../utils/uplaodImageUtils";
 import { useLocation, useParams } from "react-router-dom";
 import { updateSubcategoryAxios } from "../../Api/Query/userQuery";
 import useHook from "../../hooks/useHook";
+import { useSelector } from "react-redux";
 
 const UpdateSubcategories = () => {
 

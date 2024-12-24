@@ -1,23 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { getProductByCategorySubcategoryAxios } from "../../Api/Query/userQuery";
 import { CiSearch } from "react-icons/ci";
 import AllLoader from "../../utils/AllLoader";
 import CardProduct from "./CardProduct";
-
+import { useSelector } from "react-redux";
+import validateURL from "../../utils/validateURL";
 
 const ListProduct = () => {
   const params = useParams();
+  const allSubcategories = useSelector(
+    (state) => state?.Products?.allSubcategories
+  );
 
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState("");
-  const [error, setError] = useState("");
   const [product, setProduct] = useState([]);
+  const [subcategoryProduct, setSubcategoryProduct] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [feedback, setFeedback] = useState({ success: "", error: "" });
 
   const categoryId = params.category.split("-").slice(-1)[0];
   const subCategoryId = params.subCategory.split("-").slice(-1)[0];
 
-  // fetch ProductBy Category-Subcategory
+  // Fetch products by category and subcategory
   const fetchProductByCategorySubcategory = async () => {
     setLoading(true);
     try {
@@ -25,66 +29,78 @@ const ListProduct = () => {
         categoryId,
         subCategoryId,
       });
-      setError("");
-      setLoading(false);
       if (response.data.success) {
-        const { productBySubcategory } = response.data;
-        setProduct(productBySubcategory);
-        setSuccess(response.data.message);
-        setError("");
+        setProduct(response.data.productBySubcategory);
+        setFeedback({ success: response.data.message, error: "" });
       }
-    } catch (error) {
-      setError("Fetch Data Field", error.message);
-      setSuccess("");
+    } catch (err) {
+      setFeedback({ success: "", error: "Failed to fetch data" });
     } finally {
-      setError("");
-      setSuccess("");
       setLoading(false);
     }
   };
-  // fetch-Product
+
+  // Fetch and filter subcategories
   useEffect(() => {
     fetchProductByCategorySubcategory();
-  }, []);
 
-  // Clear Msg
+    const filteredSubcategories = allSubcategories.filter((sub) =>
+      sub.category.some((c) => c === categoryId)
+    );
+    setSubcategoryProduct(filteredSubcategories || []);
+  }, [params, allSubcategories]);
+
+  // Clear success/error messages
   useEffect(() => {
-    if (success || error) {
-      let timer = setTimeout(() => {
-        setSuccess("");
-        setError("");
-      }, 2000);
+    if (feedback.success || feedback.error) {
+      const timer = setTimeout(() => setFeedback({ success: "", error: "" }), 2000);
       return () => clearTimeout(timer);
     }
-  }, [success, error]);
+  }, [feedback]);
 
   return (
     <section className="mx-auto flex">
       {/* Sidebar */}
-      <div className="lg:w-60 md:w-40 sm:w-36 fixed w-30 h-[70vh] flex flex-col border-r">
-        <div className=" p-4 font-bold text-lg border-b hidden md:block sm:block lg:block">
-          SUbcategory Prodcut
-        </div>
-        <ul className="overflow-y-auto lg:p-4 xs:p-2 w-full">
-          {/* Example Items */}
+      <div className="lg:w-60 md:w-40 sm:w-36 fixed w-[6.5rem] h-[70vh] flex flex-col border-r">
+        <p className="p-2 xs:text-sm lg:text-xl font-semibold bg-white">
+          Subcategory
+        </p>
 
-          <li className="hover:bg-gray-300 p-2 rounded cursor-pointer">
-            Category
-          </li>
-          <li className="hover:bg-gray-300 p-2 rounded cursor-pointer">
-            Category
-          </li>
-          <li className="hover:bg-gray-300 p-2 rounded cursor-pointer">
-            Category
-          </li>
-        </ul>
+        <div className="overflow-y-auto custom-scrollbar lg:p-4 xs:p-2 w-full h-full flex flex-col gap-1">
+          {subcategoryProduct.length > 0 ? (
+            subcategoryProduct.map((items, index) => {
+              // const url = `/${validateURL(items?.category[0]?.name)}-${
+              //   items?.category[0]?._id
+              // }/${validateURL(items?.name)}-${items?._id}`;
+              return (
+                <Link
+                  // to={url}
+                  key={index + items._id + "subcategory"}
+                  className={`w-full justify-center items-center p-2 border hover:bg-[#b2f8c0] flex cursor-pointer shadow ${
+                    items._id === subCategoryId
+                      ? "bg-[#EBFFEF] border-l-2 border-l-[#22b13f]"
+                      : ""
+                  }`}
+                >
+                  <img
+                    src={items.image}
+                    alt={items.name || "No Image"}
+                    className="h-12 object-cover"
+                  />
+                  <p className="ml-2 text-sm">{items.name || "Unnamed"}</p>
+                </Link>
+              );
+            })
+          ) : (
+            <h1>No Data</h1>
+          )}
+        </div>
       </div>
 
       {/* Product Display */}
-
-      <div className="flex flex-col gap-2 lg:ml-60 md:ml-[10rem] xs:ml-[6.7rem] sm:ml-[9rem] w-full">
-        <div className="shadow-md flex justify-between items-center p-2">
-          <h1 className="font-semibold hidden lg:block md:block sm:block">
+      <div className="flex flex-col gap-2 lg:ml-60 md:ml-[10rem] xs:ml-[6.6rem] sm:ml-[9rem] w-full">
+        <div className="shadow-md flex justify-between items-center p-2 bg-white">
+          <h1 className="font-semibold hidden lg:block">
             {params.category &&
               params.category
                 .split("-")
@@ -92,9 +108,9 @@ const ListProduct = () => {
                 .join(" ")
                 .toUpperCase()}
           </h1>
-          {error && <p className="text-red-500 hidden lg:block">{error}</p>}
-          {success && (
-            <p className="text-green-500 hidden lg:block">{success}</p>
+          {feedback.error && <p className="text-red-500">{feedback.error}</p>}
+          {feedback.success && (
+            <p className="text-green-500">{feedback.success}</p>
           )}
 
           <div className="flex justify-center items-center gap-1 bg-blue-50 border rounded outline-none">
@@ -102,25 +118,25 @@ const ListProduct = () => {
             <input
               type="text"
               placeholder="Search Product"
-              className="bg-blue-50  rounded px-1 py-1 outline-none focus:border-yellow-300"
+              className="bg-blue-50 w-full rounded px-1 py-1 outline-none focus:border-yellow-300"
             />
           </div>
         </div>
-        {/* Show Product */}
-        <div className="grid grid-cols-1 place-items-center sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 p-2 my-10">
+
+        {/* Show Products */}
+        <div className="grid grid-cols-1 place-items-center sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 p-2 my-2">
           {!loading &&
-            product &&
-            product.map((items, index) => {
-              return (
-                <CardProduct
-                  categoryProduct={items}
-                  key={index + items._id + "productList"}
-                />
-              );
-            })}
+            product.map((items, index) => (
+              <CardProduct
+                categoryProduct={items}
+                key={index + items._id + "productList"}
+              />
+            ))}
         </div>
 
-        <div>{loading && <AllLoader />}</div>
+        <div className="h-[25rem] flex justify-center items-center">
+          {loading && <AllLoader />}
+        </div>
       </div>
     </section>
   );
