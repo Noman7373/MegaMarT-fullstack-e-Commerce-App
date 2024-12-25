@@ -20,6 +20,6 @@ productRoute.post(
 productRoute.post("/product/all", getAllProductController);
 productRoute.post("/product/by-category", getProductByCategory);
 productRoute.post("/product/by-category&subcategory", getProductBySubcategory);
-productRoute.post("/product/details", getProductDetails);
+productRoute.get("/product/details", getProductDetails);
 
 export default productRoute;

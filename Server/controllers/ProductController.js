@@ -172,13 +172,14 @@ const getProductDetails = async (req, res) => {
       });
     }
 
-    const getProductDetails = await productModel.find({ _id: id });
+    const productDetails = await productModel.find({ _id: id });
+    console.log(productDetails);
 
     return res.json({
       message: "Fetch details successfully",
       error: false,
       success: true,
-      getProductDetails,
+      productDetails,
     });
   } catch (error) {
     res.status(500).json({
