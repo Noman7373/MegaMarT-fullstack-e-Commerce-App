@@ -164,14 +164,6 @@ const getProductDetails = async (req, res) => {
   try {
     const { id } = req.body;
 
-    if (!id) {
-      return res.status(401).json({
-        message: "Id required",
-        success: false,
-        error: true,
-      });
-    }
-
     const productDetails = await productModel.find({ _id: id });
     console.log(productDetails);
 
