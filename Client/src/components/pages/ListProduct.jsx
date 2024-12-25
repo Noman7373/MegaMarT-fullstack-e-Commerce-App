@@ -9,9 +9,11 @@ import validateURL from "../../utils/validateURL";
 
 const ListProduct = () => {
   const params = useParams();
+  const allCategory = useSelector((state) => state?.Products?.allCategories);
   const allSubcategories = useSelector(
     (state) => state?.Products?.allSubcategories
   );
+  //   console.log(allSubcategories);
 
   const [product, setProduct] = useState([]);
   const [subcategoryProduct, setSubcategoryProduct] = useState([]);
@@ -20,7 +22,8 @@ const ListProduct = () => {
 
   const categoryId = params.category.split("-").slice(-1)[0];
   const subCategoryId = params.subCategory.split("-").slice(-1)[0];
-
+  const filterCategory = allCategory.filter((cat) => cat._id === categoryId);
+  
   // Fetch products by category and subcategory
   const fetchProductByCategorySubcategory = async () => {
     setLoading(true);
@@ -47,13 +50,18 @@ const ListProduct = () => {
     const filteredSubcategories = allSubcategories.filter((sub) =>
       sub.category.some((c) => c === categoryId)
     );
+
+
     setSubcategoryProduct(filteredSubcategories || []);
   }, [params, allSubcategories]);
 
   // Clear success/error messages
   useEffect(() => {
     if (feedback.success || feedback.error) {
-      const timer = setTimeout(() => setFeedback({ success: "", error: "" }), 2000);
+      const timer = setTimeout(
+        () => setFeedback({ success: "", error: "" }),
+        2000
+      );
       return () => clearTimeout(timer);
     }
   }, [feedback]);
@@ -69,12 +77,13 @@ const ListProduct = () => {
         <div className="overflow-y-auto custom-scrollbar lg:p-4 xs:p-2 w-full h-full flex flex-col gap-1">
           {subcategoryProduct.length > 0 ? (
             subcategoryProduct.map((items, index) => {
-              // const url = `/${validateURL(items?.category[0]?.name)}-${
-              //   items?.category[0]?._id
-              // }/${validateURL(items?.name)}-${items?._id}`;
+              const url = `/${validateURL(filterCategory[0].name)}-${
+                filterCategory[0]._id
+              }/${validateURL(items?.name)}-${items?._id}`;
+
               return (
                 <Link
-                  // to={url}
+                  to={url}
                   key={index + items._id + "subcategory"}
                   className={`w-full justify-center items-center p-2 border hover:bg-[#b2f8c0] flex cursor-pointer shadow ${
                     items._id === subCategoryId

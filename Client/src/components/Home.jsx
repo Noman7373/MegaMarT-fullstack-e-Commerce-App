@@ -28,6 +28,7 @@ const Home = () => {
     const subcategory = allSubcategories.find((sub) =>
       sub.category.some((c) => c === id)
     );
+    console.log("filterSubcategory", subcategory);
 
     // Check if subcategory exists
     if (!subcategory) {
