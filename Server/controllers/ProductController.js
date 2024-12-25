@@ -160,9 +160,39 @@ const getProductBySubcategory = async (req, res) => {
   }
 };
 
+const getProductDetails = async (req, res) => {
+  try {
+    const { id } = req.body;
+
+    if (!id) {
+      return res.status(401).json({
+        message: "Id required",
+        success: false,
+        error: true,
+      });
+    }
+
+    const getProductDetails = await productModel.find({ _id: id });
+
+    return res.json({
+      message: "Fetch details successfully",
+      error: false,
+      success: true,
+      getProductDetails,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};
+
 export {
   createProductController,
   getAllProductController,
   getProductByCategory,
   getProductBySubcategory,
+  getProductDetails,
 };
