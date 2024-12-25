@@ -162,16 +162,15 @@ const getProductBySubcategory = async (req, res) => {
 
 const getProductDetails = async (req, res) => {
   try {
-    const { id } = req.body;
+    const { id } = req.params;
 
     const productDetails = await productModel.find({ _id: id });
-    console.log(productDetails);
 
-    return res.json({
+    return res.status(200).json({
       message: "Fetch details successfully",
       error: false,
       success: true,
-      productDetails,
+      productData: productDetails,
     });
   } catch (error) {
     res.status(500).json({
