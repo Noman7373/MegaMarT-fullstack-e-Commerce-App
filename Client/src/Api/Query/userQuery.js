@@ -371,6 +371,19 @@ const getProductByCategorySubcategoryAxios = async ({
   }
 };
 
+// Get-Product-Details
+const getProductDetailAxios = async (id) => {
+  try {
+    const respone = await Axios.get(`${baseURL}/api/product/details`, id);
+
+    return respone;
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message ||
+        "An error occurred while adding the category"
+    );
+  }
+};
 export {
   registerUser,
   userLogIn,
@@ -397,4 +410,5 @@ export {
   getAllProductAxios,
   getProductByCategoryAxios, // Get product by category
   getProductByCategorySubcategoryAxios, // Get product by category and Subcategory
+  getProductDetailAxios,
 };

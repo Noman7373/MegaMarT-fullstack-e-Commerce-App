@@ -23,7 +23,7 @@ const ListProduct = () => {
   const categoryId = params.category.split("-").slice(-1)[0];
   const subCategoryId = params.subCategory.split("-").slice(-1)[0];
   const filterCategory = allCategory.filter((cat) => cat._id === categoryId);
-  
+
   // Fetch products by category and subcategory
   const fetchProductByCategorySubcategory = async () => {
     setLoading(true);
@@ -50,7 +50,6 @@ const ListProduct = () => {
     const filteredSubcategories = allSubcategories.filter((sub) =>
       sub.category.some((c) => c === categoryId)
     );
-
 
     setSubcategoryProduct(filteredSubcategories || []);
   }, [params, allSubcategories]);
@@ -82,22 +81,25 @@ const ListProduct = () => {
               }/${validateURL(items?.name)}-${items?._id}`;
 
               return (
-                <Link
-                  to={url}
-                  key={index + items._id + "subcategory"}
-                  className={`w-full justify-center items-center p-2 border hover:bg-[#b2f8c0] flex cursor-pointer shadow ${
-                    items._id === subCategoryId
-                      ? "bg-[#EBFFEF] border-l-2 border-l-[#22b13f]"
-                      : ""
-                  }`}
-                >
-                  <img
-                    src={items.image}
-                    alt={items.name || "No Image"}
-                    className="h-12 object-cover"
-                  />
-                  <p className="ml-2 text-sm">{items.name || "Unnamed"}</p>
-                </Link>
+                <div className="w-full">
+                  {" "}
+                  <Link
+                    to={url}
+                    key={index + items._id + "subcategory"}
+                    className={`w-full flex justify-start items-center px-2 py-2 border hover:bg-[#b2f8c0] cursor-pointer shadow ${
+                      items._id === subCategoryId
+                        ? "bg-[#EBFFEF] border-l-2 border-l-[#22b13f]"
+                        : "bg-white"
+                    }`}
+                  >
+                    <img
+                      src={items.image}
+                      alt={items.name || "No Image"}
+                      className="h-12 object-cover"
+                    />
+                    <p className="ml-2 text-sm">{items.name || "Unnamed"}</p>
+                  </Link>
+                </div>
               );
             })
           ) : (

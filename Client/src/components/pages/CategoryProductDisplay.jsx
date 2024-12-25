@@ -23,6 +23,7 @@ const CategoryProductDisplay = ({ name, id }) => {
       if (response.data.success) {
         const { categoryProduct } = response.data;
         setCategoryProduct(categoryProduct);
+        
       }
     } catch (error) {
       console.log(error.message);
