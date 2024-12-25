@@ -372,10 +372,9 @@ const getProductByCategorySubcategoryAxios = async ({
 };
 
 // Get-Product-Details
-const getProductDetailAxios = async (id) => {
+const getProductDetailAxios = async ({ id }) => {
   try {
-    const respone = await Axios.get(`${baseURL}/api/product/details`, id);
-
+    const respone = await Axios.get(`${baseURL}/api/product/details/${id}`);
     return respone;
   } catch (error) {
     throw new Error(
