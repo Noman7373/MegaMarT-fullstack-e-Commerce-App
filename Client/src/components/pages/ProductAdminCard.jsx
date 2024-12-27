@@ -1,13 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DeleteConfirmation from "../../utils/DeleteConfirmation";
 import EditProduct from "./EditProduct";
+import { deleteProductAxios } from "../../Api/Query/userQuery";
 
 const ProductAdminCard = ({ showProducts, index, callProduct }) => {
   const [isOpenEditProduct, setIsOpenEditProduct] = useState(false);
   const [isOpenDeleteProduct, setIsOpenDeleteProduct] = useState(false);
 
-  const confirmDelete = () => {
-    setIsOpenDeleteProduct(false);
+  // const { _id } = showProducts;
+  const confirmDelete = async (_id) => {
+    try {
+      const response = await deleteProductAxios({
+        _id,
+      });
+      if (response.data.success) {
+        callProduct();
+        setIsOpenDeleteProduct(false);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   return (
@@ -44,13 +56,13 @@ const ProductAdminCard = ({ showProducts, index, callProduct }) => {
         <DeleteConfirmation
           isOpen={isOpenDeleteProduct}
           onClose={() => setIsOpenDeleteProduct(false)}
-          onConfirm={confirmDelete}
+          onConfirm={() => confirmDelete(showProducts._id)}
         />
       )}
 
       {isOpenEditProduct && (
         <EditProduct
-        fetchProduct={callProduct}
+          fetchProduct={callProduct}
           products={showProducts}
           onClose={() => setIsOpenEditProduct(false)}
         />

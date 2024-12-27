@@ -19,7 +19,7 @@ const EditProduct = ({ products, fetchProduct, onClose }) => {
     name: products.name,
     image: products.image || [],
     description: products.description,
-    category: products.categor || [],
+    category: products.category || [],
     subCategory: products.subCategory || [],
     unit: products.unit,
     stock: products.stock,

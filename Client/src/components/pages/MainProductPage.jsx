@@ -130,7 +130,7 @@ const MainProductPage = () => {
                   src={img}
                   onClick={() => handleChangeImage(index)}
                   alt={`Thumbnail ${index + 1}`}
-                  className="w-full h-full object-scale-down cursor-pointer"
+                  className="w-full h-full object-scale-down border cursor-pointer"
                 />
               </div>
             ))}

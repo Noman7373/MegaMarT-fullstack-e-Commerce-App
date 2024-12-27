@@ -72,8 +72,6 @@ const DisplayAdminProduct = () => {
     return () => clearTimeout(timer);
   }, [search]);
 
-  console.log(search);
-
   return (
     <>
       <section>
@@ -105,7 +103,7 @@ const DisplayAdminProduct = () => {
                     showProducts={products}
                     index={index}
                     product={allProduct}
-                    callProduct = {fetchProduct}
+                    callProduct={fetchProduct}
                   />
                 );
               })}
