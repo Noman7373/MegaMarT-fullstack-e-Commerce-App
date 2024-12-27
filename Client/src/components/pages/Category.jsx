@@ -69,12 +69,12 @@ const Category = () => {
                 <Link
                   to={`/dashboard/edit-category/${category._id}`}
                   state={{ category }}
-                  className="text-center flex justify-center items-center bg-green-600 text-white px-3 rounded font-medium hover:bg-green-500"
+                  className="bg-[#318616] text-white px-2 py-1 border border-[#318616] rounded hover:bg-transparent hover:text-black"
                 >
                   Edit
                 </Link>
                 <button
-                  className="bg-red-600 text-white p-1 rounded font-medium hover:bg-red-500"
+                  className="bg-red-500 text-white px-1 py-1 border border-red-500 rounded hover:bg-transparent hover:text-black"
                   onClick={() => {
                     setCategoryId(category._id);
                     handleDelete();

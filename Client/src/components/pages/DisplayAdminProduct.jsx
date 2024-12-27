@@ -97,7 +97,7 @@ const DisplayAdminProduct = () => {
         <div className="py-4 bg-blue-50">
           {/* {isLoading && <AllLoader />} */}
           <div className="min-h-[54vh]">
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 py-2">
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 py-2 overflow-auto h-[20rem] custom-scrollbar">
               {allProduct.map((products, index) => {
                 return (
                   <ProductAdminCard

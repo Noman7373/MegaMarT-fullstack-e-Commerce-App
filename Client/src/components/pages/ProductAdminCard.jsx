@@ -5,7 +5,7 @@ const ProductAdminCard = ({ showProducts, index }) => {
     <>
       <div
         key={showProducts?._id || index}
-        className="w-32 p-2 bg-white rounded ml-1"
+        className="w-32 h-[13rem] p-2 bg-white rounded ml-1 group flex flex-col gap-2"
       >
         <div>
           <img
@@ -14,8 +14,15 @@ const ProductAdminCard = ({ showProducts, index }) => {
             className="w-full h-full object-scale-down"
           />
         </div>
-        <p>{showProducts?.name.slice(0, 20)}....</p>
-        <p className="text-gray-400">{showProducts?.unit}</p>
+        <p>{showProducts?.name.slice(0, 10)}....</p>
+        <div className="group-hover:flex justify-between-between items-center gap-2 mt-2 hidden">
+          <button className="bg-[#318616] text-white px-2 py-1 border border-[#318616] rounded hover:bg-transparent hover:text-black">
+            Edit
+          </button>
+          <button className="bg-red-500 text-white px-1 py-1 border border-red-500 rounded hover:bg-transparent hover:text-black">
+            Delete
+          </button>
+        </div>
       </div>
     </>
   );
