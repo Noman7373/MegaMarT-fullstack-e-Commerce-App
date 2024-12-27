@@ -160,6 +160,7 @@ const getProductBySubcategory = async (req, res) => {
   }
 };
 
+// get Product Details by ID
 const getProductDetails = async (req, res) => {
   try {
     const { id } = req.params;
@@ -181,10 +182,73 @@ const getProductDetails = async (req, res) => {
   }
 };
 
+// Update Product by ID
+const updateProductController = async (req, res) => {
+  try {
+    const { _id } = req.body;
+
+    if (!_id) {
+      return res.status(401).json({
+        message: "Product ID is required",
+        error: true,
+        success: false,
+      });
+    }
+
+    const updateProduct = await productModel.updateOne(
+      { _id },
+      {
+        ...req.body,
+      }
+    );
+
+    return res.json({
+      message: "Product Updated Successfully",
+      error: false,
+      success: true,
+      updateProduct,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};
+
+// Delete Product Details by ID
+// const deleteProduct = async (req, res) => {
+//   try {
+//     const { _id } = req.body;
+
+//     const checkProduct = await productModel.find({
+//       category: { $in: [_id] },
+//       subCategory: { $in: [_id] },
+//     });
+
+//     if (checkProduct) {
+//       return res.json({
+//         message: "Prdcuct already used in other place",
+//         error: true,
+//         success: false,
+//       });
+//     }
+
+//   } catch (error) {
+//     res.status(500).json({
+//       message: error.message || error,
+//       error: true,
+//       success: false,
+//     });
+//   }
+// };
+
 export {
   createProductController,
   getAllProductController,
   getProductByCategory,
   getProductBySubcategory,
   getProductDetails,
+  updateProductController,
 };
