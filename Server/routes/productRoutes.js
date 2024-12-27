@@ -31,7 +31,7 @@ productRoute.put(
   checkAdmin,
   updateProductController
 );
-productRoute.put(
+productRoute.delete(
   "/product-delete",
   authMiddleware,
   checkAdmin,
