@@ -28,7 +28,7 @@ const DisplayAdminProduct = () => {
 
       setIsLoading(false);
       if (response?.data?.success) {
-        const { data, totalCount, totalNoPage } = response.data;
+        const { data, totalCount } = response.data;
         setTotalPageCount(totalCount);
         setAllProduct(data);
       }
@@ -105,7 +105,7 @@ const DisplayAdminProduct = () => {
                     showProducts={products}
                     index={index}
                     product={allProduct}
-                    
+                    callProduct = {fetchProduct}
                   />
                 );
               })}

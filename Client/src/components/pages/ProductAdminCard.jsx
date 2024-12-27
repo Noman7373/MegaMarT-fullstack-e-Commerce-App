@@ -1,7 +1,14 @@
 import React, { useState } from "react";
+import DeleteConfirmation from "../../utils/DeleteConfirmation";
+import EditProduct from "./EditProduct";
 
-const ProductAdminCard = ({ showProducts, index }) => {
-  
+const ProductAdminCard = ({ showProducts, index, callProduct }) => {
+  const [isOpenEditProduct, setIsOpenEditProduct] = useState(false);
+  const [isOpenDeleteProduct, setIsOpenDeleteProduct] = useState(false);
+
+  const confirmDelete = () => {
+    setIsOpenDeleteProduct(false);
+  };
 
   return (
     <>
@@ -18,14 +25,36 @@ const ProductAdminCard = ({ showProducts, index }) => {
         </div>
         <p>{showProducts?.name.slice(0, 10)}....</p>
         <div className="group-hover:flex justify-between-between items-center gap-2 mt-2 hidden">
-          <button className="bg-[#318616] text-white px-2 py-1 border border-[#318616] rounded hover:bg-transparent hover:text-black">
+          <button
+            className="bg-[#318616] text-white px-2 py-1 border border-[#318616] rounded hover:bg-transparent hover:text-black"
+            onClick={() => setIsOpenEditProduct(true)}
+          >
             Edit
           </button>
-          <button className="bg-red-500 text-white px-1 py-1 border border-red-500 rounded hover:bg-transparent hover:text-black">
+          <button
+            className="bg-red-500 text-white px-1 py-1 border border-red-500 rounded hover:bg-transparent hover:text-black"
+            onClick={() => setIsOpenDeleteProduct(true)}
+          >
             Delete
           </button>
         </div>
       </div>
+
+      {isOpenDeleteProduct && (
+        <DeleteConfirmation
+          isOpen={isOpenDeleteProduct}
+          onClose={() => setIsOpenDeleteProduct(false)}
+          onConfirm={confirmDelete}
+        />
+      )}
+
+      {isOpenEditProduct && (
+        <EditProduct
+        fetchProduct={callProduct}
+          products={showProducts}
+          onClose={() => setIsOpenEditProduct(false)}
+        />
+      )}
     </>
   );
 };

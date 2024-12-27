@@ -385,9 +385,34 @@ const getProductDetailAxios = async ({ id }) => {
 };
 
 // Update Product Axios
-
-const updateProductAxios = async ({ _id }) => {
+const updateProductAxios = async ({
+  _id,
+  name,
+  image,
+  description,
+  category,
+  subCategory,
+  unit,
+  stock,
+  price,
+  discount,
+  more_details,
+}) => {
   try {
+    const response = await Axios.put(`${baseURL}/api/product-update`, {
+      _id,
+      name,
+      image,
+      description,
+      category,
+      subCategory,
+      unit,
+      stock,
+      price,
+      discount,
+      more_details,
+    });
+    return response;
   } catch (error) {
     throw new Error(
       error.response?.data?.message ||
