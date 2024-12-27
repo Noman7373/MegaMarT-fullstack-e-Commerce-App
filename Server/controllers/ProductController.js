@@ -72,7 +72,12 @@ const getAllProductController = async (req, res) => {
 
     const skip = (page - 1) * limit;
     const [data, totalCount] = await Promise.all([
-      productModel.find(query).sort({ createdAt: -1 }).skip(skip).limit(limit),
+      productModel
+        .find(query)
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit)
+        .populate("category subCategory"),
       productModel.countDocuments(query),
     ]);
 
@@ -185,7 +190,19 @@ const getProductDetails = async (req, res) => {
 // Update Product by ID
 const updateProductController = async (req, res) => {
   try {
-    const { _id } = req.body;
+    const {
+      _id,
+      name,
+      image,
+      description,
+      category,
+      subCategory,
+      unit,
+      stock,
+      price,
+      discount,
+      more_details,
+    } = req.body;
 
     if (!_id) {
       return res.status(401).json({
@@ -195,10 +212,19 @@ const updateProductController = async (req, res) => {
       });
     }
 
-    const updateProduct = await productModel.updateOne(
+    const data = await productModel.updateOne(
       { _id },
       {
-        ...req.body,
+        name,
+        image,
+        description,
+        category,
+        subCategory,
+        unit,
+        stock,
+        price,
+        discount,
+        more_details,
       }
     );
 
@@ -206,7 +232,7 @@ const updateProductController = async (req, res) => {
       message: "Product Updated Successfully",
       error: false,
       success: true,
-      updateProduct,
+      data,
     });
   } catch (error) {
     return res.status(500).json({
