@@ -383,6 +383,19 @@ const getProductDetailAxios = async ({ id }) => {
     );
   }
 };
+
+// Update Product Axios
+
+const updateProductAxios = async ({ _id }) => {
+  try {
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message ||
+        "An error occurred while adding the category"
+    );
+  }
+};
+
 export {
   registerUser,
   userLogIn,
@@ -410,4 +423,5 @@ export {
   getProductByCategoryAxios, // Get product by category
   getProductByCategorySubcategoryAxios, // Get product by category and Subcategory
   getProductDetailAxios,
+  updateProductAxios,
 };

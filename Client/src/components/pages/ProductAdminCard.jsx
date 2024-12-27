@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 
 const ProductAdminCard = ({ showProducts, index }) => {
+  
+
   return (
     <>
       <div
         key={showProducts?._id || index}
-        className="w-32 h-[13rem] p-2 bg-white rounded ml-1 group flex flex-col gap-2"
+        className="w-32 h-[13rem] p-2 bg-white rounded ml-1 group flex flex-col gap-2 shadow-md"
       >
         <div>
           <img

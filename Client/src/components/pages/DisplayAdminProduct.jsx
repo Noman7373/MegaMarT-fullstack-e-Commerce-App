@@ -94,16 +94,18 @@ const DisplayAdminProduct = () => {
           </div>
         </div>
 
-        <div className="py-4 bg-blue-50">
+        <div className="py-4">
           {/* {isLoading && <AllLoader />} */}
           <div className="min-h-[54vh]">
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 py-2 overflow-auto h-[20rem] custom-scrollbar">
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 py-2 px-3 overflow-auto h-[20rem] custom-scrollbar">
               {allProduct.map((products, index) => {
                 return (
                   <ProductAdminCard
                     key={products.id || index}
                     showProducts={products}
                     index={index}
+                    product={allProduct}
+                    
                   />
                 );
               })}
