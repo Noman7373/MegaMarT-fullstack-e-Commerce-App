@@ -12,8 +12,14 @@ const CardProduct = ({ categoryProduct }) => {
       >
         {categoryProduct.price > 30 ? (
           <div className="absolute z-10 top-0 left-3 p-2 bg-gradient-to-r from-orange-400 to-pink-500 text-white font-bold text-center rounded-[50%] shadow-lg mx-auto animate-pulse">
-            <p className="text-sm">03%</p>
-            <p className="text-sm">OFF</p>
+            {categoryProduct.discount > 0 ? (
+              <>
+                <p className="text-sm">{categoryProduct.discount}%</p>
+                <p className="text-sm">OFF</p>
+              </>
+            ) : (
+              ""
+            )}
           </div>
         ) : (
           ""
