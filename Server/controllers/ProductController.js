@@ -244,7 +244,7 @@ const updateProductController = async (req, res) => {
 };
 
 // Delete Product Details by ID
-const deleteProduct = async (req, res) => {
+const deleteProductController = async (req, res) => {
   try {
     const { _id } = req.body;
 
@@ -280,5 +280,5 @@ export {
   getProductBySubcategory,
   getProductDetails,
   updateProductController,
-  deleteProduct,
+  deleteProductController,
 };

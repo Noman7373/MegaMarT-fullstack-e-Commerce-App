@@ -1,7 +1,7 @@
 import { Router } from "express";
 import {
   createProductController,
-  deleteProduct,
+  deleteProductController,
   getAllProductController,
   getProductByCategory,
   getProductBySubcategory,
@@ -31,6 +31,11 @@ productRoute.put(
   checkAdmin,
   updateProductController
 );
-productRoute.put("/product-delete", authMiddleware, checkAdmin, deleteProduct);
+productRoute.put(
+  "/product-delete",
+  authMiddleware,
+  checkAdmin,
+  deleteProductController
+);
 
 export default productRoute;
