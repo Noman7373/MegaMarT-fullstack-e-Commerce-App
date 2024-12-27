@@ -8,6 +8,7 @@ import image1 from "../../assets/minute_delivery.png";
 import image2 from "../../assets/Best_Prices_Offers.png";
 import image3 from "../../assets/Wide_Assortment.png";
 import Divider from "../Divider";
+import AllLoader from "../../utils/AllLoader";
 
 const MainProductPage = () => {
   const { id } = useParams();
@@ -45,7 +46,7 @@ const MainProductPage = () => {
         setStatus({
           loading: false,
           success: "",
-          error: "Failed to fetch product data.",
+          error: "No Image Available.",
         });
       }
     } catch (error) {
@@ -76,19 +77,28 @@ const MainProductPage = () => {
     imageContainer.current.scrollLeft -= 100;
   };
 
+  const handleChangeImage = (index) => {
+    setImageIndex(index);
+  };
+
   return (
-    <section className="container mx-auto p-4 grid lg:grid-cols-2 gap-6">
+    <section className="mx-auto p-4 grid lg:grid-cols-2 gap-6">
       {/* Image Section */}
       <div>
+        {status.loading && (
+          <div className="bg-white lg:min-h-[45vh] lg:max-h-[65vh] rounded min-h-56 max-h-56 h-full w-full flex justify-center items-center">
+            <AllLoader />
+          </div>
+        )}
         <div className="bg-white lg:min-h-[65vh] lg:max-h-[65vh] rounded min-h-56 max-h-56 h-full w-full">
-          {data.image.length > 0 ? (
+          {!status.loading && data.image.length > 0 ? (
             <img
               src={data.image[imageIndex]}
               alt={`Product image ${imageIndex + 1}`}
               className="w-full h-full object-scale-down"
             />
           ) : (
-            <p className="text-center text-gray-500">No images available</p>
+            <p className="text-center text-gray-500">{status.error}</p>
           )}
         </div>
 
@@ -115,12 +125,12 @@ const MainProductPage = () => {
               <div
                 key={`thumb-${index}`}
                 className="w-20 h-20 cursor-pointer shadow-md"
-                onClick={() => setImageIndex(index)}
               >
                 <img
                   src={img}
+                  onClick={() => handleChangeImage(index)}
                   alt={`Thumbnail ${index + 1}`}
-                  className="w-full h-full object-scale-down"
+                  className="w-full h-full object-scale-down cursor-pointer"
                 />
               </div>
             ))}
@@ -150,12 +160,11 @@ const MainProductPage = () => {
         <div className="my-4 lg:grid gap-3">
           <div>
             <p className="font-semibold">Description</p>
-            <p className="text-base">{data.description}</p>
+            <p className="text-base text-slate-400">
+              {data.description.slice(0, 180)}
+            </p>
           </div>
-          <div>
-            <p className="font-semibold">Unit</p>
-            <p className="text-base">{data.unit}</p>
-          </div>
+
           {data.more_details &&
             Object.keys(data.more_details).map((key, index) => (
               <div key={`details-${index}`}>
@@ -167,11 +176,21 @@ const MainProductPage = () => {
       </div>
 
       {/* Product Details Section */}
-      <div className="p-4">
+      <div className="py-3">
         <h2 className="text-lg font-semibold lg:text-3xl">{data.name}</h2>
-        <Divider />
+        <div className="bg-green-100 text-green-600 rounded text-sm w-fit px-2 mt-4">
+          10 MINS
+        </div>
+        <div className="py-4">
+          <Divider />
+        </div>
+        <div className="flex items-start justify-start py-3">
+          <p className="font-semibold py-5 px-4 border border-[#318616] rounded-xl ">
+            Unit {data.unit}
+          </p>
+        </div>
         <div>
-          <p className="font-bold text-lg">Price:</p>
+          {/* <p className="font-bold text-lg">Price:</p> */}
           <div className="flex items-center gap-2">
             <div className="border border-green-600 px-4 py-2 bg-green-50">
               <p className="font-semibold text-lg">
@@ -187,13 +206,19 @@ const MainProductPage = () => {
               </>
             )}
           </div>
+          <div className="mt-4">
+            <p className="text-slate-400 text-sm">(Inclusive of all taxes)</p>
+            <button className="mt-2 px-4 py-1 bg-[#F7FFF9] text-[#318616] border border-[#318616] rounded">
+              Add
+            </button>
+          </div>
         </div>
         <h2 className="font-semibold mt-4">Why shop from us?</h2>
         <div className="flex  items-center gap-4 my-4">
           <img src={image1} alt="superfast delivery" className="w-20 h-20" />
           <div className="text-sm">
             <div className="font-semibold">Superfast Delivery</div>
-            <p>
+            <p className="text-slate-400">
               Get your orer delivered to your doorstep at the earliest from dark
               stores near you.
             </p>
@@ -203,7 +228,7 @@ const MainProductPage = () => {
           <img src={image2} alt="Best prices offers" className="w-20 h-20" />
           <div className="text-sm">
             <div className="font-semibold">Best Prices & Offers</div>
-            <p>
+            <p className="text-slate-400">
               Best price destination with offers directly from the
               nanufacturers.
             </p>
@@ -213,7 +238,7 @@ const MainProductPage = () => {
           <img src={image3} alt="Wide Assortment" className="w-20 h-20" />
           <div className="text-sm">
             <div className="font-semibold">Wide Assortment</div>
-            <p>
+            <p className="text-slate-400">
               Choose from 5000+ products across food personal care, household &
               other categories.
             </p>
