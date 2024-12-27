@@ -6,6 +6,7 @@ import AllLoader from "../../utils/AllLoader";
 import CardProduct from "./CardProduct";
 import { useSelector } from "react-redux";
 import validateURL from "../../utils/validateURL";
+import NoData from "./NoData";
 
 const ListProduct = () => {
   const params = useParams();
@@ -136,6 +137,8 @@ const ListProduct = () => {
 
         {/* Show Products */}
         <div className="grid grid-cols-1 place-items-center sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 p-2 my-2">
+          {!product[0] && !loading && <NoData />}
+
           {!loading &&
             product.map((items, index) => (
               <CardProduct

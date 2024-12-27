@@ -167,9 +167,9 @@ const MainProductPage = () => {
 
           {data.more_details &&
             Object.keys(data.more_details).map((key, index) => (
-              <div key={`details-${index}`}>
+              <div className="mt-3" key={`details-${index}`}>
                 <p className="font-semibold">{key}</p>
-                <p className="text-base">{data.more_details[key]}</p>
+                <p className="text-base text-slate-400">{data.more_details[key]}</p>
               </div>
             ))}
         </div>
@@ -208,7 +208,7 @@ const MainProductPage = () => {
           </div>
           <div className="mt-4">
             <p className="text-slate-400 text-sm">(Inclusive of all taxes)</p>
-            <button className="mt-2 px-4 py-1 bg-[#F7FFF9] text-[#318616] border border-[#318616] rounded">
+            <button className="mt-2 px-4 py-1 bg-[#318616] text-[white] border border-[#318616] rounded hover:bg-transparent hover:text-black">
               Add
             </button>
           </div>

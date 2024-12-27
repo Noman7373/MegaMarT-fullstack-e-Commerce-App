@@ -1,12 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
 import { getProductByCategoryAxios } from "../../Api/Query/userQuery";
-import { Link } from "react-router-dom";
 import CardLoading from "../../utils/CardLoading";
 import CardProduct from "./CardProduct";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
+import { useSelector } from "react-redux";
+import validateURL from "../../utils/validateURL";
+import { Link } from "react-router-dom";
 
 const CategoryProductDisplay = ({ name, id }) => {
   const containerRef = useRef();
+  const allSubcategories = useSelector(
+    (state) => state?.Products?.allSubcategories
+  );
   const [categoryProduct, setCategoryProduct] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isLeftButtonVisible, setIsLeftButtonVisible] = useState(false);
@@ -23,7 +28,6 @@ const CategoryProductDisplay = ({ name, id }) => {
       if (response.data.success) {
         const { categoryProduct } = response.data;
         setCategoryProduct(categoryProduct);
-        
       }
     } catch (error) {
       console.log(error.message);
@@ -84,12 +88,36 @@ const CategoryProductDisplay = ({ name, id }) => {
     setIsDragging(false);
   };
 
+  // handle Navigation
+  const handleNavigation = () => {
+    // Find the subcategory based on the category ID
+    const subcategory = allSubcategories.find((sub) =>
+      sub.category.some((c) => c === id)
+    );
+
+    // Check if subcategory exists
+    if (!subcategory) {
+      console.error("Subcategory not found for category ID:", id);
+      return;
+    }
+    // Generate the URL
+    const url = `/${validateURL(name)}-${id}/${validateURL(subcategory.name)}-${
+      subcategory._id
+    }`;
+    return url;
+  };
+  let redirect = handleNavigation();
+
   return (
     <>
       <div>
         <div className="mx-auto p-4 flex items-center justify-between">
           <h3 className="font-semibold text-lg md:text-xl">{name}</h3>
-          <Link to={""} className="text-green-600 hover:text-green-400">
+          <Link
+            to={redirect}
+            onClick={handleNavigation}
+            className="text-green-600 hover:text-green-400"
+          >
             See All
           </Link>
         </div>

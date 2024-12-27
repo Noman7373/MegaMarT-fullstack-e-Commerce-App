@@ -11,24 +11,14 @@ const Home = () => {
   const allSubcategories = useSelector(
     (state) => state?.Products?.allSubcategories
   );
-  // console.log("Subcategory", allSubcategories);
-  // console.log("Category", allCategory);
 
-  // const [loading, setLoading] = useState(true);
-
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     setLoading(false);
-  //   }, 1000);
-  //   return () => clearTimeout(timer);
-  // }, []);
 
   const handleNavigation = (name, id) => {
     // Find the subcategory based on the category ID
     const subcategory = allSubcategories.find((sub) =>
       sub.category.some((c) => c === id)
     );
-    console.log("filterSubcategory", subcategory);
+ 
 
     // Check if subcategory exists
     if (!subcategory) {

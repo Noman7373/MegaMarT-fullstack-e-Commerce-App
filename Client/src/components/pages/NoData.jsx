@@ -3,7 +3,7 @@ const NoData = () => {
   return (
     <>
       <div className="flex justify-center items-center py-5">
-        <img src={noDataImage} alt="no-data-image" className="w-36" />
+        <img src={noDataImage} alt="no-data-image" className="w-full" />
       </div>
     </>
   );
