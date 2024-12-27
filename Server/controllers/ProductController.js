@@ -244,31 +244,34 @@ const updateProductController = async (req, res) => {
 };
 
 // Delete Product Details by ID
-// const deleteProduct = async (req, res) => {
-//   try {
-//     const { _id } = req.body;
+const deleteProduct = async (req, res) => {
+  try {
+    const { _id } = req.body;
 
-//     const checkProduct = await productModel.find({
-//       category: { $in: [_id] },
-//       subCategory: { $in: [_id] },
-//     });
+    if (!_id) {
+      return res.status(401).json({
+        message: "Id is required",
+        error: true,
+        success: false,
+      });
+    }
 
-//     if (checkProduct) {
-//       return res.json({
-//         message: "Prdcuct already used in other place",
-//         error: true,
-//         success: false,
-//       });
-//     }
+    const data = await productModel.findByIdAndDelete({ _id });
 
-//   } catch (error) {
-//     res.status(500).json({
-//       message: error.message || error,
-//       error: true,
-//       success: false,
-//     });
-//   }
-// };
+    return res.json({
+      message: "Product Deleted Successfully",
+      error: false,
+      success: true,
+      data,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};
 
 export {
   createProductController,
@@ -277,4 +280,5 @@ export {
   getProductBySubcategory,
   getProductDetails,
   updateProductController,
+  deleteProduct,
 };
