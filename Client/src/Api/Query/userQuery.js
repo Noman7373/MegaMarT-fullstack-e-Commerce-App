@@ -440,7 +440,22 @@ const deleteProductAxios = async ({ _id }) => {
 const searchProductAxios = async ({ search }) => {
   try {
     const response = await Axios.post(`${baseURL}/api/product-search`, {
-      search
+      search,
+    });
+    return response;
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message ||
+        "An error occurred while adding the category"
+    );
+  }
+};
+
+// create cart items Axios
+const createCartAxios = async ({ productId }) => {
+  try {
+    const response = await Axios.post(`${baseURL}/api/cart/create`, {
+      productId,
     });
     return response;
   } catch (error) {
@@ -481,4 +496,6 @@ export {
   updateProductAxios,
   deleteProductAxios,
   searchProductAxios,
+  // Cart
+  createCartAxios,
 };
