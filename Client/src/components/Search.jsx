@@ -3,8 +3,10 @@ import { FaSearch } from "react-icons/fa";
 import { FaArrowLeft } from "react-icons/fa6";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import useMobile from "../hooks/useMobile";
+import useHook from "../hooks/useHook";
 
 const Search = () => {
+  const { search, setSearch } = useHook();
   const navigate = useNavigate();
   const location = useLocation();
   const inputRef = useRef(null);
@@ -39,7 +41,15 @@ const Search = () => {
   }, []);
 
   const handleNavigate = () => {
+    // const encodedSearch = encodeURIComponent(search.trim());
+    // const url = `/search/?q=${encodedSearch}`;
+    // navigate(url);
     navigate("/search");
+  };
+
+  const navigateHome = () => {
+    navigate("/");
+    console.log("click");
   };
 
   return (
@@ -50,22 +60,22 @@ const Search = () => {
       >
         {/* condition buttons */}
         {isMobile && isSearchPage ? (
-          <Link
-            to={"/"}
+          <span
+            onClick={navigateHome}
             className={`${
               isSearchPage
-                ? "text-red-400 p-1 rounded-[50%] shadow-md"
+                ? "text-red-400 p-1 rounded-[50%] shadow-md cursor-pointer"
                 : "text-gray-700"
             }`}
           >
             <FaArrowLeft size={20} />
-          </Link>
+          </span>
         ) : (
           <button
             className={`${
               isSearchPage
-                ? "text-red-400 bg-black rounded-[50%] p-2"
-                : "bg-black rounded-[50%] p-2 text-white"
+                ? "text-white bg-[#16A34A] rounded-[50%] p-2 border shadow-md"
+                : "bg-transparent rounded-[50%] p-2 text-black border hover:text-white hover:bg-[#16A34A]"
             }`}
           >
             <Link to={"/search"}>
@@ -74,13 +84,15 @@ const Search = () => {
           </button>
         )}
 
-        <div className="w-[90%]">
+        <div className="w-[90%] ml-5">
           {isSearchPage ? (
             <input
               ref={inputRef}
               type="text"
               className="w-full outline-none border-none p-1 bg-transparent"
               placeholder={`Search by "${categoryList[categories]}"`}
+              defaultValue={search}
+              onChange={(e) => setSearch(e.target.value)}
             />
           ) : (
             <div className="w-full outline-none border-none p-1 bg-transparent">

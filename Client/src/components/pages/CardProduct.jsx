@@ -8,7 +8,7 @@ const CardProduct = ({ categoryProduct }) => {
       {" "}
       <Link
         to={`/product-page/${categoryProduct._id}`}
-        className="relative border p-2 grid gap-2 lg:gap-3 min-w-36 max-w-40 lg:min-w-52 min-h-[12rem] rounded hover:shadow-lg bg-white"
+        className="relative  border p-2 grid gap-2 lg:gap-3  max-w-40 lg:min-w-52 min-h-[12rem] rounded hover:shadow-lg bg-white"
       >
         {Boolean(categoryProduct.discount) && (
           <div className="absolute z-10 top-0 left-3 p-2 bg-gradient-to-r from-orange-400 to-pink-500 text-white font-bold text-center rounded-[50%] shadow-lg mx-auto animate-pulse">

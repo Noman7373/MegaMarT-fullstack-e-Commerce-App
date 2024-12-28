@@ -17,6 +17,8 @@ const useHook = () => {
     fetchSubCategories,
     email,
     setEmail,
+    search,
+    setSearch,
   } = context;
 
   return {
@@ -29,6 +31,8 @@ const useHook = () => {
     fetchSubCategories,
     email,
     setEmail,
+    search,
+    setSearch,
   };
 };
 

@@ -436,6 +436,21 @@ const deleteProductAxios = async ({ _id }) => {
   }
 };
 
+// Search Product Axios
+const searchProductAxios = async ({ search }) => {
+  try {
+    const response = await Axios.post(`${baseURL}/api/product-search`, {
+      search
+    });
+    return response;
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message ||
+        "An error occurred while adding the category"
+    );
+  }
+};
+
 export {
   registerUser,
   userLogIn,
@@ -465,4 +480,5 @@ export {
   getProductDetailAxios,
   updateProductAxios,
   deleteProductAxios,
+  searchProductAxios,
 };

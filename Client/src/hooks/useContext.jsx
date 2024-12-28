@@ -13,6 +13,9 @@ export const ProviderContext = ({ children }) => {
   const [isLoading, setIsloading] = useState(false);
   const [subcategories, setSubcategories] = useState([]);
   const [email, setEmail] = useState("");
+  // for SearchPage
+  const [search, setSearch] = useState("");
+
   const fetchCategory = async () => {
     setLoading(loading);
     try {
@@ -60,6 +63,8 @@ export const ProviderContext = ({ children }) => {
         fetchSubCategories,
         email,
         setEmail,
+        search,
+        setSearch,
       }}
     >
       {children}
