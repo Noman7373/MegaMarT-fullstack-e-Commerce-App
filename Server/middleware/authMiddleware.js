@@ -27,12 +27,11 @@ const authMiddleware = async (req, res, next) => {
 
     req.userId = decodeJwt.id;
 
-
     next();
   } catch (error) {
     console.log(error.name);
     return res.status(500).json({
-      message: error.message || error,
+      message: "You have to login first!",
       error: true,
       succes: false,
     });
