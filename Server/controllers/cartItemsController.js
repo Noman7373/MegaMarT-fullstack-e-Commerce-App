@@ -1,4 +1,3 @@
-
 import cartProductModel from "../models/cartProductModel.js";
 import userModel from "../models/userModel.js";
 
@@ -16,6 +15,19 @@ const createCartController = async (req, res) => {
       });
     }
 
+    const checkCartItem = await cartProductModel.find({
+      userId,
+      productId,
+    });
+
+    if (checkCartItem.length > 0) {
+      return res.status(400).json({
+        message: "Item already exists in the cart!",
+        error: true,
+        success: false,
+      });
+    }
+
     const cartItems = new cartProductModel({
       quantity: 1,
       productId,
@@ -23,7 +35,7 @@ const createCartController = async (req, res) => {
     });
 
     //  Save cartDetails
-    const cartProducts = await cartItems.save();
+    const newCartItem = await cartItems.save();
 
     //  Update shoppingfield inside UsersModel
     const updateCartUser = await userModel.updateOne(
@@ -37,7 +49,7 @@ const createCartController = async (req, res) => {
       message: "Cart item created successfully",
       error: false,
       success: true,
-      cartProducts,
+      newCartItem,
     });
   } catch (error) {
     res.status(500).json({
