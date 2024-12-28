@@ -1,8 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import { convertPriceBD } from "../../utils/convertPriceInBD";
 import { Link } from "react-router-dom";
+import { createCartAxios } from "../../Api/Query/userQuery";
+import CustomNotification from "../../utils/CustomNotification";
 
 const CardProduct = ({ categoryProduct }) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const [message, setMessage] = useState("");
+  const [type, setType] = useState("");
+  // handle AddToCart item API
+  const handleAddToCartItem = async (e, productId) => {
+    e.preventDefault();
+    e.stopPropagation();
+    try {
+      const response = await createCartAxios({ productId, quantity: 1 });
+      if (response.data.success) {
+        setMessage("Product added to cart successfully!");
+        setType("success");
+        setIsVisible(true);
+      }
+    } catch (error) {
+      setMessage(error.message);
+      setType("error");
+      setIsVisible(true);
+    }
+  };
+
   return (
     <>
       {" "}
@@ -42,7 +65,10 @@ const CardProduct = ({ categoryProduct }) => {
             )} */}
           </div>
           {categoryProduct.stock > 0 ? (
-            <button className="mt-2 px-4 py-1 bg-[#F7FFF9] text-[#318616] border border-[#318616] rounded">
+            <button
+              className="mt-2 px-4 py-1 bg-[#F7FFF9] text-[#318616] border border-[#318616] rounded"
+              onClick={(e) => handleAddToCartItem(e, categoryProduct._id)}
+            >
               Add
             </button>
           ) : (
@@ -52,6 +78,10 @@ const CardProduct = ({ categoryProduct }) => {
           )}
         </div>
       </Link>
+      {/* Custom Notification Component */}
+      <CustomNotification
+        Notification={{ isVisible, message, type, setIsVisible }}
+      />
     </>
   );
 };
