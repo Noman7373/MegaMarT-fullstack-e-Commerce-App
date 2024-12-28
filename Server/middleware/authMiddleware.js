@@ -6,7 +6,7 @@ const authMiddleware = async (req, res, next) => {
 
     if (!token) {
       return res.status(401).json({
-        message: "Access token is missing",
+        message: "You have to login first!",
         error: true,
         succes: false,
       });
@@ -31,7 +31,7 @@ const authMiddleware = async (req, res, next) => {
   } catch (error) {
     console.log(error.name);
     return res.status(500).json({
-      message: "You have to login first!",
+      message: error.message || error,
       error: true,
       succes: false,
     });
