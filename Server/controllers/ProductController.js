@@ -273,6 +273,46 @@ const deleteProductController = async (req, res) => {
   }
 };
 
+// Search Product Controllers
+const searchProductController = async (req, res) => {
+  try {
+    const { search, pageNo, limit } = req.body;
+
+    if (!pageNo) {
+      pageNo = 1;
+    }
+
+    if (!limit) {
+      limit = 10;
+    }
+
+    const query = search
+      ? {
+          $text: {
+            $search: search,
+          },
+        }
+      : {};
+
+    const searchProduct = await productModel
+      .find(query)
+      .sort({ createdAt: -1 });
+
+    return res.json({
+      message: "Product Found Successfully",
+      error: false,
+      success: true,
+      searchProduct,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: true,
+    });
+  }
+};
+
 export {
   createProductController,
   getAllProductController,
@@ -281,4 +321,5 @@ export {
   getProductDetails,
   updateProductController,
   deleteProductController,
+  searchProductController,
 };

@@ -6,6 +6,7 @@ import {
   getProductByCategory,
   getProductBySubcategory,
   getProductDetails,
+  searchProductController,
   updateProductController,
 } from "../controllers/ProductController.js";
 import authMiddleware from "../middleware/authMiddleware.js";
@@ -37,5 +38,6 @@ productRoute.delete(
   checkAdmin,
   deleteProductController
 );
+productRoute.post("/product-search", searchProductController);
 
 export default productRoute;
