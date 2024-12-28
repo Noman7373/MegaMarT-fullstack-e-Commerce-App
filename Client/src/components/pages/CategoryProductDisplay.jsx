@@ -111,16 +111,18 @@ const CategoryProductDisplay = ({ name, id }) => {
   return (
     <>
       <div>
-        <div className="mx-auto p-4 flex items-center justify-between">
-          <h3 className="font-semibold text-lg md:text-xl">{name}</h3>
-          <Link
-            to={redirect}
-            onClick={handleNavigation}
-            className="text-green-600 hover:text-green-400"
-          >
-            See All
-          </Link>
-        </div>
+        {categoryProduct[0] && (
+          <div className="mx-auto p-4 flex items-center justify-between">
+            <h3 className="font-semibold text-lg md:text-xl">{name}</h3>
+            <Link
+              to={redirect}
+              onClick={handleNavigation}
+              className="text-green-600 hover:text-green-400"
+            >
+              See All
+            </Link>
+          </div>
+        )}
         <div className="relative">
           <div
             ref={containerRef}
@@ -135,7 +137,7 @@ const CategoryProductDisplay = ({ name, id }) => {
             }`}
           >
             {loading &&
-              new Array(5).fill(null).map((arr, index) => {
+              new Array(5).fill(null).map((_, index) => {
                 return <CardLoading key={index} />;
               })}
 
@@ -149,20 +151,24 @@ const CategoryProductDisplay = ({ name, id }) => {
                 );
               })}
 
-            <button
-              className={`absolute top-1/2 hidden lg:block -translate-y-1/2 left-2 z-10 ${
-                isLeftButtonVisible ? "lg:block hidden" : "hidden"
-              } bg-white rounded-full p-2 shadow-lg hover:bg-gray-300`}
-              onClick={handleScrollLeft}
-            >
-              <FaAngleLeft size={23} />
-            </button>
-            <button
-              className="absolute top-1/2 hidden lg:block -translate-y-1/2 right-2 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-300"
-              onClick={handleScrollRight}
-            >
-              <FaAngleRight size={23} />
-            </button>
+            {categoryProduct[0] && (
+              <div>
+                <button
+                  className={`absolute top-1/2 hidden lg:block -translate-y-1/2 left-2 z-10 ${
+                    isLeftButtonVisible ? "lg:block hidden" : "hidden"
+                  } bg-white rounded-full p-2 shadow-lg hover:bg-gray-300`}
+                  onClick={handleScrollLeft}
+                >
+                  <FaAngleLeft size={23} />
+                </button>
+                <button
+                  className="absolute top-1/2 hidden lg:block -translate-y-1/2 right-2 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-300"
+                  onClick={handleScrollRight}
+                >
+                  <FaAngleRight size={23} />
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
