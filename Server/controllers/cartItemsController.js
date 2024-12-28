@@ -1,6 +1,6 @@
 import cartProductModel from "../models/cartProductModel.js";
 import userModel from "../models/userModel.js";
-
+// Create Cart-Items
 const createCartController = async (req, res) => {
   try {
     const userId = req.userId;
@@ -60,4 +60,25 @@ const createCartController = async (req, res) => {
   }
 };
 
-export { createCartController };
+// Get Cart-Items
+const getCartItemsController = async (req, res) => {
+  try {
+    // const userId = req.userId;
+    const cartItems = await cartProductModel.find().populate("productId"); // to get details that particular product
+
+    return res.json({
+      message: "Fetch Cart-Items successfully",
+      error: false,
+      success: true,
+      cartItems,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};
+
+export { createCartController, getCartItemsController };
