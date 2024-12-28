@@ -1,26 +1,24 @@
-import {  useEffect } from "react";
+import { useEffect } from "react";
 
-
-const CustomNotification = ({ message, type, isVisible, setIsVisible }) => {
+const CustomNotification = ({ Notification }) => {
+  const { message, type, isVisible, setIsVisible } = Notification;
 
   useEffect(() => {
     if (isVisible) {
       const timer = setTimeout(() => {
-        setIsVisible(false);
+        setIsVisible(false); // Hide the notification after 3 seconds
       }, 3000); // 3 seconds
-      return () => clearTimeout(timer);
+      return () => clearTimeout(timer); // Clean up the timeout if the component unmounts
     }
   }, [isVisible, setIsVisible]);
 
-  
-  const notificationStyles = type === "success"
-    ? "bg-green-500 text-white"
-    : "bg-red-500 text-white";
+  const notificationStyles =
+    type === "success" ? "bg-green-500 text-white" : "bg-red-500 text-white";
 
   return (
     isVisible && (
       <div
-        className={`fixed top-4 right-4 p-4 rounded-md shadow-lg ${notificationStyles} transform transition-all`}
+        className={`fixed top-4 z-50 right-4 p-4 rounded-md shadow-lg ${notificationStyles} transform transition-all`}
       >
         <div className="flex items-center">
           {/* Notification Icon */}
@@ -66,4 +64,3 @@ const CustomNotification = ({ message, type, isVisible, setIsVisible }) => {
 };
 
 export default CustomNotification;
-
