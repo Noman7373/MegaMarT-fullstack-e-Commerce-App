@@ -276,33 +276,47 @@ const deleteProductController = async (req, res) => {
 // Search Product Controllers
 const searchProductController = async (req, res) => {
   try {
-    const { search, pageNo, limit } = req.body;
+    const { search } = req.body;
 
-    if (!pageNo) {
-      pageNo = 1;
-    }
-
-    if (!limit) {
-      limit = 10;
-    }
-
-    const query = search
+    
+    const firstMatchQuery = search
       ? {
-          $text: {
-            $search: search,
-          },
+          $or: [
+            { name: { $regex: `^${search}`, $options: "i" } }, // Matches products starting with search term
+            { description: { $regex: `^${search}`, $options: "i" } },
+          ],
         }
       : {};
 
-    const searchProduct = await productModel
-      .find(query)
+    const exactMatchQuery = search
+      ? {
+          $text: { $search: search }, // Exact match using text search
+        }
+      : {};
+
+    // First query to fetch initial matches (products starting with the search term)
+    const firstMatchProducts = await productModel
+      .find(firstMatchQuery)
       .sort({ createdAt: -1 });
 
+    // If the search term is refined (e.g., user types more), run the exact match query
+    const refinedMatchProducts = search
+      ? await productModel.find(exactMatchQuery).sort({ createdAt: -1 })
+      : [];
+
+    // Combine the two results
+    const productsToShow = search
+      ? [...firstMatchProducts, ...refinedMatchProducts]
+      : [];
+
+
     return res.json({
-      message: "Product Found Successfully",
+      message: search
+        ? "Products found successfully"
+        : "All products retrieved",
       error: false,
       success: true,
-      searchProduct,
+      productsToShow
     });
   } catch (error) {
     res.status(500).json({

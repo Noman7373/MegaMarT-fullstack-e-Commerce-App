@@ -68,8 +68,10 @@ productSchema.index(
     description: "text",
   },
   {
-    name: 10,
-    description: 5,
+    weights: {
+      name: 10,        // Higher weight for 'name'
+      description: 5,  // Lower weight for 'description'
+    },
   }
 );
 
