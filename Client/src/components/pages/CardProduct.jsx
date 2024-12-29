@@ -6,7 +6,7 @@ import CustomNotification from "../../utils/CustomNotification";
 import useHook from "../../hooks/useHook";
 
 const CardProduct = ({ categoryProduct }) => {
-  const { fetchCartItems } = useHook();
+ 
   const [isVisible, setIsVisible] = useState(false);
   const [message, setMessage] = useState("");
   const [type, setType] = useState("");
@@ -22,6 +22,7 @@ const CardProduct = ({ categoryProduct }) => {
         if (fetchCartItems) {
           fetchCartItems();
         }
+        updateCartQuantity(productId, quantity);
         setMessage("Product added to cart successfully!");
         setType("success");
         setIsVisible(true);

@@ -76,7 +76,23 @@ export const ProviderContext = ({ children }) => {
 
   // Update CartItems-Quantity
 
-  const updateCartQuantity = async (productId, quantity) => {
+  const increaseCartItemQuantity = async (productId, quantity) => {
+    setIsloading(true);
+    try {
+      const response = await updateCartItemsQuantityAxios({
+        productId,
+        quantity,
+      });
+
+      if (response.data.success) {
+        fetchCartItems();
+        setIsloading(false);
+      }
+    } catch (error) {
+      throw new Error("An error occured try again", error.message);
+    }
+  };
+  const decreaseCartItemQuantity = async (productId, quantity) => {
     setIsloading(true);
     try {
       const response = await updateCartItemsQuantityAxios({
@@ -108,7 +124,8 @@ export const ProviderContext = ({ children }) => {
         setEmail,
         search,
         fetchCartItems,
-        updateCartQuantity,
+        increaseCartItemQuantity,
+        decreaseCartItemQuantity
       }}
     >
       {children}
