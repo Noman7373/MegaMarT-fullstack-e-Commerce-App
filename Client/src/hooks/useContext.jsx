@@ -3,6 +3,7 @@ import {
   getCartItemsAxios,
   getCategoryAxios,
   getSubCategoryAxios,
+  updateCartItemsQuantityAxios,
 } from "../Api/Query/userQuery";
 import { useDispatch } from "react-redux";
 import { addProductCategory, addSubcategory } from "../store/productSlice";
@@ -21,6 +22,7 @@ export const ProviderContext = ({ children }) => {
   // for SearchPage
   const [search, setSearch] = useState("");
 
+  // fetch Category
   const fetchCategory = async () => {
     setLoading(loading);
     try {
@@ -40,6 +42,7 @@ export const ProviderContext = ({ children }) => {
     }
   };
 
+  // fetch Subcategory
   const fetchSubCategories = async () => {
     setIsloading(true);
     const response = await getSubCategoryAxios();
@@ -55,15 +58,34 @@ export const ProviderContext = ({ children }) => {
     }
   };
 
+  // fetch CartItems
   const fetchCartItems = async () => {
     setIsloading(true);
     try {
       const response = await getCartItemsAxios();
 
       if (response.data.success) {
-    
         const { cartItems } = response.data;
         dispatch(handleAddToCart({ cartItems, isLoading }));
+        setIsloading(false);
+      }
+    } catch (error) {
+      throw new Error("An error occured try again", error.message);
+    }
+  };
+
+  // Update CartItems-Quantity
+
+  const updateCartQuantity = async (productId, quantity) => {
+    setIsloading(true);
+    try {
+      const response = await updateCartItemsQuantityAxios({
+        productId,
+        quantity,
+      });
+
+      if (response.data.success) {
+        fetchCartItems();
         setIsloading(false);
       }
     } catch (error) {
@@ -86,6 +108,7 @@ export const ProviderContext = ({ children }) => {
         setEmail,
         search,
         fetchCartItems,
+        updateCartQuantity,
       }}
     >
       {children}

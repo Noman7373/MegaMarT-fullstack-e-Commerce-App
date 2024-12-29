@@ -480,7 +480,7 @@ const getCartItemsAxios = async () => {
 };
 
 // Update Cart Quantity
-const updateCartItemsQuantity = async ({ productId, quantity }) => {
+const updateCartItemsQuantityAxios = async ({ productId, quantity }) => {
   try {
     const response = await Axios.put(`${baseURL}/api/update/cart`, {
       productId,
@@ -528,5 +528,5 @@ export {
   // Cart
   createCartAxios,
   getCartItemsAxios,
-  updateCartItemsQuantity,
+  updateCartItemsQuantityAxios,
 };
