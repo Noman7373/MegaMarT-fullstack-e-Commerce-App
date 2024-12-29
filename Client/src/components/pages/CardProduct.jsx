@@ -4,13 +4,16 @@ import { Link } from "react-router-dom";
 import { createCartAxios } from "../../Api/Query/userQuery";
 import CustomNotification from "../../utils/CustomNotification";
 import useHook from "../../hooks/useHook";
+import AddToCartButtons from "../../utils/AddToCartButtons";
 
 const CardProduct = ({ categoryProduct }) => {
- 
+  const { fetchCartItems } = useHook();
+
   const [isVisible, setIsVisible] = useState(false);
   const [message, setMessage] = useState("");
   const [type, setType] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
   // handle AddToCart item API
   const handleAddToCartItem = async (e, productId) => {
     e.preventDefault();
@@ -22,7 +25,7 @@ const CardProduct = ({ categoryProduct }) => {
         if (fetchCartItems) {
           fetchCartItems();
         }
-        updateCartQuantity(productId, quantity);
+        // setQuantity((prev) => prev + 1);
         setMessage("Product added to cart successfully!");
         setType("success");
         setIsVisible(true);
@@ -74,12 +77,10 @@ const CardProduct = ({ categoryProduct }) => {
             )} */}
           </div>
           {categoryProduct.stock > 0 ? (
-            <button
-              className="mt-2 px-4 py-1 bg-[#F7FFF9] text-[#318616] border border-[#318616] rounded"
-              onClick={(e) => handleAddToCartItem(e, categoryProduct._id)}
-            >
-              Add
-            </button>
+            <AddToCartButtons
+              addToCard={(e) => handleAddToCartItem(e, categoryProduct._id)}
+              productData={categoryProduct}
+            />
           ) : (
             <p className="text-red-500 bg-[#F7FFF9] rounded text-center animate-pulse">
               Out of stock

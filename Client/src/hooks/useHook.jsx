@@ -19,8 +19,7 @@ const useHook = () => {
     setEmail,
     search,
     fetchCartItems,
-    increaseCartItemQuantity,
-    decreaseCartItemQuantity,
+    updateCartItemQuantity,
   } = context;
 
   return {
@@ -35,8 +34,7 @@ const useHook = () => {
     setEmail,
     search,
     fetchCartItems,
-    increaseCartItemQuantity,
-    decreaseCartItemQuantity,
+    updateCartItemQuantity,
   };
 };
 

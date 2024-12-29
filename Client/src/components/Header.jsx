@@ -7,13 +7,9 @@ import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import UserMenu from "./UserMenu";
 import Loader from "../components/status/Loader.jsx";
-import useHook from "../hooks/useHook.jsx";
 
 function Header() {
-  const { fetchCartItems } = useHook();
   const { cart, cartLoading } = useSelector((state) => state.cart);
-  // console.log(cart);
-  console.log(cartLoading);
 
   const navigate = useNavigate();
   const [isMobile] = useMobile();
@@ -40,8 +36,6 @@ function Header() {
     const cartQty = cart.reduce((acc, item) => acc + item.quantity, 0); // Add all `qty` values
     setTotalQty(cartQty);
     const getcartProduct = cart.map((cart) => cart.productId);
-    console.log(getcartProduct);
-
     const calPrice = getcartProduct.reduce(
       (acc, items) => acc + items.price,
       0
