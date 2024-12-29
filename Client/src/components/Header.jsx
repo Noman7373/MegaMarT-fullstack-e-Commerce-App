@@ -40,6 +40,8 @@ function Header() {
     const cartQty = cart.reduce((acc, item) => acc + item.quantity, 0); // Add all `qty` values
     setTotalQty(cartQty);
     const getcartProduct = cart.map((cart) => cart.productId);
+    console.log(getcartProduct);
+
     const calPrice = getcartProduct.reduce(
       (acc, items) => acc + items.price,
       0

@@ -479,6 +479,22 @@ const getCartItemsAxios = async () => {
   }
 };
 
+// Update Cart Quantity
+const updateCartItemsQuantity = async ({ productId, quantity }) => {
+  try {
+    const response = await Axios.put(`${baseURL}/api/update/cart`, {
+      productId,
+      quantity,
+    });
+    return response;
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message ||
+        "An error occurred while adding the category"
+    );
+  }
+};
+
 export {
   registerUser,
   userLogIn,
@@ -512,4 +528,5 @@ export {
   // Cart
   createCartAxios,
   getCartItemsAxios,
+  updateCartItemsQuantity,
 };
