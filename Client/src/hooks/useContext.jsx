@@ -6,6 +6,7 @@ import {
 } from "../Api/Query/userQuery";
 import { useDispatch } from "react-redux";
 import { addProductCategory, addSubcategory } from "../store/productSlice";
+import { handleAddToCart } from "../store/cart";
 // Create Context
 export const ContextProvider = createContext();
 
@@ -19,8 +20,6 @@ export const ProviderContext = ({ children }) => {
   const [email, setEmail] = useState("");
   // for SearchPage
   const [search, setSearch] = useState("");
-  // cartItems
-  const [cartItems, setCartItems] = useState([]);
 
   const fetchCategory = async () => {
     setLoading(loading);
@@ -63,7 +62,7 @@ export const ProviderContext = ({ children }) => {
       if (response.data.success) {
         console.log("success", response);
         const { cartItems } = response.data;
-        setCartItems(cartItems);
+        dispatch(handleAddToCart(cartItems));
       }
     } catch (error) {
       throw new Error("An error occured try again", error.message);
@@ -84,7 +83,7 @@ export const ProviderContext = ({ children }) => {
         email,
         setEmail,
         search,
-        cartItems,
+
         fetchCartItems,
       }}
     >
