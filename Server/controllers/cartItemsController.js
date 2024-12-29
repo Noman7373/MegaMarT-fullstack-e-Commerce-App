@@ -81,4 +81,43 @@ const getCartItemsController = async (req, res) => {
   }
 };
 
-export { createCartController, getCartItemsController };
+// Update Cart-Items
+const updateCartItemsQtyController = async (req, res) => {
+  try {
+    const { productId, quantity } = req.body;
+
+    if (!productId || !quantity) {
+      return res.status(401).json({
+        message: "provide id and quantiy",
+        error: true,
+        success: false,
+      });
+    }
+
+    const cartItems = await cartProductModel.updateOne(
+      { _id: productId },
+      {
+        quantity,
+      }
+    );
+
+    return res.json({
+      message: "Item Added",
+      error: false,
+      success: true,
+      cartItems,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};
+
+export {
+  createCartController,
+  getCartItemsController,
+  updateCartItemsQtyController,
+};
