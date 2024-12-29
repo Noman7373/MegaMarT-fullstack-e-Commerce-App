@@ -1,5 +1,9 @@
 import { createContext, useState } from "react";
-import { getCategoryAxios, getSubCategoryAxios } from "../Api/Query/userQuery";
+import {
+  getCartItemsAxios,
+  getCategoryAxios,
+  getSubCategoryAxios,
+} from "../Api/Query/userQuery";
 import { useDispatch } from "react-redux";
 import { addProductCategory, addSubcategory } from "../store/productSlice";
 // Create Context
@@ -15,6 +19,8 @@ export const ProviderContext = ({ children }) => {
   const [email, setEmail] = useState("");
   // for SearchPage
   const [search, setSearch] = useState("");
+  // cartItems
+  const [cartItems, setCartItems] = useState([]);
 
   const fetchCategory = async () => {
     setLoading(loading);
@@ -46,7 +52,21 @@ export const ProviderContext = ({ children }) => {
     }
     try {
     } catch (error) {
-      throw new Error("An error occured try again", error);
+      throw new Error("An error occured try again", error.message);
+    }
+  };
+
+  const fetchCartItems = async () => {
+    try {
+      const response = await getCartItemsAxios();
+
+      if (response.data.success) {
+        console.log("success", response);
+        const { cartItems } = response.data;
+        setCartItems(cartItems);
+      }
+    } catch (error) {
+      throw new Error("An error occured try again", error.message);
     }
   };
 
@@ -64,7 +84,8 @@ export const ProviderContext = ({ children }) => {
         email,
         setEmail,
         search,
-        setSearch,
+        cartItems,
+        fetchCartItems,
       }}
     >
       {children}

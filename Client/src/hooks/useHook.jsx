@@ -18,7 +18,8 @@ const useHook = () => {
     email,
     setEmail,
     search,
-    setSearch,
+    cartItems,
+    fetchCartItems,
   } = context;
 
   return {
@@ -32,7 +33,8 @@ const useHook = () => {
     email,
     setEmail,
     search,
-    setSearch,
+    cartItems,
+    fetchCartItems,
   };
 };
 

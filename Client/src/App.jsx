@@ -32,7 +32,7 @@ import SuccessVerifyEmail from "./components/pages/SuccessVerifyEmail.jsx";
 
 function App() {
   const dispatch = useDispatch();
-  const { fetchCategory, fetchSubCategories } = useHook();
+  const { fetchCategory, fetchSubCategories, fetchCartItems } = useHook();
 
   const fetchUserData = async () => {
     try {
@@ -49,6 +49,7 @@ function App() {
     fetchUserData();
     fetchCategory();
     fetchSubCategories();
+    fetchCartItems();
   }, []);
 
   const router = createBrowserRouter([
