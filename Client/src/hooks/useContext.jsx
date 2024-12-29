@@ -56,13 +56,15 @@ export const ProviderContext = ({ children }) => {
   };
 
   const fetchCartItems = async () => {
+    setIsloading(true);
     try {
       const response = await getCartItemsAxios();
 
       if (response.data.success) {
-        console.log("success", response);
+    
         const { cartItems } = response.data;
-        dispatch(handleAddToCart(cartItems));
+        dispatch(handleAddToCart({ cartItems, isLoading }));
+        setIsloading(false);
       }
     } catch (error) {
       throw new Error("An error occured try again", error.message);
@@ -83,7 +85,6 @@ export const ProviderContext = ({ children }) => {
         email,
         setEmail,
         search,
-
         fetchCartItems,
       }}
     >

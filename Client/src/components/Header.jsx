@@ -4,13 +4,22 @@ import useMobile from "../hooks/useMobile";
 import { FaCartShopping, FaRegCircleUser } from "react-icons/fa6";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 import { useSelector } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import UserMenu from "./UserMenu";
+import Loader from "../components/status/Loader.jsx";
+import useHook from "../hooks/useHook.jsx";
 
 function Header() {
+  const { fetchCartItems } = useHook();
+  const { cart, cartLoading } = useSelector((state) => state.cart);
+  // console.log(cart);
+  console.log(cartLoading);
+
   const navigate = useNavigate();
   const [isMobile] = useMobile();
   const location = useLocation();
+  const [totalPrice, setTotalPrice] = useState("");
+  const [totalQty, setTotalQty] = useState(0);
   const isSearchPage = location.pathname == "/search";
   const [showMenu, setShowMenu] = useState(false);
   const user = useSelector((state) => state?.user);
@@ -25,6 +34,18 @@ function Header() {
   const handleShowMenu = () => {
     setShowMenu((prev) => !prev);
   };
+
+  // calculate qty and price
+  useEffect(() => {
+    const cartQty = cart.reduce((acc, item) => acc + item.quantity, 0); // Add all `qty` values
+    setTotalQty(cartQty);
+    const getcartProduct = cart.map((cart) => cart.productId);
+    const calPrice = getcartProduct.reduce(
+      (acc, items) => acc + items.price,
+      0
+    );
+    setTotalPrice(calPrice);
+  }, [cart]);
 
   return (
     <header className="h-30 lg:h-22 shadow-md sticky top-0 px-2 z-40 flex items-center flex-col justify-center bg-white">
@@ -86,9 +107,17 @@ function Header() {
               )}
             </div>
             {/* add to cart btn  */}
-            <button className="xs:hidden sm:hidden md:hidden lg:flex items-center gap-2 p-2 text-white font-bold border-none hover:bg-green-700 rounded bg-green-600">
+            <button className="xs:hidden sm:hidden md:hidden lg:flex items-center gap-1 p-2 text-white font-bold border-none hover:bg-green-700 rounded bg-green-600">
               {" "}
-              <FaCartShopping size={28} className="animate-bounce" /> My Cart
+              <FaCartShopping size={28} className="animate-bounce" />{" "}
+              {cartLoading && <Loader />}
+              {!cartLoading && cart[0] && (
+                <div className="text-[0.9rem] flex flex-col">
+                  <p>{totalQty} Items</p>
+                  <p>BD: {totalPrice}.00</p>
+                </div>
+              )}
+              {!cartLoading && !cart[0] && "My Cart"}
             </button>
           </div>
         </div>

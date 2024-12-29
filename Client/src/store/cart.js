@@ -4,10 +4,13 @@ const cartStore = createSlice({
   name: "cart",
   initialState: {
     cart: [],
+    cartLoading: true,
   },
   reducers: {
     handleAddToCart: (state, action) => {
-      state.cart = [...action.payload];
+      const { cartItems, isLoading } = action.payload;
+      state.cartLoading = isLoading;
+      state.cart = cartItems || [];
     },
   },
 });

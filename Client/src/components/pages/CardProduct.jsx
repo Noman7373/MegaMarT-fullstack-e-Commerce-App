@@ -3,21 +3,29 @@ import { convertPriceBD } from "../../utils/convertPriceInBD";
 import { Link } from "react-router-dom";
 import { createCartAxios } from "../../Api/Query/userQuery";
 import CustomNotification from "../../utils/CustomNotification";
+import useHook from "../../hooks/useHook";
 
 const CardProduct = ({ categoryProduct }) => {
+  const { fetchCartItems } = useHook();
   const [isVisible, setIsVisible] = useState(false);
   const [message, setMessage] = useState("");
   const [type, setType] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   // handle AddToCart item API
   const handleAddToCartItem = async (e, productId) => {
     e.preventDefault();
     e.stopPropagation();
+    setIsLoading(true);
     try {
       const response = await createCartAxios({ productId, quantity: 1 });
       if (response.data.success) {
+        if (fetchCartItems) {
+          fetchCartItems();
+        }
         setMessage("Product added to cart successfully!");
         setType("success");
         setIsVisible(true);
+        setIsLoading(false);
       }
     } catch (error) {
       setMessage(error.message);
