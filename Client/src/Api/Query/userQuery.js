@@ -466,6 +466,19 @@ const createCartAxios = async ({ productId }) => {
   }
 };
 
+// Get Cart items Axios
+const getCartItemsAxios = async () => {
+  try {
+    const response = Axios.get(`${baseURL}/api/get-cart`);
+    return response;
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message ||
+        "An error occurred while adding the category"
+    );
+  }
+};
+
 export {
   registerUser,
   userLogIn,
@@ -498,4 +511,5 @@ export {
   searchProductAxios,
   // Cart
   createCartAxios,
+  getCartItemsAxios,
 };
