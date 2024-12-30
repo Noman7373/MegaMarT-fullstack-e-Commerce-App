@@ -29,7 +29,7 @@ const createCartController = async (req, res) => {
     }
 
     const cartItems = new cartProductModel({
-      quantity: 1,
+      quantity,
       productId,
       userId,
     });
