@@ -20,6 +20,7 @@ const useHook = () => {
     search,
     fetchCartItems,
     updateCartItemQuantity,
+    removeCartItems,
   } = context;
 
   return {
@@ -35,6 +36,7 @@ const useHook = () => {
     search,
     fetchCartItems,
     updateCartItemQuantity,
+    removeCartItems,
   };
 };
 

@@ -5,7 +5,7 @@ import CustomNotification from "../utils/CustomNotification.jsx";
 import { createCartAxios } from "../Api/Query/userQuery.js";
 
 const AddToCartButtons = ({ productData }) => {
-  const { updateCartItemQuantity, fetchCartItems } = useHook();
+  const { updateCartItemQuantity, fetchCartItems, removeCartItems } = useHook();
   const cartItems = useSelector((state) => state.cart);
 
   // for notification
@@ -19,7 +19,7 @@ const AddToCartButtons = ({ productData }) => {
   const [cartDetails, setCartDetails] = useState();
   const _id = cartDetails?._id;
   const [itemsAvailable, setitemsAvailable] = useState(false);
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState(0);
 
   // checkProduct
   useEffect(() => {
@@ -85,14 +85,17 @@ const AddToCartButtons = ({ productData }) => {
   const handleDecreament = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    if (quantity > 1) {
-      updateCartItemQuantity(_id, quantity - 1);
-      setIsVisible(true);
-      setNotification({
-        message: `1 Item removed Successfully`,
-        type: "success",
-      });
+    updateCartItemQuantity(_id, quantity - 1);
+
+    if (quantity < 1) {
+      removeCartItems(_id);
     }
+    setIsVisible(true);
+    setNotification({
+      message: `Item removed Successfully`,
+      type: "success",
+    });
+    console.log(quantity);
   };
 
   return (

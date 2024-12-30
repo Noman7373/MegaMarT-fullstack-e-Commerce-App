@@ -496,6 +496,20 @@ const updateCartItemsQuantityAxios = async ({ _id, quantity }) => {
   }
 };
 
+//  Remove Cart-Items
+const removeCartItemsAxios = async ({ _id }) => {
+  try {
+    const response = await Axios.delete(`${baseURL}/api/delete/cart`, {
+      _id,
+    });
+    return response;
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message ||
+        "An error occurred while adding the category"
+    );
+  }
+};
 export {
   registerUser,
   userLogIn,
@@ -526,8 +540,9 @@ export {
   updateProductAxios,
   deleteProductAxios,
   searchProductAxios,
-  // Cart
+  // Cart Items
   createCartAxios,
   getCartItemsAxios,
   updateCartItemsQuantityAxios,
+  removeCartItemsAxios,
 };

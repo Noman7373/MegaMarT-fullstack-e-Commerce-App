@@ -3,6 +3,7 @@ import {
   getCartItemsAxios,
   getCategoryAxios,
   getSubCategoryAxios,
+  removeCartItemsAxios,
   updateCartItemsQuantityAxios,
 } from "../Api/Query/userQuery";
 import { useDispatch } from "react-redux";
@@ -93,6 +94,18 @@ export const ProviderContext = ({ children }) => {
     }
   };
 
+  // Remove CartItem
+  const removeCartItems = async (_id) => {
+    try {
+      const response = await removeCartItemsAxios({ _id });
+      if (response.data.success) {
+        fetchCartItems();
+      }
+    } catch (error) {
+      throw new Error("An error occured", error.message);
+    }
+  };
+
   return (
     <ContextProvider.Provider
       value={{
@@ -109,6 +122,7 @@ export const ProviderContext = ({ children }) => {
         search,
         fetchCartItems,
         updateCartItemQuantity,
+        removeCartItems
       }}
     >
       {children}
