@@ -124,7 +124,7 @@ const updateCartItemsQtyController = async (req, res) => {
 };
 
 // Delete Cart-Items
-const deleteCartItemsQtyController = async (req, res) => {
+const deleteCartItemsController = async (req, res) => {
   try {
     const { _id } = req.body;
 
@@ -157,5 +157,5 @@ export {
   createCartController,
   getCartItemsController,
   updateCartItemsQtyController,
-  deleteCartItemsQtyController,
+  deleteCartItemsController,
 };
