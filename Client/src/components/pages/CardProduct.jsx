@@ -1,43 +1,9 @@
-import React, { useState } from "react";
 import { convertPriceBD } from "../../utils/convertPriceInBD";
 import { Link } from "react-router-dom";
-import { createCartAxios } from "../../Api/Query/userQuery";
-import CustomNotification from "../../utils/CustomNotification";
-import useHook from "../../hooks/useHook";
+
 import AddToCartButtons from "../../utils/AddToCartButtons";
 
 const CardProduct = ({ categoryProduct }) => {
-  const { fetchCartItems } = useHook();
-
-  const [isVisible, setIsVisible] = useState(false);
-  const [message, setMessage] = useState("");
-  const [type, setType] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-
-  // handle AddToCart item API
-  const handleAddToCartItem = async (e, productId) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsLoading(true);
-    try {
-      const response = await createCartAxios({ productId, quantity: 1 });
-      if (response.data.success) {
-        if (fetchCartItems) {
-          fetchCartItems();
-        }
-        // setQuantity((prev) => prev + 1);
-        setMessage("Product added to cart successfully!");
-        setType("success");
-        setIsVisible(true);
-        setIsLoading(false);
-      }
-    } catch (error) {
-      setMessage(error.message);
-      setType("error");
-      setIsVisible(true);
-    }
-  };
-
   return (
     <>
       {" "}
@@ -77,10 +43,7 @@ const CardProduct = ({ categoryProduct }) => {
             )} */}
           </div>
           {categoryProduct.stock > 0 ? (
-            <AddToCartButtons
-              addToCard={(e) => handleAddToCartItem(e, categoryProduct._id)}
-              productData={categoryProduct}
-            />
+            <AddToCartButtons productData={categoryProduct} />
           ) : (
             <p className="text-red-500 bg-[#F7FFF9] rounded text-center animate-pulse">
               Out of stock
@@ -88,10 +51,6 @@ const CardProduct = ({ categoryProduct }) => {
           )}
         </div>
       </Link>
-      {/* Custom Notification Component */}
-      <CustomNotification
-        Notification={{ isVisible, message, type, setIsVisible }}
-      />
     </>
   );
 };

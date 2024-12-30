@@ -1,10 +1,20 @@
 import React, { useEffect, useState } from "react";
 import useHook from "../hooks/useHook";
 import { useSelector } from "react-redux";
+import CustomNotification from "../utils/CustomNotification.jsx";
+import { createCartAxios } from "../Api/Query/userQuery.js";
 
-const AddToCartButtons = ({ addToCard, productData }) => {
+const AddToCartButtons = ({ productData }) => {
   const { updateCartItemQuantity, fetchCartItems } = useHook();
   const cartItems = useSelector((state) => state.cart);
+
+  // for notification
+  const [isVisible, setIsVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [notification, setNotification] = useState({
+    message: "",
+    type: "",
+  });
 
   const [cartDetails, setCartDetails] = useState();
   const _id = cartDetails?._id;
@@ -29,13 +39,43 @@ const AddToCartButtons = ({ addToCard, productData }) => {
     }
   }, [productData, cartItems]);
 
+  // handle AddToCart item API
+  const handleAddToCartItem = async (e, productId) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsLoading(true);
+    try {
+      const response = await createCartAxios({ productId, quantity: 1 });
+      if (response.data.success) {
+        if (fetchCartItems) {
+          fetchCartItems();
+        }
+        setIsVisible(true);
+        setNotification({
+          message: "Product added to cart successfully!",
+          type: "success",
+        });
+      }
+    } catch (error) {
+      setIsVisible(true);
+      setNotification({
+        message: error.message,
+        type: "error",
+      });
+    }
+  };
+
   // Quantity Increament
   const handleIncreament = (e) => {
     e.preventDefault();
     e.stopPropagation();
     if (quantity < productData.stock) {
       updateCartItemQuantity(_id, quantity + 1);
-      // fetchCartItems();
+      setIsVisible(true);
+      setNotification({
+        message: `${quantity} Items Added Successfully`,
+        type: "success",
+      });
     }
   };
 
@@ -45,18 +85,20 @@ const AddToCartButtons = ({ addToCard, productData }) => {
     e.stopPropagation();
     if (quantity > 0) {
       updateCartItemQuantity(_id, quantity - 1);
-      // fetchCartItems();
+      setIsVisible(true);
+      setNotification({
+        message: `${quantity} Items removed Successfully`,
+        type: "success",
+      });
     }
   };
-
-
 
   return (
     <>
       {!itemsAvailable && (
         <button
           className="mt-2 px-4 py-1 bg-[#F7FFF9] text-[#318616] border border-[#318616] rounded"
-          onClick={addToCard}
+          onClick={(e) => handleAddToCartItem(e, productData._id)}
         >
           Add
         </button>
@@ -79,6 +121,16 @@ const AddToCartButtons = ({ addToCard, productData }) => {
           </button>
         </div>
       )}
+
+      {/* Notification */}
+      <CustomNotification
+        Notification={{
+          message: notification.message,
+          type: notification.type,
+          isVisible,
+          setIsVisible,
+        }}
+      />
     </>
   );
 };
