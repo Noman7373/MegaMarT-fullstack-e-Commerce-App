@@ -10,6 +10,6 @@ const cartRoutes = Router();
 
 cartRoutes.post("/create/cart", authMiddleware, createCartController);
 cartRoutes.get("/get-cart", authMiddleware, getCartItemsController);
-cartRoutes.put("update/cart", authMiddleware, updateCartItemsQtyController);
+cartRoutes.put("/update/cart", authMiddleware, updateCartItemsQtyController);
 
 export default cartRoutes;

@@ -84,25 +84,32 @@ const getCartItemsController = async (req, res) => {
 // Update Cart-Items
 const updateCartItemsQtyController = async (req, res) => {
   try {
-    const { productId, quantity } = req.body;
+    const { _id, quantity } = req.body;
 
-    if (!productId || !quantity) {
-      return res.status(401).json({
+    if (!_id || !quantity) {
+      return res.status(404).json({
         message: "provide id and quantiy",
         error: true,
         success: false,
       });
     }
-
+    // Update the quantity
     const cartItems = await cartProductModel.updateOne(
-      { _id: productId },
-      {
-        quantity,
-      }
+      { _id }, // Match productId._id
+      { quantity }
     );
 
-    return res.json({
-      message: "Item Added",
+    // Check if any document was modified
+    if (cartItems == null) {
+      return res.status(404).json({
+        message: "No matching product found in the cart.",
+        error: true,
+        success: false,
+      });
+    }
+
+    return res.status(200).json({
+      message: "success",
       error: false,
       success: true,
       cartItems,
