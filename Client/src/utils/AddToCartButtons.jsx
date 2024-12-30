@@ -86,9 +86,6 @@ const AddToCartButtons = ({ productData }) => {
     e.preventDefault();
     e.stopPropagation();
     if (quantity > 1) {
-      if (quantity == 2) {
-        setitemsAvailable(false);
-      }
       updateCartItemQuantity(_id, quantity - 1);
       setIsVisible(true);
       setNotification({
@@ -97,9 +94,6 @@ const AddToCartButtons = ({ productData }) => {
       });
     }
   };
-
-  console.log(quantity);
-  console.log(itemsAvailable);
 
   return (
     <>
