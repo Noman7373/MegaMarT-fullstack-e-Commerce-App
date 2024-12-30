@@ -480,12 +480,13 @@ const getCartItemsAxios = async () => {
 };
 
 // Update Cart Quantity
-const updateCartItemsQuantityAxios = async ({ productId, quantity }) => {
+const updateCartItemsQuantityAxios = async ({ _id, quantity }) => {
   try {
     const response = await Axios.put(`${baseURL}/api/update/cart`, {
-      productId,
+      _id,
       quantity,
     });
+
     return response;
   } catch (error) {
     throw new Error(

@@ -21,6 +21,7 @@ export const ProviderContext = ({ children }) => {
   const [email, setEmail] = useState("");
   // for SearchPage
   const [search, setSearch] = useState("");
+  const [quantity , setQuantity] = useState(0)
 
   // fetch Category
   const fetchCategory = async () => {
@@ -66,27 +67,29 @@ export const ProviderContext = ({ children }) => {
 
       if (response.data.success) {
         const { cartItems } = response.data;
-        dispatch(handleAddToCart({ cartItems, isLoading }));
         setIsloading(false);
+        dispatch(handleAddToCart({ cartItems, isLoading }));
       }
     } catch (error) {
       throw new Error("An error occured try again", error.message);
     }
   };
 
-  
   // Update CartItems-Quantity
-  const updateCartItemQuantity = async (productId, quantity) => {
+  const updateCartItemQuantity = async (_id, quantity) => {
     setIsloading(true);
     try {
       const response = await updateCartItemsQuantityAxios({
-        productId,
+        _id,
         quantity,
       });
+
+      console.log(response);
 
       setIsloading(false);
       if (response.data.success) {
         fetchCartItems();
+        console.log("success");
       }
     } catch (error) {
       throw new Error("An error occured try again", error.message);
