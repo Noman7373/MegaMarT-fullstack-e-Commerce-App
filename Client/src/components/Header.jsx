@@ -35,12 +35,17 @@ function Header() {
   useEffect(() => {
     const cartQty = cart.reduce((acc, item) => acc + item.quantity, 0); // Add all `qty` values
     setTotalQty(cartQty);
-    const getcartProduct = cart.map((cart) => cart.productId);
-    const calPrice = getcartProduct.reduce(
-      (acc, items) => acc + items.price,
-      0
-    );
-    setTotalPrice(calPrice);
+    // const getcartProduct = cart.map((cart) => cart.productId);
+    // console.log(getcartProduct);
+
+    const calTotalPrice = cart.reduce((total, item) => {
+      if (item.productId && item.productId.price) {
+        return total + item.productId.price * item.quantity;
+      }
+      return total;
+    }, 0);
+
+    setTotalPrice(calTotalPrice);
   }, [cart]);
 
   return (

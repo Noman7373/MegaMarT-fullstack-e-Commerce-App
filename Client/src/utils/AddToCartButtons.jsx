@@ -19,7 +19,7 @@ const AddToCartButtons = ({ productData }) => {
   const [cartDetails, setCartDetails] = useState();
   const _id = cartDetails?._id;
   const [itemsAvailable, setitemsAvailable] = useState(false);
-  const [quantity, setQuantity] = useState("");
+  const [quantity, setQuantity] = useState(1);
 
   // checkProduct
   useEffect(() => {
@@ -44,12 +44,14 @@ const AddToCartButtons = ({ productData }) => {
     e.preventDefault();
     e.stopPropagation();
     setIsLoading(true);
+
     try {
       const response = await createCartAxios({ productId, quantity: 1 });
       if (response.data.success) {
         if (fetchCartItems) {
           fetchCartItems();
         }
+        console.log(productId);
         setIsVisible(true);
         setNotification({
           message: "Product added to cart successfully!",
@@ -73,7 +75,7 @@ const AddToCartButtons = ({ productData }) => {
       updateCartItemQuantity(_id, quantity + 1);
       setIsVisible(true);
       setNotification({
-        message: `${quantity} Items Added Successfully`,
+        message: `${quantity} Quantity Added Successfully`,
         type: "success",
       });
     }
@@ -83,22 +85,28 @@ const AddToCartButtons = ({ productData }) => {
   const handleDecreament = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    if (quantity > 0) {
+    if (quantity > 1) {
+      if (quantity == 2) {
+        setitemsAvailable(false);
+      }
       updateCartItemQuantity(_id, quantity - 1);
       setIsVisible(true);
       setNotification({
-        message: `${quantity} Items removed Successfully`,
+        message: `1 Item removed Successfully`,
         type: "success",
       });
     }
   };
+
+  console.log(quantity);
+  console.log(itemsAvailable);
 
   return (
     <>
       {!itemsAvailable && (
         <button
           className="mt-2 px-4 py-1 bg-[#F7FFF9] text-[#318616] border border-[#318616] rounded"
-          onClick={(e) => handleAddToCartItem(e, productData._id)}
+          onClick={(e) => handleAddToCartItem(e, productData?._id)}
         >
           Add
         </button>

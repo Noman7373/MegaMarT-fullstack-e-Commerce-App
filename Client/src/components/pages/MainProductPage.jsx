@@ -9,6 +9,7 @@ import image2 from "../../assets/Best_Prices_Offers.png";
 import image3 from "../../assets/Wide_Assortment.png";
 import Divider from "../Divider";
 import AllLoader from "../../utils/AllLoader";
+import AddToCartButtons from "../../utils/AddToCartButtons";
 
 const MainProductPage = () => {
   const { id } = useParams();
@@ -169,7 +170,9 @@ const MainProductPage = () => {
             Object.keys(data.more_details).map((key, index) => (
               <div className="mt-3" key={`details-${index}`}>
                 <p className="font-semibold">{key}</p>
-                <p className="text-base text-slate-400">{data.more_details[key]}</p>
+                <p className="text-base text-slate-400">
+                  {data.more_details[key]}
+                </p>
               </div>
             ))}
         </div>
@@ -208,9 +211,7 @@ const MainProductPage = () => {
           </div>
           <div className="mt-4">
             <p className="text-slate-400 text-sm">(Inclusive of all taxes)</p>
-            <button className="mt-2 px-4 py-1 bg-[#318616] text-[white] border border-[#318616] rounded hover:bg-transparent hover:text-black">
-              Add
-            </button>
+            {Boolean(data.stock > 0) && <AddToCartButtons productData={data} />}
           </div>
         </div>
         <h2 className="font-semibold mt-4">Why shop from us?</h2>

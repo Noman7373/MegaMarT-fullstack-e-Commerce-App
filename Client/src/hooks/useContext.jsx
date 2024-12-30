@@ -21,7 +21,7 @@ export const ProviderContext = ({ children }) => {
   const [email, setEmail] = useState("");
   // for SearchPage
   const [search, setSearch] = useState("");
-  const [quantity , setQuantity] = useState(0)
+  const [quantity, setQuantity] = useState(0);
 
   // fetch Category
   const fetchCategory = async () => {
@@ -84,12 +84,9 @@ export const ProviderContext = ({ children }) => {
         quantity,
       });
 
-      console.log(response);
-
       setIsloading(false);
       if (response.data.success) {
         fetchCartItems();
-        console.log("success");
       }
     } catch (error) {
       throw new Error("An error occured try again", error.message);

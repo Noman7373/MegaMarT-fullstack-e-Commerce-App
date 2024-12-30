@@ -7,7 +7,7 @@ const CustomNotification = ({ Notification }) => {
     if (isVisible) {
       const timer = setTimeout(() => {
         setIsVisible(false); // Hide the notification after 3 seconds
-      }, 3000); // 3 seconds
+      }, 2000); // 3 seconds
       return () => clearTimeout(timer); // Clean up the timeout if the component unmounts
     }
   }, [isVisible, setIsVisible]);
@@ -18,7 +18,7 @@ const CustomNotification = ({ Notification }) => {
   return (
     isVisible && (
       <div
-        className={`fixed top-4 z-50 right-4 p-4 rounded-md shadow-lg ${notificationStyles} transform transition-all`}
+        className={`fixed top-4 z-50 left-4 p-4 rounded-md shadow-lg ${notificationStyles} transform transition-all duration-100 ease-linear`}
       >
         <div className="flex items-center">
           {/* Notification Icon */}
