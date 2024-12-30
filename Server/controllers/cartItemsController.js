@@ -123,8 +123,39 @@ const updateCartItemsQtyController = async (req, res) => {
   }
 };
 
+// Delete Cart-Items
+const deleteCartItemsQtyController = async (req, res) => {
+  try {
+    const { _id } = req.body;
+
+    if (!_id) {
+      return res.status(401).json({
+        message: "Id is requried",
+        error: true,
+        success: false,
+      });
+    }
+
+    const cartitems = await cartProductModel.findByIdAndDelete(_id);
+
+    return res.json({
+      message: "Items removed successfully",
+      error: false,
+      success: true,
+      cartitems,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};
+
 export {
   createCartController,
   getCartItemsController,
   updateCartItemsQtyController,
+  deleteCartItemsQtyController,
 };
