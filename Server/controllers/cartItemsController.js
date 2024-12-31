@@ -29,7 +29,7 @@ const createCartController = async (req, res) => {
     }
 
     const cartItems = new cartProductModel({
-      quantity,
+      quantity: 1,
       productId,
       userId,
     });
@@ -86,9 +86,9 @@ const updateCartItemsQtyController = async (req, res) => {
   try {
     const { _id, quantity } = req.body;
 
-    if (!_id || !quantity) {
+    if (!_id) {
       return res.status(404).json({
-        message: "provide id and quantiy",
+        message: "provide Id",
         error: true,
         success: false,
       });
@@ -129,8 +129,8 @@ const deleteCartItemsController = async (req, res) => {
     const { _id } = req.body;
 
     if (!_id) {
-      return res.status(401).json({
-        message: "Id is requried",
+      return res.status(400).json({
+        message: "Id is required",
         error: true,
         success: false,
       });
@@ -138,20 +138,29 @@ const deleteCartItemsController = async (req, res) => {
 
     const cartitems = await cartProductModel.findByIdAndDelete(_id);
 
-    return res.json({
-      message: "Items removed successfully",
+    if (!cartitems) {
+      return res.status(404).json({
+        message: "Item not found",
+        error: true,
+        success: false,
+      });
+    }
+
+    return res.status(200).json({
+      message: "Item removed successfully",
       error: false,
       success: true,
       cartitems,
     });
   } catch (error) {
     return res.status(500).json({
-      message: error.message || error,
+      message: error.message || "Internal Server Error",
       error: true,
       success: false,
     });
   }
 };
+
 
 export {
   createCartController,
