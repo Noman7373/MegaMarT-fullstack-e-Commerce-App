@@ -35,8 +35,6 @@ function Header() {
   useEffect(() => {
     const cartQty = cart.reduce((acc, item) => acc + item.quantity, 0); // Add all `qty` values
     setTotalQty(cartQty);
-    // const getcartProduct = cart.map((cart) => cart.productId);
-    // console.log(getcartProduct);
 
     const calTotalPrice = cart.reduce((total, item) => {
       if (item.productId && item.productId.price) {
@@ -111,7 +109,10 @@ function Header() {
             <button className="xs:hidden sm:hidden md:hidden lg:flex items-center gap-1 p-2 text-white font-bold border-none hover:bg-green-700 rounded bg-green-600">
               {" "}
               <FaCartShopping size={28} className="animate-bounce" />{" "}
-              {cartLoading && <Loader />}
+              {cartLoading && (
+                //
+                <Loader />
+              )}
               {!cartLoading && cart[0] && (
                 <div className="text-[0.9rem] flex flex-col">
                   <p>{totalQty} Items</p>

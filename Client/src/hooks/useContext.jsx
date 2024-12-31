@@ -22,7 +22,7 @@ export const ProviderContext = ({ children }) => {
   const [email, setEmail] = useState("");
   // for SearchPage
   const [search, setSearch] = useState("");
-  const [quantity, setQuantity] = useState(0);
+  const [cartLoading, setCartLoading] = useState(false);
 
   // fetch Category
   const fetchCategory = async () => {
@@ -62,14 +62,14 @@ export const ProviderContext = ({ children }) => {
 
   // fetch CartItems
   const fetchCartItems = async () => {
-    setIsloading(true);
+    setCartLoading(true);
     try {
       const response = await getCartItemsAxios();
 
       if (response.data.success) {
         const { cartItems } = response.data;
-        setIsloading(false);
-        dispatch(handleAddToCart({ cartItems, isLoading }));
+        setCartLoading(false);
+        dispatch(handleAddToCart({ cartItems, cartLoading }));
       }
     } catch (error) {
       throw new Error("An error occured try again", error.message);
@@ -98,6 +98,7 @@ export const ProviderContext = ({ children }) => {
   const removeCartItems = async (_id) => {
     try {
       const response = await removeCartItemsAxios({ _id });
+
       if (response.data.success) {
         fetchCartItems();
       }
@@ -122,7 +123,7 @@ export const ProviderContext = ({ children }) => {
         search,
         fetchCartItems,
         updateCartItemQuantity,
-        removeCartItems
+        removeCartItems,
       }}
     >
       {children}

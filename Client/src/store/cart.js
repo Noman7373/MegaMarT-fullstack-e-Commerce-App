@@ -8,8 +8,8 @@ const cartStore = createSlice({
   },
   reducers: {
     handleAddToCart: (state, action) => {
-      const { cartItems, isLoading } = action.payload;
-      state.cartLoading = isLoading;
+      const { cartItems, cartLoading } = action.payload;
+      state.cartLoading = cartLoading;
       state.cart = cartItems || [];
     },
   },

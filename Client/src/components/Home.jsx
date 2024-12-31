@@ -26,8 +26,8 @@ const Home = () => {
       return;
     }
     // Generate the URL
-    const url = `/${validateURL(name)}-${id}/${validateURL(subcategory.name)}-${
-      subcategory._id
+    const url = `/${validateURL(name)}-${id}/${validateURL(subcategory?.name)}-${
+      subcategory?._id
     }`;
     // Navigate to the URL
     navigate(url);
@@ -55,18 +55,18 @@ const Home = () => {
       </div>
 
       <div className="mx-auto px-4 my-2 grid grid-cols-4 md:grid-cols-8 lg:grid-cols-10 gap-2">
-        {allCategory.map((category, index) => {
+        {allCategory?.map((category, index) => {
           return (
             <div
-              key={index || category._id + "displayCategory"}
+              key={index || category?._id + "displayCategory"}
               className="cursor-pointer w-full h-full"
             >
               <div
-                onClick={() => handleNavigation(category.name, category._id)}
+                onClick={() => handleNavigation(category?.name, category?._id)}
               >
                 <img
-                  src={category.image}
-                  alt={category.name}
+                  src={category?.image}
+                  alt={category?.name}
                   className="w-full h-full object-scale-down"
                 />
               </div>
@@ -115,9 +115,9 @@ const Home = () => {
       {allCategory.map((cate) => {
         return (
           <CategoryProductDisplay
-            key={cate._id + "categroyProduct"}
-            id={cate._id}
-            name={cate.name}
+            key={cate?._id + "categroyProduct"}
+            id={cate?._id}
+            name={cate?.name}
           />
         );
       })}

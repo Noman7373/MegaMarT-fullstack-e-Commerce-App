@@ -101,8 +101,8 @@ const CategoryProductDisplay = ({ name, id }) => {
       return;
     }
     // Generate the URL
-    const url = `/${validateURL(name)}-${id}/${validateURL(subcategory.name)}-${
-      subcategory._id
+    const url = `/${validateURL(name)}-${id}/${validateURL(subcategory?.name)}-${
+      subcategory?._id
     }`;
     return url;
   };

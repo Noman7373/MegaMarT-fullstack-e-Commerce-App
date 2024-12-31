@@ -8,35 +8,48 @@ const AddToCartButtons = ({ productData }) => {
   const { updateCartItemQuantity, fetchCartItems, removeCartItems } = useHook();
   const cartItems = useSelector((state) => state.cart);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   // for notification
   const [isVisible, setIsVisible] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [notification, setNotification] = useState({
     message: "",
     type: "",
   });
 
   const [cartDetails, setCartDetails] = useState();
-  const _id = cartDetails?._id;
   const [itemsAvailable, setitemsAvailable] = useState(false);
   const [quantity, setQuantity] = useState(0);
 
+  const _id = cartDetails?._id;
+
   // checkProduct
+  const getCartDetails = (cartItems, productId) => {
+    if (!cartItems?.cart)
+      return { isAvailable: false, details: null, quantity: 0 };
+
+    const checkProduct = cartItems.cart.some(
+      (cart) => cart.productId?._id === productId
+    );
+    const cartDetails = cartItems.cart.find(
+      (cart) => cart.productId?._id === productId
+    );
+
+    return {
+      isAvailable: checkProduct,
+      details: cartDetails,
+      quantity: cartDetails?.quantity || 0,
+    };
+  };
+
   useEffect(() => {
-    const getCartArray = cartItems.cart.map((cart) => cart.productId);
-    const checkProduct = getCartArray.some(
-      (cart) => cart._id === productData._id
+    const { isAvailable, details, quantity } = getCartDetails(
+      cartItems,
+      productData?._id
     );
-    setitemsAvailable(checkProduct);
-
-    const getCartQty = cartItems.cart.find(
-      (cart) => cart.productId._id === productData._id
-    );
-    setCartDetails(getCartQty);
-
-    if (getCartQty) {
-      setQuantity(getCartQty.quantity);
-    }
+    setitemsAvailable(isAvailable);
+    setCartDetails(details);
+    setQuantity(quantity);
   }, [productData, cartItems]);
 
   // handle AddToCart item API
@@ -51,7 +64,6 @@ const AddToCartButtons = ({ productData }) => {
         if (fetchCartItems) {
           fetchCartItems();
         }
-        console.log(productId);
         setIsVisible(true);
         setNotification({
           message: "Product added to cart successfully!",
@@ -75,7 +87,7 @@ const AddToCartButtons = ({ productData }) => {
       updateCartItemQuantity(_id, quantity + 1);
       setIsVisible(true);
       setNotification({
-        message: `${quantity} Quantity Added Successfully`,
+        message: `Items Added Successfully`,
         type: "success",
       });
     }
@@ -85,17 +97,20 @@ const AddToCartButtons = ({ productData }) => {
   const handleDecreament = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    updateCartItemQuantity(_id, quantity - 1);
-
-    if (quantity < 1) {
-      removeCartItems(_id);
+    if (!cartDetails || !_id) {
+      console.error("Cart item ID is not available.");
+      return;
+    }
+    if (quantity === 1) {
+      removeCartItems(cartDetails?._id);
+    } else {
+      updateCartItemQuantity(_id, quantity - 1);
     }
     setIsVisible(true);
     setNotification({
       message: `Item removed Successfully`,
-      type: "success",
+      type: "error",
     });
-    console.log(quantity);
   };
 
   return (

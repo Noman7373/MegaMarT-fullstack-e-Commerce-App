@@ -159,7 +159,7 @@ const MainProductPage = () => {
 
         {/* Description Section */}
         <div className="my-4 lg:grid gap-3">
-          <div>
+          <div className="hidden lg:block">
             <p className="font-semibold">Description</p>
             <p className="text-base text-slate-400">
               {data.description.slice(0, 180)}
@@ -168,7 +168,7 @@ const MainProductPage = () => {
 
           {data.more_details &&
             Object.keys(data.more_details).map((key, index) => (
-              <div className="mt-3" key={`details-${index}`}>
+              <div className="mt-3 hidden lg:block" key={`details-${index}`}>
                 <p className="font-semibold">{key}</p>
                 <p className="text-base text-slate-400">
                   {data.more_details[key]}
@@ -188,7 +188,7 @@ const MainProductPage = () => {
           <Divider />
         </div>
         <div className="flex items-start justify-start py-3">
-          <p className="font-semibold py-5 px-4 border border-[#318616] rounded-xl ">
+          <p className="font-semibold lg:py-5  lg:px-4 p-2 border border-[#318616] rounded-xl ">
             Unit {data.unit}
           </p>
         </div>
@@ -211,7 +211,11 @@ const MainProductPage = () => {
           </div>
           <div className="mt-4">
             <p className="text-slate-400 text-sm">(Inclusive of all taxes)</p>
-            {Boolean(data.stock > 0) && <AddToCartButtons productData={data} />}
+            {Boolean(data.stock > 0) && (
+              <div className="mt-3">
+                <AddToCartButtons productData={data} />
+              </div>
+            )}
           </div>
         </div>
         <h2 className="font-semibold mt-4">Why shop from us?</h2>

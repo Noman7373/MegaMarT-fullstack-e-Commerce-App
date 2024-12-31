@@ -75,10 +75,10 @@ const ListProduct = () => {
         </p>
 
         <div className="overflow-y-auto custom-scrollbar lg:p-4 xs:p-2 w-full h-full flex flex-col gap-1">
-          {subcategoryProduct.length > 0 ? (
+          {subcategoryProduct?.length > 0 ? (
             subcategoryProduct.map((items, index) => {
-              const url = `/${validateURL(filterCategory[0].name)}-${
-                filterCategory[0]._id
+              const url = `/${validateURL(filterCategory[0]?.name)}-${
+                filterCategory[0]?._id
               }/${validateURL(items?.name)}-${items?._id}`;
 
               return (
@@ -94,11 +94,11 @@ const ListProduct = () => {
                     }`}
                   >
                     <img
-                      src={items.image}
-                      alt={items.name || "No Image"}
+                      src={items?.image}
+                      alt={items?.name || "No Image"}
                       className="h-12 object-cover"
                     />
-                    <p className="ml-2 text-sm">{items.name || "Unnamed"}</p>
+                    <p className="ml-2 text-sm">{items?.name || "Unnamed"}</p>
                   </Link>
                 </div>
               );

@@ -500,7 +500,7 @@ const updateCartItemsQuantityAxios = async ({ _id, quantity }) => {
 const removeCartItemsAxios = async ({ _id }) => {
   try {
     const response = await Axios.delete(`${baseURL}/api/delete/cart`, {
-      _id,
+      data: { _id },
     });
     return response;
   } catch (error) {
