@@ -7,15 +7,17 @@ import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import UserMenu from "./UserMenu";
 import Loader from "../components/status/Loader.jsx";
+import useHook from "../hooks/useHook.jsx";
 
 function Header() {
   const { cart, cartLoading } = useSelector((state) => state.cart);
 
+  const { totalPrice, setTotalPrice, totalQty, setTotalQty } = useHook();
+
   const navigate = useNavigate();
   const [isMobile] = useMobile();
   const location = useLocation();
-  const [totalPrice, setTotalPrice] = useState("");
-  const [totalQty, setTotalQty] = useState(0);
+
   const isSearchPage = location.pathname == "/search";
   const [showMenu, setShowMenu] = useState(false);
   const user = useSelector((state) => state?.user);
@@ -54,7 +56,7 @@ function Header() {
         <div className="h-full w-full flex justify-between items-center">
           <Link to={"/"} className="flex justify-center">
             <h1 className="xs:text-[2rem] sm:text-[2.5rem] flex md:text-[2.7rem] font-bold text-yellow-400">
-              Mega<p className="text-green-700">MarT</p>
+              Mega<p className="text-[#16A34A]">MarT</p>
             </h1>
           </Link>
 

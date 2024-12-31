@@ -29,6 +29,7 @@ import useHook from "./hooks/useHook.jsx";
 import ListProduct from "./components/pages/ListProduct.jsx";
 import MainProductPage from "./components/pages/MainProductPage.jsx";
 import SuccessVerifyEmail from "./components/pages/SuccessVerifyEmail.jsx";
+import CartPage from "./components/pages/CartPage.jsx";
 
 function App() {
   const dispatch = useDispatch();
@@ -96,6 +97,10 @@ function App() {
         {
           path: "/menubar",
           element: <MobileMenu />,
+        },
+        {
+          path: "/cart",
+          element: <CartPage />,
         },
         {
           path: "/dashboard",

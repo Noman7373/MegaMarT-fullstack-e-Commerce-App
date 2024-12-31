@@ -24,6 +24,9 @@ export const ProviderContext = ({ children }) => {
   const [search, setSearch] = useState("");
   const [cartLoading, setCartLoading] = useState(false);
 
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [totalQty, setTotalQty] = useState(0);
+
   // fetch Category
   const fetchCategory = async () => {
     setLoading(loading);
@@ -121,9 +124,14 @@ export const ProviderContext = ({ children }) => {
         email,
         setEmail,
         search,
+        setSearch,
         fetchCartItems,
         updateCartItemQuantity,
         removeCartItems,
+        totalPrice,
+        setTotalPrice,
+        totalQty,
+        setTotalQty,
       }}
     >
       {children}

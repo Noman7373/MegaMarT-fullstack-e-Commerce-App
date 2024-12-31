@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 const Searchpage = () => {
   const user = useSelector((state) => state.user);
   // form contextApi
-  const { search } = useHook();
+  const { search, setSearch } = useHook();
   const [searchProduct, setSearchProduct] = useState([]);
 
   const [status, setStatus] = useState({
