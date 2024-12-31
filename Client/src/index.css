@@ -10,6 +10,12 @@ body {
   user-select: none;
 }
 
+/* Prevent scrolling */
+.no-scroll {
+  overflow: hidden;
+  height: 100vh;
+}
+
 /* index.css */
 .custom-scrollbar::-webkit-scrollbar {
   width: 3px; /* Scrollbar width */
@@ -20,7 +26,7 @@ body {
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: #60a5fa; /* Blue thumb (Tailwind blue-400) */
+  background-color: #16A34A; /* Blue thumb (Tailwind blue-400) */
   border-radius: 10px; /* Rounded thumb */
 }
 

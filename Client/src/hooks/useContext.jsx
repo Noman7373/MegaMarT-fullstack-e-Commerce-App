@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import {
   getCartItemsAxios,
   getCategoryAxios,
@@ -24,8 +24,27 @@ export const ProviderContext = ({ children }) => {
   const [search, setSearch] = useState("");
   const [cartLoading, setCartLoading] = useState(false);
 
+  // for scrollBar
+  const [isScrollDisabled, setIsScrollDisabled] = useState(false);
+
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalQty, setTotalQty] = useState(0);
+
+  // scrollBar
+  useEffect(() => {
+    if (isScrollDisabled) {
+      document.body.classList.add("no-scroll");
+    } else {
+      document.body.classList.remove("no-scroll");
+    }
+    // Cleanup on unmount
+    return () => {
+      document.body.classList.remove("no-scroll");
+    };
+  }, [isScrollDisabled]);
+
+  const disableScroll = () => setIsScrollDisabled(true);
+  const enableScroll = () => setIsScrollDisabled(false);
 
   // fetch Category
   const fetchCategory = async () => {
@@ -132,6 +151,8 @@ export const ProviderContext = ({ children }) => {
         setTotalPrice,
         totalQty,
         setTotalQty,
+        disableScroll,
+        enableScroll,
       }}
     >
       {children}

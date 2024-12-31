@@ -26,6 +26,8 @@ const useHook = () => {
     setTotalPrice,
     totalQty,
     setTotalQty,
+    disableScroll,
+    enableScroll,
   } = context;
 
   return {
@@ -47,6 +49,8 @@ const useHook = () => {
     setTotalPrice,
     totalQty,
     setTotalQty,
+    disableScroll,
+    enableScroll,
   };
 };
 
