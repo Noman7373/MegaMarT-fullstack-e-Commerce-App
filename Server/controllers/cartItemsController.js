@@ -112,7 +112,6 @@ const updateCartItemsQtyController = async (req, res) => {
       message: "success",
       error: false,
       success: true,
-      cartItems,
     });
   } catch (error) {
     res.status(500).json({
@@ -160,7 +159,6 @@ const deleteCartItemsController = async (req, res) => {
     });
   }
 };
-
 
 export {
   createCartController,
