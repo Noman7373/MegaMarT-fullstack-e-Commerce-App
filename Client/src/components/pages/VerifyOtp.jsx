@@ -33,20 +33,7 @@ const VerifyOtp = () => {
       setErrorMessage("An error occurred. Please try again.");
     }
   };
-  // handle otp expire timer
-  // useEffect(() => {
-  //   let countDown;
-  //   if (otpSent && timer > 0) {
-  //     countDown = setInterval(() => {
-  //       setTimer((prev) => prev - 1);
-  //     }, 1000);
-  //   } else if (timer == 0) {
-  //     setResendDisabled(false);
-  //     clearInterval(countDown);
-  //   }
 
-  //   return () => clearInterval(countDown);
-  // }, [otpSent, timer]);
 
   useEffect(() => {
     if (timer > 0) {
@@ -117,9 +104,9 @@ const VerifyOtp = () => {
   const isLoading = status === FETCH_STATUS.LOADING;
 
   return (
-    <section className="container w-full mx-auto px-2">
+    <section className="container w-full mx-auto px-2 h-[70vh] flex justify-center items-center">
       <div className="bg-white my-2 w-full max-w-md mx-auto rounded py-2 px-6">
-        <h2 className="text-[1.3rem]">Please Enter a 6-digits code</h2>
+        <h2 className="text-[1.3rem] font-semibold">Please Enter a 6-digits code</h2>
         <p className="text-gray-500">
           A verification code has been sent to{" "}
           <span className="font-bold">{location.state}</span> Enter the code to

@@ -5,6 +5,8 @@ import { FaEye } from "react-icons/fa6";
 import { registerUser } from "../../Api/Query/userQuery.js";
 import { FETCH_STATUS } from "../status/fetchStatus.js";
 import Loader from "../status/Loader.jsx";
+import { FaFacebook, FaGoogle } from "react-icons/fa";
+import facebookLogoImage from "../../assets/facevook.webp";
 
 // import bgImage from "../../assets/bg-sign.jpeg";
 
@@ -80,8 +82,8 @@ const Register = () => {
 
   return (
     <section className="container mx-auto px-2 flex justify-between">
-      <div className="bg-white my-2 w-full max-w-sm mx-auto rounded py-2 px-4">
-        <p className="text-xl font-semibold text-center">Welcome to MegaMarT</p>
+      <div className="bg-white my-2 w-full max-w-sm mx-auto rounded py-6 px-4">
+        <p className="text-xl font-semibold">Welcome to MegaMarT</p>
         <p className="text-red-500">{error}</p>
         <div>
           <form
@@ -161,6 +163,30 @@ const Register = () => {
               {isError && "SIGN UP"}
             </button>
           </form>
+        </div>
+        <p className="flex items-center justify-center text-gray-400">
+          ------------- or --------------
+        </p>
+
+        <div className="flex gap-2">
+          <div className="flex bg-blue-900 rounded p-2 items-center gap-2 cursor-pointer hover:bg-blue-700">
+            <span>
+              {" "}
+              <FaFacebook className="text-white" size={20} />
+            </span>
+            <p className="text-white text-[0.8rem] flex-2 w-full text-center">
+              LOGIN WITH FACEBOOK
+            </p>
+          </div>
+          <div className="flex bg-red-500 rounded p-2 items-center gap-2 cursor-pointer hover:bg-red-700">
+            <span>
+              {" "}
+              <FaGoogle className="text-white" size={20} />
+            </span>
+            <p className="text-white flex-2 w-full text-center text-[0.8rem]">
+              LOGIN WITH GOOGLE
+            </p>
+          </div>
         </div>
       </div>
       {/* <div>

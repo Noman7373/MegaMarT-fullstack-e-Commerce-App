@@ -54,12 +54,13 @@ const ForgotPassword = () => {
   };
 
   return (
-    <section className="container w-full mx-auto px-2">
-      <div className="bg-white my-2 w-full max-w-sm mx-auto rounded py-2 px-4">
+    <section className="container w-full mx-auto px-2 h-[70vh] flex justify-center items-center">
+      <div className="bg-white my-2 w-full max-w-sm mx-auto rounded py-10 px-4">
         <p className="text-xl font-semibold">Verify Email</p>
         {errorMessage && <p className="text-red-500">{errorMessage}</p>}
         {successMessage && <p className="text-green-600">{successMessage}</p>}
         {/* <p className="mt-4">Enter Your Email</p> */}
+        <p className="mt-2">Verify your email to update your password!</p>
         <div>
           <form
             className="flex gap-3 flex-col mt-4 py-2"

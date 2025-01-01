@@ -75,8 +75,8 @@ const Resetpassword = () => {
   const isLoading = status === FETCH_STATUS.LOADING;
 
   return (
-    <section className="container w-full mx-auto px-2">
-      <div className="bg-white my-2 w-full max-w-sm mx-auto rounded py-2 px-4">
+    <section className="container w-full mx-auto px-2 h-[70vh] flex justify-center items-center">
+      <div className="bg-white my-2 w-full max-w-sm mx-auto rounded py-5 px-4">
         <p className="text-lg font-semibold">Reset Password</p>
         {errorMessage && <p className="text-red-500">{errorMessage}</p>}
         {successMessage && <p className="text-green-600">{successMessage}</p>}

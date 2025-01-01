@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { FaEye, FaEyeSlash, FaFacebook, FaGoogle } from "react-icons/fa";
+import { FaEye, FaEyeSlash} from "react-icons/fa";
 import { userLogIn } from "../../Api/Query/userQuery";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUserDetials } from "../../store/userSlice";
 import { FETCH_STATUS } from "../status/fetchStatus";
 import Loader from "../status/Loader";
-import facebookLogoImage from "../../assets/facevook.webp";
+
 
 const Login = () => {
   const navigate = useNavigate();
@@ -86,9 +86,9 @@ const Login = () => {
   };
 
   return (
-    <section className="container w-full mx-auto px-2">
-      <div className="bg-white my-2 w-full max-w-sm mx-auto rounded py-2 px-4">
-        <p className="text-xl font-semibold text-center">Log In To Your Account</p>
+    <section className="container w-full mx-auto px-2 h-[70vh] flex justify-center items-center">
+      <div className="bg-white my-2 w-full max-w-sm mx-auto rounded py-6 px-4">
+        <p className="text-xl font-semibold">Log In To Your Account</p>
         {errorMessage && <p className="text-red-500">{errorMessage}</p>}
         {successMessage && <p className="text-green-600">{successMessage}</p>}
         <div>
@@ -157,31 +157,6 @@ const Login = () => {
               {isError && "SIGN IN"}
             </button>
           </form>
-        </div>
-
-        <p className="flex items-center justify-center text-gray-400">
-          ------------- or --------------
-        </p>
-
-        <div className="flex flex-col gap-3">
-          <div className="flex bg-blue-900 rounded p-2 items-center gap-2 cursor-pointer hover:bg-blue-700">
-            <span>
-              {" "}
-              <FaFacebook className="text-white" size={25} />
-            </span>
-            <p className="text-white flex-2 w-full text-center">
-              LOGIN WITH FACEBOOK
-            </p>
-          </div>
-          <div className="flex bg-red-500 rounded p-2 items-center gap-2 cursor-pointer hover:bg-red-700">
-            <span>
-              {" "}
-              <FaGoogle className="text-white" size={25} />
-            </span>
-            <p className="text-white flex-2 w-full text-center">
-              LOGIN WITH GOOGLE
-            </p>
-          </div>
         </div>
       </div>
     </section>
