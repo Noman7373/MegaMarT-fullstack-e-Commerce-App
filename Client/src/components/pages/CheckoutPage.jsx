@@ -8,7 +8,7 @@ import AddAddress from "./AddAddress";
 
 const CheckoutPage = () => {
   const { totalPrice } = useHook();
-  const [isOpenAddressBox, setIsOpenAddressBox] = useState(false);
+  const [isOpenAddressBox, setIsOpenAddressBox] = useState(true);
   return (
     <section className="bg-blue-50">
       <div className="mx-auto p-4 flex lg:flex-row md:flex-row sm:flex-col xs:flex-col justify-around xs:gap-4">
