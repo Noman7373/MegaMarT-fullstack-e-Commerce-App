@@ -5,7 +5,7 @@ import {
   getCartItemsController,
   updateCartItemsQtyController,
 } from "../controllers/cartItemsController.js";
-import authMiddleware from "../middleware/authMiddleware.js";
+
 
 const cartRoutes = Router();
 
