@@ -30,6 +30,7 @@ import ListProduct from "./components/pages/ListProduct.jsx";
 import MainProductPage from "./components/pages/MainProductPage.jsx";
 import SuccessVerifyEmail from "./components/pages/SuccessVerifyEmail.jsx";
 import CartPage from "./components/pages/CartPage.jsx";
+import CheckoutPage from "./components/pages/CheckoutPage.jsx";
 
 function App() {
   const dispatch = useDispatch();
@@ -101,6 +102,10 @@ function App() {
         {
           path: "/cart",
           element: <CartPage />,
+        },
+        {
+          path: "/checkout",
+          element: <CheckoutPage />,
         },
         {
           path: "/dashboard",

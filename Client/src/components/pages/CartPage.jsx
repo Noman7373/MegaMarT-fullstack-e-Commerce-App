@@ -9,17 +9,47 @@ import { MdDeliveryDining } from "react-icons/md";
 import { MdShoppingBag } from "react-icons/md";
 import { IoIosInformationCircleOutline } from "react-icons/io";
 import noProductImage from "../../assets/empty_cart.webp";
+import { FiExternalLink } from "react-icons/fi";
+import CustomNotification from "../../utils/CustomNotification";
+import { useState } from "react";
+
 const CartPage = ({ closeCart }) => {
   const navigate = useNavigate();
   const { totalQty, totalPrice, enableScroll } = useHook();
   const { cart, cartLoading } = useSelector((state) => state.cart);
+  const user = useSelector((state) => state?.user);
+  console.log(user);
 
-  // Handle Navigation
+  // for notification
+  const [isVisible, setIsVisible] = useState(false);
+  const [notification, setNotification] = useState({
+    message: "",
+    type: "",
+  });
+
+  //  Navigation
   const handleNavigate = () => {
     navigate(-1);
     enableScroll();
   };
 
+  // checkoutPage Navigation
+  const handleCheckOutNavigate = () => {
+    if (user?._id) {
+      closeCart();
+      navigate("/checkout");
+      enableScroll();
+      return;
+    }
+    closeCart();
+    navigate("/login");
+    enableScroll();
+    setIsVisible(true);
+    setNotification({
+      message: `First Log In To Proceed The Payment!`,
+      type: "error",
+    });
+  };
   // Calculate product price
   const calculateItemPrice = (quantity, price) => quantity * price;
 
@@ -205,9 +235,16 @@ const CartPage = ({ closeCart }) => {
                 </div>
                 <div className="fixed bottom-2 max-w-sm w-full shadow-md rounded z-50 p-2">
                   <div className="bg-[#16A34A] p-2 rounded text-neutral-100">
-                    <div className="flex items-center justify-between">
-                      <p>Proceed to Payment</p>
-                      <p>BHD: {totalPrice > 0 ? `${totalPrice}.00` : "00"}</p>
+                    <div
+                      onClick={handleCheckOutNavigate}
+                      className="flex items-center justify-between"
+                    >
+                      <p>BHD {totalPrice > 0 ? `${totalPrice}.00` : "00"}</p>
+                      <span className="flex gap-2">
+                        {" "}
+                        <p>Proceed to Payment</p>{" "}
+                        <FiExternalLink className="cursor-pointer" size={25} />{" "}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -230,6 +267,16 @@ const CartPage = ({ closeCart }) => {
           </div>
         )}
       </div>
+
+      {/* Notification */}
+      <CustomNotification
+        Notification={{
+          message: notification.message,
+          type: notification.type,
+          isVisible,
+          setIsVisible,
+        }}
+      />
     </section>
   );
 };
