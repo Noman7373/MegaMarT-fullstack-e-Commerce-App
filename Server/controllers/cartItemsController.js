@@ -16,7 +16,6 @@ const createCartController = async (req, res) => {
     }
 
     const checkCartItem = await cartProductModel.find({
-      userId,
       productId,
     });
 
@@ -149,7 +148,7 @@ const deleteCartItemsController = async (req, res) => {
       message: "Item removed successfully",
       error: false,
       success: true,
-      cartitems,
+     
     });
   } catch (error) {
     return res.status(500).json({
