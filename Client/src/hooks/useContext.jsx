@@ -84,17 +84,19 @@ export const ProviderContext = ({ children }) => {
 
   // fetch CartItems
   const fetchCartItems = async () => {
-    setCartLoading(true);
+    // setCartLoading(true);
     try {
       const response = await getCartItemsAxios();
 
       if (response.data.success) {
         const { cartItems } = response.data;
-        setCartLoading(false);
+        // setCartLoading(false);
         dispatch(handleAddToCart({ cartItems, cartLoading }));
       }
     } catch (error) {
       throw new Error("An error occured try again", error.message);
+    } finally {
+      // setCartLoading(false);
     }
   };
 

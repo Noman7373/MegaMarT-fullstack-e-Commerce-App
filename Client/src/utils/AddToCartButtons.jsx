@@ -125,16 +125,16 @@ const AddToCartButtons = ({ productData }) => {
       )}
 
       {itemsAvailable && (
-        <div className="flex gap-2">
+        <div className="flex gap-2 bg-[#318616] text-white rounded-md py-1">
           <button
-            className="bg-[#16A34A] rounded text-white px-2 font-semibold hover:bg-[#1d8242] hover:text-white"
+            className="rounded text-white px-2 font-semibold hover:bg-[#1d8242] hover:text-white"
             onClick={(e) => handleIncreament(e)}
           >
             +
           </button>
           {quantity}
           <button
-            className="bg-[#16A34A] rounded text-white px-2 font-semibold hover:bg-[#1d8242] hover:text-white"
+            className="text-white px-2 font-semibold hover:bg-[#1d8242] hover:text-white"
             onClick={(e) => handleDecreament(e)}
           >
             -
