@@ -11,7 +11,7 @@ const AppLayout = () => {
 
   useEffect(() => {
     // Update hideViewCart state when pathname changes
-    if (location.pathname === "/cart") {
+    if (location.pathname === "/cart" || location.pathname === "/checkout") {
       setHideViewCart(false);
     }
   }, [location.pathname]); // Dependency on location.pathname
