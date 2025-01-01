@@ -510,6 +510,35 @@ const removeCartItemsAxios = async ({ _id }) => {
     );
   }
 };
+
+// create UserAddress Axios
+const createUserAddress = async ({
+  userId,
+  address_line,
+  city,
+  state,
+  pincode,
+  country,
+  mobile,
+}) => {
+  try {
+    const response = await Axios.post(`${baseURL}/api/create/address`, {
+      userId,
+      address_line,
+      city,
+      state,
+      pincode,
+      country,
+      mobile,
+    });
+    return response;
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message ||
+        "An error occurred while adding the category"
+    );
+  }
+};
 export {
   registerUser,
   userLogIn,
@@ -545,4 +574,6 @@ export {
   getCartItemsAxios,
   updateCartItemsQuantityAxios,
   removeCartItemsAxios,
+  // Address Axios
+  createUserAddress,
 };

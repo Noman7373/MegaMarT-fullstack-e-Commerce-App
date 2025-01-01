@@ -1,4 +1,65 @@
+import { useState } from "react";
+import { createUserAddress } from "../../Api/Query/userQuery";
+import { useSelector } from "react-redux";
+
 const AddAddress = ({ toogleState }) => {
+  const user = useSelector((state) => state?.user);
+  const userId = user?._id;
+
+  const [userAddress, setUserAddress] = useState({
+    address_line: "",
+    city: "",
+    state: "",
+    country: "",
+    pincode: "",
+    mobile: "",
+  });
+
+  //  OnChange handler
+  const handleOnChange = (e) => {
+    const { name, value } = e.target;
+    setUserAddress((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  // Reset Form
+  const resetForm = () => {
+    setUserAddress({
+      address_line: "",
+      city: "",
+      state: "",
+      country: "",
+      pincode: "",
+      mobile: "",
+    });
+  };
+
+  //  submit handler
+  const handleOnSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await createUserAddress({
+        userId,
+        address_line: userAddress.address_line,
+        city: userAddress.city,
+        state: userAddress.city,
+        country: userAddress.country,
+        pincode: userAddress.pincode,
+        mobile: userAddress.mobile,
+      });
+
+      if (response.data.success) {
+        console.log("response", response.data);
+        console.log("success");
+        resetForm();
+      }
+    } catch (error) {
+      throw new Error("an error occured", error.message);
+    }
+  };
+
   return (
     <div
       className={`${
@@ -7,18 +68,23 @@ const AddAddress = ({ toogleState }) => {
           : "scale-95 opacity-0 pointer-events-none duration-500 ease-in-out"
       }`}
     >
-      <form className="flex  flex-col justify-between gap-3">
+      <form
+        className="flex  flex-col justify-between gap-3"
+        onSubmit={handleOnSubmit}
+      >
         {/* Address / City */}
         <div className="flex justify-between gap-4">
           <div className="flex flex-col gap-1">
-            <label htmlFor="address">Address *</label>
+            <label htmlFor="address_line">Address *</label>
             <input
               type="text"
-              id="address"
-              name="address"
+              id="address_line"
+              name="address_line"
               required
               placeholder="Enter Address"
               className="border w-full border-[#16A34A] rounded-md p-2 focus:ring focus:ring-indigo-200 outline-none"
+              value={userAddress.address_line}
+              onChange={handleOnChange}
             />
           </div>
           {/* City */}
@@ -27,10 +93,12 @@ const AddAddress = ({ toogleState }) => {
             <input
               type="text"
               id="city"
-              name="address"
+              name="city"
               required
               placeholder="Enter City"
               className="border w-full border-[#16A34A] rounded-md p-2 focus:ring focus:ring-indigo-200 outline-none"
+              value={userAddress.city}
+              onChange={handleOnChange}
             />
           </div>
         </div>
@@ -46,6 +114,8 @@ const AddAddress = ({ toogleState }) => {
               required
               placeholder="Enter State"
               className="border w-full border-[#16A34A] rounded-md p-2 focus:ring focus:ring-indigo-200 outline-none"
+              value={userAddress.state}
+              onChange={handleOnChange}
             />
           </div>
           <div className="flex flex-col gap-1">
@@ -57,6 +127,8 @@ const AddAddress = ({ toogleState }) => {
               required
               placeholder="Enter Pincode"
               className="border w-full border-[#16A34A] rounded-md p-2 focus:ring focus:ring-indigo-200 outline-none"
+              value={userAddress.pincode}
+              onChange={handleOnChange}
             />
           </div>
         </div>
@@ -72,17 +144,21 @@ const AddAddress = ({ toogleState }) => {
               required
               placeholder="Enter Country"
               className="border w-full border-[#16A34A] rounded-md p-2 focus:ring focus:ring-indigo-200 outline-none"
+              value={userAddress.country}
+              onChange={handleOnChange}
             />
           </div>
           <div className="flex flex-col gap-1">
-            <label htmlFor="mobileNo">Mobile No * </label>
+            <label htmlFor="mobile">Mobile No * </label>
             <input
-              type="text"
-              id="mobileNo"
-              name="mobileNo"
+              type="number"
+              id="mobile"
+              name="mobile"
               required
               placeholder="Enter Mobile No"
               className="border w-full border-[#16A34A] rounded-md p-2 focus:ring focus:ring-indigo-200 outline-none"
+              value={userAddress.mobile}
+              onChange={handleOnChange}
             />
           </div>
         </div>
