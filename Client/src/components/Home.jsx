@@ -1,7 +1,7 @@
 import banner from "../../src/assets/banner.jpg";
 import bannerMobile from "../../src/assets/banner-mobile.jpg";
 import { useSelector } from "react-redux";
-// import { useEffect, useState } from "react";
+
 import validateURL from "../utils/validateURL.js";
 import { useNavigate } from "react-router-dom";
 import CategoryProductDisplay from "./pages/CategoryProductDisplay.jsx";
