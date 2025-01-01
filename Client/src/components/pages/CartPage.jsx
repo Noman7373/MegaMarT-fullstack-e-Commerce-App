@@ -54,20 +54,28 @@ const CartPage = ({ closeCart }) => {
             {productData.length > 0 ? (
               productData.map((cartItems, index) => (
                 <div
-                  key={cartItems._id || index}
-                  className="p-2  grid grid-cols-2"
+                  key={cartItems._id || index + "cartItems"}
+                  className="p-2  flex items-center justify-between gap-4"
                 >
                   {/* <div className="h-full w-full"> */}
+                  <div className="flex-[3] w-[30%] border rounded">
                     <img
                       src={cartItems?.image?.[0] || "default-image.jpg"} // Default image fallback
                       alt={cartItems?.name || "Product Image"}
                       className="h-[4rem] w-full object-scale-down"
                     />
+                  </div>
                   {/* </div> */}
 
-                  <div className="flex">
-                    <p>{cartItems?.name || "Product Name"}</p>{" "}
+                  <div className="flex-[7] w-[70%] flex-col h-full">
+                    <p className="text-[0.8rem] text-slate-700">
+                      {cartItems?.name || "Product Name"}
+                    </p>{" "}
+                    <div className="grid grid-cols-2">
+                      <p className="text-slate-500">{cartItems?.unit}</p>
+                    </div>
                     {/* Ensuring 'name' is displayed */}
+                    <p className="font-semibold">BD {cartItems?.price}</p>
                   </div>
                 </div>
               ))
