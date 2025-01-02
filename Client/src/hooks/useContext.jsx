@@ -4,6 +4,7 @@ import {
   getCategoryAxios,
   getSubCategoryAxios,
   getUserAddress,
+  getUserLoginDetails,
   removeCartItemsAxios,
   updateCartItemsQuantityAxios,
 } from "../Api/Query/userQuery";
@@ -11,6 +12,7 @@ import { useDispatch } from "react-redux";
 import { addProductCategory, addSubcategory } from "../store/productSlice";
 import { handleAddToCart } from "../store/cart";
 import { addUserAddressDetails } from "../store/address";
+import { setUserDetials } from "../store/userSlice";
 // Create Context
 export const ContextProvider = createContext();
 
@@ -47,6 +49,18 @@ export const ProviderContext = ({ children }) => {
 
   const disableScroll = () => setIsScrollDisabled(true);
   const enableScroll = () => setIsScrollDisabled(false);
+
+  // Fetch User Details
+  const fetchUserData = async () => {
+    try {
+      const response = await getUserLoginDetails();
+      if (response.data.success) {
+        dispatch(setUserDetials(response?.data?.userData));
+      }
+    } catch (error) {
+      throw new Error("Data fetching Error", error);
+    }
+  };
 
   // fetch Category
   const fetchCategory = async () => {
@@ -136,11 +150,13 @@ export const ProviderContext = ({ children }) => {
   // get-Address-Details Method
   const fetchAddressDetails = async (_id) => {
     setIsloading(true);
-    const response = await getUserAddress({ _id });
+    const response = await getUserAddress();
     setIsloading(false);
+    console.log(response);
+
     if (response.data.success) {
       const { userAddressDetails } = response?.data;
-      console.log(userAddressDetails);
+
       dispatch(addUserAddressDetails(userAddressDetails));
     }
     try {
@@ -164,6 +180,7 @@ export const ProviderContext = ({ children }) => {
         setEmail,
         search,
         setSearch,
+        fetchUserData,
         fetchCartItems,
         updateCartItemQuantity,
         removeCartItems,

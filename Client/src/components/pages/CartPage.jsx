@@ -18,7 +18,6 @@ const CartPage = ({ closeCart }) => {
   const { totalQty, totalPrice, enableScroll } = useHook();
   const { cart, cartLoading } = useSelector((state) => state.cart);
   const user = useSelector((state) => state?.user);
-  console.log(user);
 
   // for notification
   const [isVisible, setIsVisible] = useState(false);
@@ -36,7 +35,7 @@ const CartPage = ({ closeCart }) => {
   // checkoutPage Navigation
   const handleCheckOutNavigate = () => {
     if (user?._id) {
-      navigate("/checkout");
+      navigate(`/checkout/${user._id}`);
       closeCart();
       enableScroll();
       return;

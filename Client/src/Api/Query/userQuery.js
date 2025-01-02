@@ -540,17 +540,15 @@ const createUserAddress = async ({
   }
 };
 
-// Get UserAddress Axios
-const getUserAddress = async ({ _id }) => {
+// Get User Address Axios
+const getUserAddress = async (_id) => {
   try {
-    const response = await Axios.get(`${baseURL}/api/get/address`, {
-      data: { _id },
-    });
+    const response = await Axios.get(`${baseURL}/api/get/address/${_id}`);
     return response;
   } catch (error) {
     throw new Error(
       error.response?.data?.message ||
-        "An error occurred while adding the category"
+        "An error occurred while fetching the address"
     );
   }
 };

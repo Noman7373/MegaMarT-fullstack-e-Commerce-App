@@ -5,14 +5,19 @@ import useHook from "../../hooks/useHook";
 import { BiSolidDownArrow, BiSolidUpArrow } from "react-icons/bi";
 import { useState } from "react";
 import AddAddress from "./AddAddress";
+import ShowAddress from "./ShowAddress";
+import { useParams } from "react-router-dom";
 
 const CheckoutPage = () => {
+  const { id } = useParams();
+  console.log(id);
+
   const { totalPrice } = useHook();
   const [isOpenAddressBox, setIsOpenAddressBox] = useState(true);
   return (
     <section className="bg-blue-50">
       <div className="mx-auto p-4 flex lg:flex-row md:flex-row sm:flex-col xs:flex-col justify-around xs:gap-4">
-        <div className="w-full px-4 flex flex-col gap-4 sm:max-w-md min-h-[68vh] mt-2">
+        <div className="w-full px-4 flex flex-col gap-4 sm:max-w-md  mt-2">
           <div
             className="w-full rounded-md p-2 xs:border-2 flex justify-between cursor-pointer bg-[#16A34A] text-white "
             onClick={() => setIsOpenAddressBox((prev) => !prev)}
@@ -26,6 +31,10 @@ const CheckoutPage = () => {
               )}
             </span>
           </div>
+
+          {/* Show Address Details */}
+
+          <ShowAddress  />
 
           {/* Show Address Fields */}
           {isOpenAddressBox && <AddAddress toogleState={isOpenAddressBox} />}

@@ -2,9 +2,11 @@ import { useState } from "react";
 import { createUserAddress } from "../../Api/Query/userQuery";
 import { useSelector } from "react-redux";
 import CustomNotification from "../../utils/CustomNotification";
+import useHook from "../../hooks/useHook";
 
 const AddAddress = ({ toogleState }) => {
   const user = useSelector((state) => state?.user);
+  const { fetchAddressDetails } = useHook();
   const userId = user?._id;
 
   const [userAddress, setUserAddress] = useState({
@@ -45,7 +47,7 @@ const AddAddress = ({ toogleState }) => {
   };
 
   //  submit handler
-  const handleOnSubmit = async (e) => {
+  const handleOnSubmit = async (e) => { 
     e.preventDefault();
     try {
       const response = await createUserAddress({
@@ -59,6 +61,7 @@ const AddAddress = ({ toogleState }) => {
       });
 
       if (response.data.success) {
+        fetchAddressDetails();
         resetForm();
         setIsVisible(true);
         setNotification({
@@ -187,7 +190,7 @@ const AddAddress = ({ toogleState }) => {
           </button>
         </form>
       </div>
-      
+
       {/* Notification */}
       <CustomNotification
         Notification={{

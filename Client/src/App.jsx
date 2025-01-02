@@ -8,11 +8,9 @@ import Register from "./components/pages/Register.jsx";
 import ForgotPassword from "./components/pages/ForgotPassword.jsx";
 import VerifyOtp from "./components/pages/VerifyOtp.jsx";
 import Resetpassword from "./components/pages/Resetpassword.jsx";
-import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { Provider } from "react-redux";
 import { store } from "./store/store.js";
-import { getUserLoginDetails } from "./Api/Query/userQuery.js";
-import { setUserDetials } from "./store/userSlice.js";
 import { useEffect } from "react";
 import MobileMenu from "./components/MobileMenu.jsx";
 import Dashboard from "./DashboardLayout/Dashboard.jsx";
@@ -33,25 +31,22 @@ import CartPage from "./components/pages/CartPage.jsx";
 import CheckoutPage from "./components/pages/CheckoutPage.jsx";
 
 function App() {
-  const dispatch = useDispatch();
-  const { fetchCategory, fetchSubCategories, fetchCartItems } = useHook();
+  const user = useSelector((state) => state?.user);
 
-  const fetchUserData = async () => {
-    try {
-      const response = await getUserLoginDetails();
-      if (response.data.success) {
-        dispatch(setUserDetials(response?.data?.userData));
-      }
-    } catch (error) {
-      throw new Error("Data fetching Error", error);
-    }
-  };
+  const {
+    fetchUserData,
+    fetchCategory,
+    fetchSubCategories,
+    fetchCartItems,
+    fetchAddressDetails,
+  } = useHook();
 
   useEffect(() => {
     fetchUserData();
     fetchCategory();
     fetchSubCategories();
     fetchCartItems();
+    fetchAddressDetails(user?._id);
   }, []);
 
   const router = createBrowserRouter([
@@ -104,7 +99,7 @@ function App() {
           element: <CartPage />,
         },
         {
-          path: "/checkout",
+          path: "/checkout/:id",
           element: <CheckoutPage />,
         },
         {
