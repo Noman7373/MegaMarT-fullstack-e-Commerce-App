@@ -540,7 +540,20 @@ const createUserAddress = async ({
   }
 };
 
-
+// Get UserAddress Axios
+const getUserAddress = async ({ _id }) => {
+  try {
+    const response = await Axios.get(`${baseURL}/api/get/address`, {
+      data: { _id },
+    });
+    return response;
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message ||
+        "An error occurred while adding the category"
+    );
+  }
+};
 
 export {
   registerUser,
@@ -579,4 +592,5 @@ export {
   removeCartItemsAxios,
   // Address Axios
   createUserAddress,
+  getUserAddress,
 };

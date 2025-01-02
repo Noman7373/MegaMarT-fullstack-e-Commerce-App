@@ -28,6 +28,7 @@ const useHook = () => {
     setTotalQty,
     disableScroll,
     enableScroll,
+    fetchAddressDetails,
   } = context;
 
   return {
@@ -51,6 +52,7 @@ const useHook = () => {
     setTotalQty,
     disableScroll,
     enableScroll,
+    fetchAddressDetails,
   };
 };
 

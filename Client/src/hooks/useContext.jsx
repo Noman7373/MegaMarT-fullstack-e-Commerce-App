@@ -3,12 +3,14 @@ import {
   getCartItemsAxios,
   getCategoryAxios,
   getSubCategoryAxios,
+  getUserAddress,
   removeCartItemsAxios,
   updateCartItemsQuantityAxios,
 } from "../Api/Query/userQuery";
 import { useDispatch } from "react-redux";
 import { addProductCategory, addSubcategory } from "../store/productSlice";
 import { handleAddToCart } from "../store/cart";
+import { addUserAddressDetails } from "../store/address";
 // Create Context
 export const ContextProvider = createContext();
 
@@ -131,6 +133,22 @@ export const ProviderContext = ({ children }) => {
     }
   };
 
+  // get-Address-Details Method
+  const fetchAddressDetails = async (_id) => {
+    setIsloading(true);
+    const response = await getUserAddress({ _id });
+    setIsloading(false);
+    if (response.data.success) {
+      const { userAddressDetails } = response?.data;
+      console.log(userAddressDetails);
+      dispatch(addUserAddressDetails(userAddressDetails));
+    }
+    try {
+    } catch (error) {
+      throw new Error("An error occured try again", error.message);
+    }
+  };
+
   return (
     <ContextProvider.Provider
       value={{
@@ -155,6 +173,7 @@ export const ProviderContext = ({ children }) => {
         setTotalQty,
         disableScroll,
         enableScroll,
+        fetchAddressDetails,
       }}
     >
       {children}
