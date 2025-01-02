@@ -36,13 +36,13 @@ const CartPage = ({ closeCart }) => {
   // checkoutPage Navigation
   const handleCheckOutNavigate = () => {
     if (user?._id) {
-      // closeCart();
       navigate("/checkout");
+      closeCart();
       enableScroll();
       return;
     }
-    // closeCart();
     navigate("/login");
+    closeCart();
     enableScroll();
     setIsVisible(true);
     setNotification({
