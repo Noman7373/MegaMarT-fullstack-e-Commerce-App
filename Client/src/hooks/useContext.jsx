@@ -154,7 +154,6 @@ export const ProviderContext = ({ children }) => {
       setIsloading(false);
       if (response.success) {
         const { userAddressDetails } = response;
-        console.log(userAddressDetails);
         dispatch(addUserAddressDetails(userAddressDetails));
       }
     } catch (error) {

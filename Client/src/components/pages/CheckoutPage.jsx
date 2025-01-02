@@ -35,12 +35,11 @@ const CheckoutPage = () => {
             </span>
           </div>
 
-          {/* Show Address Details */}
-
-          <ShowAddress />
-
           {/* Show Address Fields */}
           {isOpenAddressBox && <AddAddress toogleState={isOpenAddressBox} />}
+
+          {/* Show Address Details */}
+          <ShowAddress />
         </div>
 
         {/* Bill Detail section */}

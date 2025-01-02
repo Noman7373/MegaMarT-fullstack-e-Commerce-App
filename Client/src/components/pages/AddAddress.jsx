@@ -47,7 +47,7 @@ const AddAddress = ({ toogleState }) => {
   };
 
   //  submit handler
-  const handleOnSubmit = async (e) => { 
+  const handleOnSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await createUserAddress({
@@ -63,6 +63,7 @@ const AddAddress = ({ toogleState }) => {
       if (response.data.success) {
         fetchAddressDetails();
         resetForm();
+        toogleState(false);
         setIsVisible(true);
         setNotification({
           message: `Added Address details!`,

@@ -29,6 +29,7 @@ import MainProductPage from "./components/pages/MainProductPage.jsx";
 import SuccessVerifyEmail from "./components/pages/SuccessVerifyEmail.jsx";
 import CartPage from "./components/pages/CartPage.jsx";
 import CheckoutPage from "./components/pages/CheckoutPage.jsx";
+import UserAddress from "./components/pages/UserAddress.jsx";
 
 function App() {
   // const user = useSelector((state) => state?.user);
@@ -142,6 +143,10 @@ function App() {
             {
               path: "updata-subcategory/:id",
               element: <UpdateSubcategories />,
+            },
+            {
+              path: "address",
+              element: <UserAddress />,
             },
           ],
         },
