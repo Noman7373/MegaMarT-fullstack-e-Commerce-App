@@ -58,19 +58,10 @@ const createAddressController = async (req, res) => {
   }
 };
 
-
 // Get Address Controller
 const getUsersAddressController = async (req, res) => {
   try {
-    const { _id } = req.params;
-
-    if (!_id) {
-      return res.status(400).json({
-        message: "User ID is required.",
-        error: true,
-        success: false,
-      });
-    }
+    const { _id } = req.query;
 
     const userAddressDetails = await addressModel.find({ userId: _id });
 

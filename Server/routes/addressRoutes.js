@@ -14,10 +14,6 @@ addressRoutes.post(
   checkUserAddressMiddleware,
   createAddressController
 );
-addressRoutes.get(
-  "/get/address/:id",
-  authMiddleware,
-  getUsersAddressController
-);
+addressRoutes.get("/get/address", authMiddleware, getUsersAddressController);
 
 export default addressRoutes;
