@@ -5,7 +5,7 @@ const userAddressObj = {
 };
 
 const addressStore = createSlice({
-  name: address,
+  name: "address",
   initialState: userAddressObj,
   reducers: {
     addUserAddressDetails: (state, action) => {
