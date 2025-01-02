@@ -22,6 +22,7 @@ const createAddressController = async (req, res) => {
       pincode,
       country,
       mobile,
+      userId,
     });
 
     const savedAddress = await newUserAddress.save();
@@ -57,4 +58,34 @@ const createAddressController = async (req, res) => {
   }
 };
 
-export { createAddressController };
+//  Get Address Controller
+const getUsersAddressController = async (req, res) => {
+  try {
+    const { _id } = req.body;
+
+    if (!_id) {
+      return res.status(400).json({
+        message: "User not Authorized!",
+        error: true,
+        success: false,
+      });
+    }
+
+    const userAddressDetails = await addressModel.find({ _id });
+
+    return res.json({
+      message: "Get user-Address successfully!",
+      error: true,
+      success: false,
+      userAddressDetails,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};
+
+export { createAddressController, getUsersAddressController };
