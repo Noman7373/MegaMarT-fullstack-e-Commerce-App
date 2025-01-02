@@ -18,46 +18,48 @@ const UserAddress = () => {
           Add Address
         </button>
       </div>
-
-      <div className="lg:flex-row md:flex-row flex xs:flex-col gap-7  justify-around py-10">
-        <div className="max-w-md">
+      <div className="flex justify-between">
+        <div className="max-w-md p-4 mt-5">
           {isOpenAddressBox && <AddAddress toogleState={isOpenAddressBox} />}
         </div>
-        {addressList.map((addressData, index) => {
-          return (
-            <div
-              key={addressData._id}
-              className="max-w-md mx-auto p-4 bg-gray-100 border rounded-lg shadow-md"
-            >
-              <div className="flex justify-between">
-                <h2 className="text-lg font-bold text-gray-700 mb-2">
-                  Address Details
-                </h2>
+        <div className="lg:flex-row md:flex-row flex xs:flex-col gap-7 flex-wrap justify-around py-10 h-[65vh] border-l overflow-y-auto custom-scrollbar">
+          {addressList.map((addressData, index) => {
+            return (
+              <div
+                key={addressData._id}
+                className="max-w-md mx-auto p-4 bg-gray-100 border rounded-lg shadow-md"
+              >
+                <div className="flex justify-between">
+                  <h2 className="text-lg font-bold text-gray-700 mb-2">
+                    Address Details
+                  </h2>
+                </div>
+                <div className="text-sm text-gray-600">
+                  <p>
+                    <span className="font-medium">Address_Line:</span>{" "}
+                    {addressData.address_line}
+                  </p>
+                  <p>
+                    <span className="font-medium">City:</span>{" "}
+                    {addressData.city}
+                  </p>
+                  <p>
+                    <span className="font-medium">Country:</span>{" "}
+                    {addressData.country}
+                  </p>
+                  <p>
+                    <span className="font-medium">PinCode:</span>{" "}
+                    {addressData.pincode}
+                  </p>
+                  <p>
+                    <span className="font-medium">Mobile No:</span>{" "}
+                    {addressData.mobile}
+                  </p>
+                </div>
               </div>
-              <div className="text-sm text-gray-600">
-                <p>
-                  <span className="font-medium">Address_Line:</span>{" "}
-                  {addressData.address_line}
-                </p>
-                <p>
-                  <span className="font-medium">City:</span> {addressData.city}
-                </p>
-                <p>
-                  <span className="font-medium">Country:</span>{" "}
-                  {addressData.country}
-                </p>
-                <p>
-                  <span className="font-medium">PinCode:</span>{" "}
-                  {addressData.pincode}
-                </p>
-                <p>
-                  <span className="font-medium">Mobile No:</span>{" "}
-                  {addressData.mobile}
-                </p>
-              </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </section>
   );
