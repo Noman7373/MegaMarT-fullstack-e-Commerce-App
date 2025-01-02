@@ -3,16 +3,19 @@ import { IoIosInformationCircleOutline } from "react-icons/io";
 import { MdDeliveryDining, MdShoppingBag } from "react-icons/md";
 import useHook from "../../hooks/useHook";
 import { BiSolidDownArrow, BiSolidUpArrow } from "react-icons/bi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AddAddress from "./AddAddress";
 import ShowAddress from "./ShowAddress";
 import { useParams } from "react-router-dom";
 
 const CheckoutPage = () => {
+  const { totalPrice, fetchAddressDetails } = useHook();
   const { id } = useParams();
-  console.log(id);
 
-  const { totalPrice } = useHook();
+  useEffect(() => {
+    fetchAddressDetails(id);
+  }, []);
+
   const [isOpenAddressBox, setIsOpenAddressBox] = useState(true);
   return (
     <section className="bg-blue-50">
@@ -34,7 +37,7 @@ const CheckoutPage = () => {
 
           {/* Show Address Details */}
 
-          <ShowAddress  />
+          <ShowAddress />
 
           {/* Show Address Fields */}
           {isOpenAddressBox && <AddAddress toogleState={isOpenAddressBox} />}

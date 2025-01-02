@@ -543,8 +543,10 @@ const createUserAddress = async ({
 // Get User Address Axios
 const getUserAddress = async (_id) => {
   try {
-    const response = await Axios.get(`${baseURL}/api/get/address/${_id}`);
-    return response;
+    const response = await Axios.get(`${baseURL}/api/get/address`, {
+      params: { _id },
+    });
+    return response.data; // Return the data payload
   } catch (error) {
     throw new Error(
       error.response?.data?.message ||

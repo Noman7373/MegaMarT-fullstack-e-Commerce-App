@@ -13,7 +13,7 @@ import { FiExternalLink } from "react-icons/fi";
 import CustomNotification from "../../utils/CustomNotification";
 import { useState } from "react";
 
-const CartPage = ({ closeCart }) => {
+const CartPage = ({ resetOpenState }) => {
   const navigate = useNavigate();
   const { totalQty, totalPrice, enableScroll } = useHook();
   const { cart, cartLoading } = useSelector((state) => state.cart);
@@ -32,16 +32,22 @@ const CartPage = ({ closeCart }) => {
     enableScroll();
   };
 
+  //  Close cart
+  const closeCart = () => {
+    resetOpenState(false);
+    enableScroll();
+  };
+
   // checkoutPage Navigation
   const handleCheckOutNavigate = () => {
     if (user?._id) {
       navigate(`/checkout/${user._id}`);
-      closeCart();
+      resetOpenState(false);
       enableScroll();
       return;
     }
     navigate("/login");
-    closeCart();
+    resetOpenState(false);
     enableScroll();
     setIsVisible(true);
     setNotification({

@@ -8,8 +8,8 @@ import Register from "./components/pages/Register.jsx";
 import ForgotPassword from "./components/pages/ForgotPassword.jsx";
 import VerifyOtp from "./components/pages/VerifyOtp.jsx";
 import Resetpassword from "./components/pages/Resetpassword.jsx";
-import { useSelector } from "react-redux";
-import { Provider } from "react-redux";
+
+import { Provider, useSelector } from "react-redux";
 import { store } from "./store/store.js";
 import { useEffect } from "react";
 import MobileMenu from "./components/MobileMenu.jsx";
@@ -31,14 +31,15 @@ import CartPage from "./components/pages/CartPage.jsx";
 import CheckoutPage from "./components/pages/CheckoutPage.jsx";
 
 function App() {
-  const user = useSelector((state) => state?.user);
+  // const user = useSelector((state) => state?.user);
+  // console.log(user._id);
 
   const {
     fetchUserData,
     fetchCategory,
     fetchSubCategories,
     fetchCartItems,
-    fetchAddressDetails,
+    // fetchAddressDetails,
   } = useHook();
 
   useEffect(() => {
@@ -46,7 +47,7 @@ function App() {
     fetchCategory();
     fetchSubCategories();
     fetchCartItems();
-    fetchAddressDetails(user?._id);
+    // fetchAddressDetails(user._id);
   }, []);
 
   const router = createBrowserRouter([

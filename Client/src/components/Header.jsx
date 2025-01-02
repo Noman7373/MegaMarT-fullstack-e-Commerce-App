@@ -149,14 +149,7 @@ function Header() {
 
       {/* SHow Cart Component */}
 
-      {isOpenCart && (
-        <CartPage
-          closeCart={() => {
-            enableScroll();
-            setIsOpenCart(false);
-          }}
-        />
-      )}
+      {isOpenCart && <CartPage resetOpenState={setIsOpenCart} />}
     </>
   );
 }

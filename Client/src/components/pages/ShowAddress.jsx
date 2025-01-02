@@ -1,8 +1,8 @@
 import { useSelector } from "react-redux";
 
 const ShowAddress = () => {
-  const addressList = useSelector((state) => state.address);
-  console.log(addressList);
+  // const addressList = useSelector((state) => state.address);
+  // console.log(addressList);
 
   return (
     <div className="w-full mx-auto  p-4 bg-gray-100 border rounded-lg shadow-md">

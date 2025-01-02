@@ -33,7 +33,6 @@ export const ProviderContext = ({ children }) => {
 
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalQty, setTotalQty] = useState(0);
-
   // scrollBar
   useEffect(() => {
     if (isScrollDisabled) {
@@ -148,18 +147,16 @@ export const ProviderContext = ({ children }) => {
   };
 
   // get-Address-Details Method
-  const fetchAddressDetails = async (_id) => {
+  const fetchAddressDetails = async (id) => {
     setIsloading(true);
-    const response = await getUserAddress();
-    setIsloading(false);
-    console.log(response);
-
-    if (response.data.success) {
-      const { userAddressDetails } = response?.data;
-
-      dispatch(addUserAddressDetails(userAddressDetails));
-    }
     try {
+      const response = await getUserAddress(id);
+      setIsloading(false);
+      if (response.success) {
+        const { userAddressDetails } = response;
+        console.log(userAddressDetails);
+        dispatch(addUserAddressDetails(userAddressDetails));
+      }
     } catch (error) {
       throw new Error("An error occured try again", error.message);
     }
