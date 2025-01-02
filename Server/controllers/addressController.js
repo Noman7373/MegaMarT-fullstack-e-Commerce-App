@@ -63,7 +63,9 @@ const getUsersAddressController = async (req, res) => {
   try {
     const { _id } = req.query;
 
-    const userAddressDetails = await addressModel.find({ userId: _id });
+    const userAddressDetails = await addressModel
+      .find({ userId: _id })
+      .sort({ createdAt: -1 });
 
     if (!userAddressDetails || userAddressDetails.length === 0) {
       return res.status(404).json({
