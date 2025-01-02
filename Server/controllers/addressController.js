@@ -58,30 +58,40 @@ const createAddressController = async (req, res) => {
   }
 };
 
-//  Get Address Controller
+
+// Get Address Controller
 const getUsersAddressController = async (req, res) => {
   try {
-    const { _id } = req.body;
+    const { _id } = req.params;
 
     if (!_id) {
       return res.status(400).json({
-        message: "User not Authorized!",
+        message: "User ID is required.",
         error: true,
         success: false,
       });
     }
 
-    const userAddressDetails = await addressModel.find({ _id });
+    const userAddressDetails = await addressModel.find({ userId: _id });
 
-    return res.json({
-      message: "Get user-Address successfully!",
-      error: true,
-      success: false,
+    if (!userAddressDetails || userAddressDetails.length === 0) {
+      return res.status(404).json({
+        message: "No address found for the given user ID.",
+        error: true,
+        success: false,
+        userAddressDetails: [],
+      });
+    }
+
+    return res.status(200).json({
+      message: "User address retrieved successfully!",
+      error: false,
+      success: true,
       userAddressDetails,
     });
   } catch (error) {
-    res.status(500).json({
-      message: error.message || error,
+    return res.status(500).json({
+      message: error.message || "Internal Server Error",
       error: true,
       success: false,
     });
