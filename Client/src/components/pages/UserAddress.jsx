@@ -1,7 +1,8 @@
 import { useSelector } from "react-redux";
 import AddAddress from "./AddAddress";
 import { useState } from "react";
-
+import { FaEdit } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
 const UserAddress = () => {
   const addressList = useSelector((state) => state.address.addressList);
   const [isOpenAddressBox, setIsOpenAddressBox] = useState(true);
@@ -22,7 +23,7 @@ const UserAddress = () => {
         <div className="max-w-md p-4 mt-5">
           {isOpenAddressBox && <AddAddress toogleState={isOpenAddressBox} />}
         </div>
-        <div className="lg:flex-row md:flex-row flex xs:flex-col gap-7 flex-wrap justify-around py-10 h-[65vh] border-l overflow-y-auto custom-scrollbar">
+        <div className="grid grid-cols-2 gap-7 py-10 h-[65vh] border-l overflow-y-auto custom-scrollbar">
           {addressList.map((addressData, index) => {
             return (
               <div
@@ -33,6 +34,10 @@ const UserAddress = () => {
                   <h2 className="text-lg font-bold text-gray-700 mb-2">
                     Address Details
                   </h2>
+                  <div className="flex gap-2 ">
+                    <FaEdit size={20}   className="cursor-pointer hover:text-[#16A34A]"/>
+                    <MdDelete size={20}className="cursor-pointer hover:text-[#16A34A]" />
+                  </div>
                 </div>
                 <div className="text-sm text-gray-600">
                   <p>
