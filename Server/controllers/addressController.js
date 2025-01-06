@@ -93,9 +93,11 @@ const getUsersAddressController = async (req, res) => {
 // Get Address Controller
 const deleteUsersAddressController = async (req, res) => {
   try {
-    const { _id } = req.query;
+    const { _id } = req.body;
 
-    const userAddressDetails = await addressModel.findByIdAndDelete({ _id });
+    const userAddressDetails = await addressModel.findByIdAndDelete({
+      _id,
+    });
 
     return res.status(200).json({
       message: "Address deleted successfully!",
