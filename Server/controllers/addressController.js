@@ -90,5 +90,30 @@ const getUsersAddressController = async (req, res) => {
     });
   }
 };
+// Get Address Controller
+const deleteUsersAddressController = async (req, res) => {
+  try {
+    const { _id } = req.query;
 
-export { createAddressController, getUsersAddressController };
+    const userAddressDetails = await addressModel.findByIdAndDelete({ _id });
+
+    return res.status(200).json({
+      message: "Address deleted successfully!",
+      error: false,
+      success: true,
+      userAddressDetails,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message || "Internal Server Error",
+      error: true,
+      success: false,
+    });
+  }
+};
+
+export {
+  createAddressController,
+  getUsersAddressController,
+  deleteUsersAddressController,
+};

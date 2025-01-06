@@ -3,6 +3,7 @@ import authMiddleware from "../middleware/authMiddleware.js";
 import { checkUserAddressMiddleware } from "../middleware/checkAddressMiddleware.js";
 import {
   createAddressController,
+  deleteUsersAddressController,
   getUsersAddressController,
 } from "../controllers/addressController.js";
 
@@ -14,6 +15,7 @@ addressRoutes.post(
   checkUserAddressMiddleware,
   createAddressController
 );
-addressRoutes.get("/get/address", authMiddleware, getUsersAddressController);
+addressRoutes.get("/get/address", getUsersAddressController);
+addressRoutes.delete("/delete/address", deleteUsersAddressController);
 
 export default addressRoutes;
