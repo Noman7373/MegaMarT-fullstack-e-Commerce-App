@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import {
+  deleteCategoryAxios,
   getCartItemsAxios,
   getCategoryAxios,
   getSubCategoryAxios,
@@ -147,10 +148,10 @@ export const ProviderContext = ({ children }) => {
   };
 
   // get-Address-Details Method
-  const fetchAddressDetails = async (id) => {
+  const fetchAddressDetails = async (_id) => {
     setIsloading(true);
     try {
-      const response = await getUserAddress(id);
+      const response = await getUserAddress(_id);
       setIsloading(false);
       if (response.success) {
         const { userAddressDetails } = response;

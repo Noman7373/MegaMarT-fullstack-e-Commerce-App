@@ -1,12 +1,37 @@
 import { useSelector } from "react-redux";
 import AddAddress from "./AddAddress";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
+import useHook from "../../hooks/useHook";
+import DeleteConfirmation from "../../utils/DeleteConfirmation";
+import { deleteUserAddressAxios } from "../../Api/Query/userQuery";
 const UserAddress = () => {
   const addressList = useSelector((state) => state.address.addressList);
+  const { fetchAddressDetails } = useHook();
   const [isOpenAddressBox, setIsOpenAddressBox] = useState(true);
+  const [loading, setLoading] = useState(false);
   console.log(addressList);
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  // Delete User Address
+  const handleDeleteAddress = async (_id) => {
+    setLoading(true);
+    try {
+      const response = await deleteUserAddressAxios(_id);
+      setLoading(false);
+      if (response.success) {
+        fetchAddressDetails(_id);
+      }
+    } catch (error) {
+      throw new Error("An error occured try again", error.message);
+    }
+  };
+
+  // useEffect(() => {
+  //   fetchAddressDetails();
+  // }, []);
 
   return (
     <section>
@@ -23,7 +48,7 @@ const UserAddress = () => {
         <div className="max-w-md p-4 mt-5">
           {isOpenAddressBox && <AddAddress toogleState={isOpenAddressBox} />}
         </div>
-        <div className="grid grid-cols-2 gap-7 py-10 h-[65vh] border-l overflow-y-auto custom-scrollbar">
+        <div className="grid lg:grid-cols-2 xs:grid-cols-1 gap-7 py-10 h-[65vh] border-l overflow-y-auto custom-scrollbar">
           {addressList.map((addressData, index) => {
             return (
               <div
@@ -35,8 +60,15 @@ const UserAddress = () => {
                     Address Details
                   </h2>
                   <div className="flex gap-2 ">
-                    <FaEdit size={20}   className="cursor-pointer hover:text-[#16A34A]"/>
-                    <MdDelete size={20}className="cursor-pointer hover:text-[#16A34A]" />
+                    <FaEdit
+                      size={20}
+                      className="cursor-pointer hover:text-[#16A34A]"
+                    />
+                    <MdDelete
+                      size={20}
+                      className="cursor-pointer hover:text-[#16A34A]"
+                      onClick={() => handleDeleteAddress(addressData._id)}
+                    />
                   </div>
                 </div>
                 <div className="text-sm text-gray-600">
@@ -66,6 +98,14 @@ const UserAddress = () => {
           })}
         </div>
       </div>
+
+      {isOpen && (
+        <DeleteConfirmation
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          // onConfirm={handleDeleteAddress}
+        />
+      )}
     </section>
   );
 };

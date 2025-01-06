@@ -555,6 +555,20 @@ const getUserAddress = async (_id) => {
   }
 };
 
+const deleteUserAddressAxios = async (_id) => {
+  try {
+    const response = await Axios.delete(`${baseURL}/api/delete/address`, {
+      data: { _id }, // Pass the payload in the `data` property
+    });
+    return response.data; // Return the response payload
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message ||
+        "An error occurred while deleting the address"
+    );
+  }
+};
+
 export {
   registerUser,
   userLogIn,
@@ -593,4 +607,5 @@ export {
   // Address Axios
   createUserAddress,
   getUserAddress,
+  deleteUserAddressAxios,
 };
