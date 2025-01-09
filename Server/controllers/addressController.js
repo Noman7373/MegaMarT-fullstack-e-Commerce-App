@@ -114,8 +114,36 @@ const deleteUsersAddressController = async (req, res) => {
   }
 };
 
+// Update User Address Controller
+const updateUsersAddressController = async (req, res) => {
+  try {
+    const { userId, address_line, city, state, pincode, country, mobile } =
+      req.body;
+
+    const userAddressDetails = await addressModel.findOneAndUpdate(
+      { userId }, // Filter by userId
+      { address_line, city, state, pincode, country, mobile }, // Update fields
+      { new: true } // Return the updated document
+    );
+
+    return res.status(200).json({
+      message: "Address Update successfully!",
+      error: false,
+      success: true,
+      userAddressDetails,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message || "Internal Server Error",
+      error: true,
+      success: false,
+    });
+  }
+};
+
 export {
   createAddressController,
   getUsersAddressController,
   deleteUsersAddressController,
+  updateUsersAddressController,
 };

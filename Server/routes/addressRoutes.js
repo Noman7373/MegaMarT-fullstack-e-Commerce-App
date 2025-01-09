@@ -5,6 +5,7 @@ import {
   createAddressController,
   deleteUsersAddressController,
   getUsersAddressController,
+  updateUsersAddressController,
 } from "../controllers/addressController.js";
 
 const addressRoutes = Router();
@@ -17,5 +18,6 @@ addressRoutes.post(
 );
 addressRoutes.get("/get/address", getUsersAddressController);
 addressRoutes.delete("/delete/address", deleteUsersAddressController);
+addressRoutes.put("/update/address", updateUsersAddressController);
 
 export default addressRoutes;
