@@ -8,6 +8,9 @@ import DeleteConfirmation from "../../utils/DeleteConfirmation";
 import { deleteUserAddressAxios } from "../../Api/Query/userQuery";
 const UserAddress = () => {
   const addressList = useSelector((state) => state.address.addressList);
+  const user = useSelector((state) => state?.user);
+  console.log("user", user._id);
+
   const { fetchAddressDetails } = useHook();
   const [isOpenAddressBox, setIsOpenAddressBox] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -22,16 +25,12 @@ const UserAddress = () => {
       const response = await deleteUserAddressAxios(_id);
       setLoading(false);
       if (response.success) {
-        fetchAddressDetails(_id);
+        fetchAddressDetails(user?._id);
       }
     } catch (error) {
       throw new Error("An error occured try again", error.message);
     }
   };
-
-  // useEffect(() => {
-  //   fetchAddressDetails();
-  // }, []);
 
   return (
     <section>

@@ -569,6 +569,35 @@ const deleteUserAddressAxios = async (_id) => {
   }
 };
 
+// Update userAddress Axios
+const updateAddressAxios = async (
+  userId,
+  address_line,
+  city,
+  state,
+  pincode,
+  country,
+  mobile
+) => {
+  try {
+    const respone = await Axios.put(`${baseURL}/api/update/address`, {
+      userId,
+      address_line,
+      city,
+      state,
+      pincode,
+      country,
+      mobile,
+    });
+    return respone;
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message ||
+        "An error occurred while deleting the address"
+    );
+  }
+};
+
 export {
   registerUser,
   userLogIn,
@@ -608,4 +637,5 @@ export {
   createUserAddress,
   getUserAddress,
   deleteUserAddressAxios,
+  updateAddressAxios,
 };

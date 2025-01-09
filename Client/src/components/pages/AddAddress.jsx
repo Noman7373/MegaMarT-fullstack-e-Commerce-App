@@ -61,7 +61,7 @@ const AddAddress = ({ toogleState }) => {
       });
 
       if (response.data.success) {
-        fetchAddressDetails();
+        fetchAddressDetails(userId);
         resetForm();
         toogleState(false);
         setIsVisible(true);
