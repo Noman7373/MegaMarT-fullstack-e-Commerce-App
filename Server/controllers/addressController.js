@@ -117,13 +117,34 @@ const deleteUsersAddressController = async (req, res) => {
 // Update User Address Controller
 const updateUsersAddressController = async (req, res) => {
   try {
-    const { userId, address_line, city, state, pincode, country, mobile } =
+    const { _id, address_line, city, state, pincode, country, mobile } =
       req.body;
 
+    // Validate _id format (Optional)
+    if (!/^[0-9a-fA-F]{24}$/.test(_id)) {
+      return res.status(400).json({
+        message: "Invalid ID format!",
+        error: true,
+        success: false,
+      });
+    }
+
     const userAddressDetails = await addressModel.findOneAndUpdate(
-      { _id: userId }, // Filter by userId
-      { address_line, city, state, pincode, country, mobile } // Update fields
+      { _id }, // Filter by userId
+      { address_line, city, state, pincode, country, mobile }, // Update fields
+      { new: true, runValidators: true }
     );
+
+    console.log(userAddressDetails);
+
+    // Check if the address was found and updated
+    if (!userAddressDetails) {
+      return res.status(404).json({
+        message: "Address not found!",
+        error: true,
+        success: false,
+      });
+    }
 
     return res.status(200).json({
       message: "Address Update successfully!",
