@@ -121,9 +121,8 @@ const updateUsersAddressController = async (req, res) => {
       req.body;
 
     const userAddressDetails = await addressModel.findOneAndUpdate(
-      { userId }, // Filter by userId
-      { address_line, city, state, pincode, country, mobile }, // Update fields
-      { new: true } // Return the updated document
+      { _id: userId }, // Filter by userId
+      { address_line, city, state, pincode, country, mobile } // Update fields
     );
 
     return res.status(200).json({
