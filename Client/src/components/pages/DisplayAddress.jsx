@@ -4,8 +4,7 @@ import { useSelector } from "react-redux";
 const DisplayAddress = () => {
   const addressList = useSelector((state) => state.address.addressList);
   const [selectAddress, setSelectAddress] = useState(0);
-//   console.log(addressList[selectAddress]);
-  
+  //   console.log(addressList[selectAddress]);
 
   return (
     <>
@@ -41,6 +40,10 @@ const DisplayAddress = () => {
                 </p>
                 <p>
                   <span className="font-medium">City:</span> {addressData.city}
+                </p>
+                <p>
+                  <span className="font-medium">State:</span>{" "}
+                  {addressData.state}
                 </p>
                 <p>
                   <span className="font-medium">Country:</span>{" "}

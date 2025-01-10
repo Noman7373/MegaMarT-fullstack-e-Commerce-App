@@ -96,7 +96,7 @@ const UserMenu = ({ toogleMenu }) => {
               Add Product
             </NavLink>
             <NavLink
-              to={"/dashboard/address"}
+              to={`/dashboard/address/${user._id}`}
               className={({ isActive }) =>
                 isActive
                   ? "bg-[#FFF7F0] p-2 outline outline-1 outline-[#FB8114]  outline-l-1"

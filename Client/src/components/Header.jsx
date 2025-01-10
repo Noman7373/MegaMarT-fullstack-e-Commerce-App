@@ -13,14 +13,8 @@ import CartPage from "../components/pages/CartPage.jsx";
 function Header() {
   const { cart, cartLoading } = useSelector((state) => state.cart);
 
-  const {
-    totalPrice,
-    setTotalPrice,
-    totalQty,
-    setTotalQty,
-    disableScroll,
-    enableScroll,
-  } = useHook();
+  const { totalPrice, setTotalPrice, totalQty, setTotalQty, disableScroll } =
+    useHook();
 
   const navigate = useNavigate();
   const [isMobile] = useMobile();
@@ -57,6 +51,10 @@ function Header() {
     setTotalPrice(calTotalPrice);
   }, [cart]);
 
+  // const closeCartPage = () => {
+  //   setIsOpenCart(false);
+  //   console.log("closeCartPage called!"); // Debug log
+  // };
   return (
     <>
       <header className="h-30 lg:h-22 shadow-md sticky top-0 px-2 z-40 flex items-center flex-col justify-center bg-white">
@@ -149,7 +147,7 @@ function Header() {
 
       {/* SHow Cart Component */}
 
-      {isOpenCart && <CartPage resetOpenState={setIsOpenCart} />}
+      {isOpenCart && <CartPage cartPageClose={() => setIsOpenCart(false)} />}
     </>
   );
 }

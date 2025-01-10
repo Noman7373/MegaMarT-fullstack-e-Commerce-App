@@ -40,7 +40,7 @@ const CheckoutPage = () => {
 
           {/* Show Address Fields */}
           {isOpenAddressBox && !addressList[0] && (
-            <AddAddress toogleState={isOpenAddressBox} />
+            <AddAddress toogleState={setIsOpenAddressBox} />
           )}
 
           {/* Show Address Details */}

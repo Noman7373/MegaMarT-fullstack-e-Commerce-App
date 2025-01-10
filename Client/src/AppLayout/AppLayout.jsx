@@ -13,6 +13,8 @@ const AppLayout = () => {
     // Update hideViewCart state when pathname changes
     if (location.pathname === "/cart" || location.pathname === "/checkout") {
       setHideViewCart(false);
+    } else {
+      setHideViewCart(true);
     }
   }, [location.pathname]); // Dependency on location.pathname
   return (

@@ -146,7 +146,7 @@ function App() {
               element: <UpdateSubcategories />,
             },
             {
-              path: "address",
+              path: "address/:id",
               element: <UserAddress />,
             },
             {

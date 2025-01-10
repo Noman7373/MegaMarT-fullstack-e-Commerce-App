@@ -1,23 +1,15 @@
 import React, { useState } from "react";
 // import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+import { updateAddressAxios } from "../../Api/Query/userQuery";
 
 const UpdateAddress = () => {
   const location = useLocation();
-  console.log("location", location.state);
   const { address_line, city, pincode, country, mobile, state } =
     location?.state;
-  const userId = location.pathname.slice(26);
+  const userId = location.pathname.split("/")[3];
   console.log(userId);
-
-  // const address = useSelector((state) => state?.address?.addressList);
-  // const user = useSelector((state) => state?.user);
-  // // console.log("address", address);
-  // // console.log("user", user);
-  // // const filterAddress = address.some(
-  // //   (address) => address?.userId === user?._id
-  // // );
-  // // console.log(filterAddress, "FilterAddress");
+  
 
   const [userAddress, setUserAddress] = useState({
     userId,
@@ -38,14 +30,32 @@ const UpdateAddress = () => {
     }));
   };
 
-
-  // Handle Update Address
-  const handleOnSubmit = (e) => {
-    e.preventDefault();
-  };
-
+  // Handle Back
   const goBackHandler = () => {
     window.history.back();
+  };
+
+  // Handle Update Address
+  const handleOnSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await updateAddressAxios({
+        userId,
+        address_line,
+        city,
+        state,
+        pincode,
+        country,
+        mobile,
+      });
+      if (response.data.success) {
+      console.log("success");
+      console.log(response);
+      goBackHandler();
+      }
+    } catch (error) {
+      console.log("an error occured", error.message);
+    }
   };
 
   return (
@@ -161,7 +171,7 @@ const UpdateAddress = () => {
             type="submit"
             className="bg-[#16A34A] p-2 rounded-md mt-2 text-white"
           >
-            Submit
+            Update Address
           </button>
         </form>
       </section>

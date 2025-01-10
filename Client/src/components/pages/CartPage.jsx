@@ -1,6 +1,6 @@
 import { LuTimer } from "react-icons/lu";
 import { IoMdClose } from "react-icons/io";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import useHook from "../../hooks/useHook";
 import { useSelector } from "react-redux";
 import AddToCartButtons from "../../utils/AddToCartButtons";
@@ -13,7 +13,7 @@ import { FiExternalLink } from "react-icons/fi";
 import CustomNotification from "../../utils/CustomNotification";
 import { useState } from "react";
 
-const CartPage = ({ resetOpenState }) => {
+const CartPage = ({ cartPageClose }) => {
   const navigate = useNavigate();
   const { totalQty, totalPrice, enableScroll } = useHook();
   const { cart, cartLoading } = useSelector((state) => state.cart);
@@ -34,7 +34,7 @@ const CartPage = ({ resetOpenState }) => {
 
   //  Close cart
   const closeCart = () => {
-    resetOpenState(false);
+    cartPageClose;
     enableScroll();
   };
 
@@ -42,12 +42,12 @@ const CartPage = ({ resetOpenState }) => {
   const handleCheckOutNavigate = () => {
     if (user?._id) {
       navigate(`/checkout/${user._id}`);
-      resetOpenState(false);
+      cartPageClose;
       enableScroll();
       return;
     }
     navigate("/login");
-    resetOpenState(false);
+    cartPageClose;
     enableScroll();
     setIsVisible(true);
     setNotification({

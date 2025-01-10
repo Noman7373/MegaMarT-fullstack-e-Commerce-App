@@ -6,16 +6,16 @@ import { MdDelete } from "react-icons/md";
 import useHook from "../../hooks/useHook";
 import DeleteConfirmation from "../../utils/DeleteConfirmation";
 import { deleteUserAddressAxios } from "../../Api/Query/userQuery";
-import UpdateAddress from "./UpdateAddress";
+
 import { Link } from "react-router-dom";
 const UserAddress = () => {
   const addressList = useSelector((state) => state.address.addressList);
   const user = useSelector((state) => state?.user);
-  // console.log("user", user._id);
+  const _id = user._id;
 
   const { fetchAddressDetails } = useHook();
   const [isOpenAddressBox, setIsOpenAddressBox] = useState(true);
-  const [isOpenEditBox, setIsOpenEditBox] = useState(false);
+
   const [loading, setLoading] = useState(false);
 
   const [isOpen, setIsOpen] = useState(false);
@@ -27,23 +27,22 @@ const UserAddress = () => {
       const response = await deleteUserAddressAxios(_id);
       setLoading(false);
       if (response.success) {
-        fetchAddressDetails(user?._id);
+        fetchAddressDetails(_id);
       }
     } catch (error) {
       throw new Error("An error occured try again", error.message);
     }
   };
 
+  useEffect(() => {
+    fetchAddressDetails(_id);
+    console.log("both add , show");
+  }, []);
+
   return (
     <section>
       <div className="flex justify-between items-center p-2 bg-white shadow-md ">
         <h1 className="font-semibold">Address</h1>
-        {/* <button
-          //   onClick={() => setIsUploadCategory(true)}
-          className="bg-green-600 p-2 text-white rounded hover:bg-green-700"
-        >
-          Add Address
-        </button> */}
       </div>
       <div className="flex lg:flex-row justify-around sm:flex-col xs:flex-col md:flex-col">
         <div className="w-full p-4 mt-5">
@@ -99,6 +98,9 @@ const UserAddress = () => {
                     <span className="font-medium">Country:</span> {country}
                   </p>
                   <p>
+                    <span className="font-medium">State:</span> {state}
+                  </p>
+                  <p>
                     <span className="font-medium">PinCode:</span> {pincode}
                   </p>
                   <p>
@@ -117,11 +119,6 @@ const UserAddress = () => {
           onClose={() => setIsOpen(false)}
           // onConfirm={handleDeleteAddress}
         />
-      )}
-
-      {/* Update Address Component */}
-      {isOpenEditBox && (
-        <UpdateAddress closePage={() => setIsOpenEditBox(false)} />
       )}
     </section>
   );
