@@ -571,7 +571,7 @@ const deleteUserAddressAxios = async (_id) => {
 
 // Update userAddress Axios
 const updateAddressAxios = async ({
-  userId,
+  _id,
   address_line,
   city,
   state,
@@ -581,7 +581,7 @@ const updateAddressAxios = async ({
 }) => {
   try {
     const respone = await Axios.put(`${baseURL}/api/update/address`, {
-      userId,
+      _id,
       address_line,
       city,
       state,

@@ -7,12 +7,9 @@ const UpdateAddress = () => {
   const location = useLocation();
   const { address_line, city, pincode, country, mobile, state } =
     location?.state;
-  const userId = location.pathname.split("/")[3];
-  console.log(userId);
-  
+  const _id = location.pathname.split("/")[3];
 
   const [userAddress, setUserAddress] = useState({
-    userId,
     address_line,
     city,
     pincode,
@@ -40,7 +37,7 @@ const UpdateAddress = () => {
     e.preventDefault();
     try {
       const response = await updateAddressAxios({
-        userId,
+        _id,
         address_line,
         city,
         state,
@@ -49,9 +46,8 @@ const UpdateAddress = () => {
         mobile,
       });
       if (response.data.success) {
-      console.log("success");
-      console.log(response);
-      goBackHandler();
+        console.log("success");
+        console.log(response);
       }
     } catch (error) {
       console.log("an error occured", error.message);
