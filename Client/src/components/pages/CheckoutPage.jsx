@@ -7,16 +7,19 @@ import { useEffect, useState } from "react";
 import AddAddress from "./AddAddress";
 import ShowAddress from "./ShowAddress";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const CheckoutPage = () => {
   const { totalPrice, fetchAddressDetails } = useHook();
   const { id } = useParams();
+  const addressList = useSelector((state) => state?.address?.addressList);
+  console.log("address", addressList);
 
   useEffect(() => {
     fetchAddressDetails(id);
   }, []);
-
   const [isOpenAddressBox, setIsOpenAddressBox] = useState(true);
+
   return (
     <section className="bg-blue-50">
       <div className="mx-auto p-4 flex lg:flex-row md:flex-row sm:flex-col xs:flex-col justify-around xs:gap-4">
@@ -36,7 +39,9 @@ const CheckoutPage = () => {
           </div>
 
           {/* Show Address Fields */}
-          {isOpenAddressBox && <AddAddress toogleState={isOpenAddressBox} />}
+          {isOpenAddressBox && !addressList[0] && (
+            <AddAddress toogleState={isOpenAddressBox} />
+          )}
 
           {/* Show Address Details */}
           <ShowAddress />

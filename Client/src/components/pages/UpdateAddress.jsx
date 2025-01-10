@@ -1,18 +1,53 @@
 import React, { useState } from "react";
+// import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 
-const UpdateAddress = ({ closePage }) => {
+const UpdateAddress = () => {
+  const location = useLocation();
+  console.log("location", location.state);
+  const { address_line, city, pincode, country, mobile, state } =
+    location?.state;
+  const userId = location.pathname.slice(26);
+  console.log(userId);
+
+  // const address = useSelector((state) => state?.address?.addressList);
+  // const user = useSelector((state) => state?.user);
+  // // console.log("address", address);
+  // // console.log("user", user);
+  // // const filterAddress = address.some(
+  // //   (address) => address?.userId === user?._id
+  // // );
+  // // console.log(filterAddress, "FilterAddress");
+
   const [userAddress, setUserAddress] = useState({
-    address_line: "",
-    city: "",
-    state: "",
-    pincode: "",
-    country: "",
-    mobile: "",
+    userId,
+    address_line,
+    city,
+    pincode,
+    country,
+    mobile,
+    state,
   });
-  const handleOnChange = () => {};
+
+  // Handle On Change
+  const handleOnChange = (e) => {
+    const { name, value } = e.target;
+    setUserAddress((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+
+  // Handle Update Address
   const handleOnSubmit = (e) => {
     e.preventDefault();
   };
+
+  const goBackHandler = () => {
+    window.history.back();
+  };
+
   return (
     <>
       <section className="fixed top-0 bottom-0 left-0 right-0 p-4 flex justify-center z-40 items-center bg-neutral-800 bg-opacity-40">
@@ -23,7 +58,7 @@ const UpdateAddress = ({ closePage }) => {
           <div className="flex justify-between">
             <h3 className="font-semibold">Edit Your Address</h3>
             <button
-              onClick={closePage}
+              onClick={goBackHandler}
               className="text-black hover:text-gray-400 text-right"
               aria-label="Close Modal"
             >

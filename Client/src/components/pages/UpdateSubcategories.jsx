@@ -4,12 +4,9 @@ import uploadImageUtils from "../../utils/uplaodImageUtils";
 import { useLocation, useParams } from "react-router-dom";
 import { updateSubcategoryAxios } from "../../Api/Query/userQuery";
 import useHook from "../../hooks/useHook";
-import { useSelector } from "react-redux";
 
 const UpdateSubcategories = () => {
-
-
-  const { fetchSubCategories, subcategories, fetchCategory } = useHook();
+  const { fetchSubCategories } = useHook();
 
   const { _id } = useParams();
   const location = useLocation();
@@ -22,8 +19,6 @@ const UpdateSubcategories = () => {
     image,
     category: category || [],
   });
-
-  console.log("updateSubcategory", updateSubCategoryData.category);
 
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
