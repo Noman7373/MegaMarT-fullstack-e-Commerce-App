@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import {
   deleteCategoryAxios,
+  fetchOrderHistoryAxios,
   getCartItemsAxios,
   getCategoryAxios,
   getSubCategoryAxios,
@@ -36,6 +37,10 @@ export const ProviderContext = ({ children }) => {
 
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalQty, setTotalQty] = useState(0);
+
+  // OrderHistory
+  const [orderHistory, setOrderHistory] = useState([]);
+
   // scrollBar
   useEffect(() => {
     if (isScrollDisabled) {
@@ -164,6 +169,21 @@ export const ProviderContext = ({ children }) => {
     }
   };
 
+  // Fetch order History
+  const fetchOrderHistory = async () => {
+    setIsloading(true);
+    try {
+      const response = await fetchOrderHistoryAxios();
+      setIsloading(false);
+      if (response.data.success) {
+        const { fetchOrderHistory } = response.data;
+        setOrderHistory(fetchOrderHistory);
+      }
+    } catch (error) {
+      throw new Error("An error occured try again", error.message);
+    }
+  };
+
   return (
     <ContextProvider.Provider
       value={{
@@ -192,6 +212,9 @@ export const ProviderContext = ({ children }) => {
         fetchAddressDetails,
         selectAddress,
         setSelectAddress,
+        fetchOrderHistory,
+        orderHistory,
+        setOrderHistory,
       }}
     >
       {children}

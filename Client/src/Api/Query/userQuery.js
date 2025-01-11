@@ -623,6 +623,19 @@ const cashPaymentClientAxios = async ({
   }
 };
 
+// Get Order History
+const fetchOrderHistoryAxios = async () => {
+  try {
+    const response = Axios.get(`${baseURL}/api/orders/history`);
+    return response;
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message ||
+        "An error occurred while deleting the address"
+    );
+  }
+};
+
 export {
   registerUser,
   userLogIn,
@@ -665,4 +678,5 @@ export {
   updateAddressAxios,
   // Order-By-Cash
   cashPaymentClientAxios,
+  fetchOrderHistoryAxios,
 };

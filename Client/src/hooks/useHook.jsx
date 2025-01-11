@@ -32,6 +32,9 @@ const useHook = () => {
     fetchAddressDetails,
     selectAddress,
     setSelectAddress,
+    fetchOrderHistory,
+    orderHistory,
+    setOrderHistory,
   } = context;
 
   return {
@@ -59,6 +62,9 @@ const useHook = () => {
     fetchAddressDetails,
     selectAddress,
     setSelectAddress,
+    fetchOrderHistory,
+    orderHistory,
+    setOrderHistory,
   };
 };
 
