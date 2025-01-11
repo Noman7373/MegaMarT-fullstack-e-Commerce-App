@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import useHook from "../../hooks/useHook";
 
 const SaveOrder = () => {
-  const { fetchOrderHistory, orderHistory, setOrderHistory } = useHook();
+  const { fetchOrderHistory, orderHistory } = useHook();
 
   useEffect(() => {
     fetchOrderHistory();
