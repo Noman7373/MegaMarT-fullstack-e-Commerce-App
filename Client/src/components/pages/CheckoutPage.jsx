@@ -51,7 +51,7 @@ const CheckoutPage = () => {
     } catch (error) {
       setIsVisible(true);
       setNotification({
-        message: respones.data.message,
+        message: "Something Wrong",
         type: "error",
       });
     }
