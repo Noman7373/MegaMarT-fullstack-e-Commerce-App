@@ -15,7 +15,7 @@ import { useEffect } from "react";
 import MobileMenu from "./components/MobileMenu.jsx";
 import Dashboard from "./DashboardLayout/Dashboard.jsx";
 import Profile from "./DashboardLayout/Profile.jsx";
-import MyOrder from "./components/pages/MyOrder.jsx";
+
 import SaveOrder from "./components/pages/SaveOrder.jsx";
 import Category from "./components/pages/Category.jsx";
 import SubCategory from "./components/pages/SubCategory.jsx.jsx";
@@ -122,10 +122,6 @@ function App() {
             {
               path: "profile/:id",
               element: <Profile />,
-            },
-            {
-              path: "your-order",
-              element: <MyOrder />,
             },
             {
               path: "save-order",
