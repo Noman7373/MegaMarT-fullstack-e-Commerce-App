@@ -7,7 +7,8 @@ import { createCartAxios } from "../Api/Query/userQuery.js";
 const AddToCartButtons = ({ productData }) => {
   const { updateCartItemQuantity, fetchCartItems, removeCartItems } = useHook();
   const cartItems = useSelector((state) => state.cart);
-
+  const user = useSelector((state) => state.user);
+  const userId = user._id;
   const [isLoading, setIsLoading] = useState(false);
 
   // for notification
@@ -59,7 +60,11 @@ const AddToCartButtons = ({ productData }) => {
     setIsLoading(true);
 
     try {
-      const response = await createCartAxios({ productId, quantity: 1 });
+      const response = await createCartAxios({
+        userId,
+        productId,
+        quantity: 1,
+      });
       if (response.data.success) {
         if (fetchCartItems) {
           fetchCartItems();

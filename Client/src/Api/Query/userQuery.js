@@ -452,10 +452,11 @@ const searchProductAxios = async ({ search }) => {
 };
 
 // create cart items Axios
-const createCartAxios = async ({ productId }) => {
+const createCartAxios = async ({ productId, userId }) => {
   try {
     const response = await Axios.post(`${baseURL}/api/create/cart`, {
       productId,
+      userId,
     });
     return response;
   } catch (error) {
