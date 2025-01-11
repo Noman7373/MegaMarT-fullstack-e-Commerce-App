@@ -13,8 +13,7 @@ import subCategoryRoutes from "./routes/subCategoryRoutes.js";
 import productRoute from "./routes/productRoutes.js";
 import cartRoutes from "./routes/cartRoutes.js";
 import addressRoutes from "./routes/addressRoutes.js";
-
-
+import orderRoutes from "./routes/orderRoutes.js";
 dotenv.config();
 
 const app = express();
@@ -41,11 +40,11 @@ app.use("/api/category", categoryRoute);
 app.use("/api/file", imageRoute);
 app.use("/api", subCategoryRoutes);
 
-app.use("/api", productRoute)
-app.use("/api", cartRoutes)
+app.use("/api", productRoute);
+app.use("/api", cartRoutes);
 
-app.use("/api",addressRoutes)
-
+app.use("/api", addressRoutes);
+app.use("/api", orderRoutes);
 
 mongoose.set("strictQuery", false);
 DbConnection()
