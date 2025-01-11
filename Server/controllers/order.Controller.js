@@ -1,4 +1,5 @@
 import cartProductModel from "../models/cartProductModel.js";
+
 import orderModels from "../models/orderModels.js";
 import userModel from "../models/userModel.js";
 import mongoose from "mongoose";
@@ -63,4 +64,22 @@ const PaymentByCashController = async (req, res) => {
   }
 };
 
-export { PaymentByCashController };
+const getOrderHistoryController = async (req, res) => {
+  try {
+    const fetchOrderHistory = await orderModels.find();
+    return res.status(200).json({
+      message: "Retrive Order History Successfully!",
+      fetchOrderHistory,
+      error: false,
+      success: true,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message || "Internal Server Error",
+      error: true,
+      success: false,
+    });
+  }
+};
+
+export { PaymentByCashController, getOrderHistoryController };
