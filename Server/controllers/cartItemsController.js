@@ -3,9 +3,10 @@ import userModel from "../models/userModel.js";
 // Create Cart-Items
 const createCartController = async (req, res) => {
   try {
-    const userId = req.userId;
+    // const userId = req.userId;
+    // console.log(userId);
 
-    const { productId } = req.body;
+    const { productId, userId } = req.body;
 
     if (!productId) {
       return res.status(401).json({
@@ -148,7 +149,6 @@ const deleteCartItemsController = async (req, res) => {
       message: "Item removed successfully",
       error: false,
       success: true,
-     
     });
   } catch (error) {
     return res.status(500).json({
