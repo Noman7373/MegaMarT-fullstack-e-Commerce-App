@@ -23,13 +23,14 @@ const PaymentByCashController = async (req, res) => {
       });
     }
 
+    // Prepare Payload
     const Payload = itemsList.map((item) => ({
       userId,
-      orderId: `ORD-${new mongoose.Type.ObjectId()}`, // Generate or assign a unique ID
+      orderId: `ORD-${new mongoose.Types.ObjectId()}`,
       productId: item.productId,
       product_details: {
-        name: item.productId.name || "",
-        image: item.productId.image || "",
+        name: item.productId?.name || "Unknown Product",
+        image: item.productId?.image || "No Image Available",
       },
       paymentId: "",
       payment_status: "pending",
@@ -38,23 +39,20 @@ const PaymentByCashController = async (req, res) => {
       totalAmount,
     }));
 
+    // Save orders and update database
     const generateOrders = await orderModels.insertMany(Payload);
-    const removeCartItems = cartProductModel.deleteMany({ userId });
-    const updateUserId = userModel.updateOne(
-      {
-        _id: userId,
-      },
-      {
-        shopping_cart: [],
-      }
-    );
+
+    // Remove cart items and update user concurrently
+    await Promise.all([
+      cartProductModel.deleteMany({ userId }),
+      userModel.updateOne({ _id: userId }, { $set: { shopping_cart: [] } }),
+    ]);
 
     return res.status(201).json({
       message: "Cash payment orders created successfully.",
-      data: savedOrders,
+      data: generateOrders,
       error: false,
       success: true,
-      generateOrders,
     });
   } catch (error) {
     return res.status(500).json({
