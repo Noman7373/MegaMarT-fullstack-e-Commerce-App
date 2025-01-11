@@ -598,6 +598,30 @@ const updateAddressAxios = async ({
   }
 };
 
+//cashPaymentClient Axios
+const cashPaymentClientAxios = async ({
+  itemsList,
+  totalAmount,
+  delivery_address_Id,
+  subTotalAmount,
+}) => {
+  try {
+    const response = Axios.post(`${baseURL}/api/payments/cash`, {
+      itemsList,
+      totalAmount,
+      delivery_address_Id,
+      subTotalAmount,
+    });
+
+    return response;
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message ||
+        "An error occurred while deleting the address"
+    );
+  }
+};
+
 export {
   registerUser,
   userLogIn,
@@ -638,4 +662,6 @@ export {
   getUserAddress,
   deleteUserAddressAxios,
   updateAddressAxios,
+  // Order-By-Cash
+  cashPaymentClientAxios,
 };
