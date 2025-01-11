@@ -51,10 +51,6 @@ function Header() {
     setTotalPrice(calTotalPrice);
   }, [cart]);
 
-  // const closeCartPage = () => {
-  //   setIsOpenCart(false);
-  //   console.log("closeCartPage called!"); // Debug log
-  // };
   return (
     <>
       <header className="h-30 lg:h-22 shadow-md sticky top-0 px-2 z-40 flex items-center flex-col justify-center bg-white">

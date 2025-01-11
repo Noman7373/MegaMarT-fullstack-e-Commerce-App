@@ -31,6 +31,7 @@ import CartPage from "./components/pages/CartPage.jsx";
 import CheckoutPage from "./components/pages/CheckoutPage.jsx";
 import UserAddress from "./components/pages/UserAddress.jsx";
 import UpdateAddress from "./components/pages/UpdateAddress.jsx";
+import OrderSuccessPage from "./components/pages/OrderSuccessPage.jsx";
 
 function App() {
   // const user = useSelector((state) => state?.user);
@@ -104,6 +105,10 @@ function App() {
         {
           path: "/checkout/:id",
           element: <CheckoutPage />,
+        },
+        {
+          path: "/order/success",
+          element: <OrderSuccessPage />,
         },
         {
           path: "/dashboard",

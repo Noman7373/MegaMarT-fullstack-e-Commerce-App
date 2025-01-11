@@ -30,6 +30,8 @@ const useHook = () => {
     disableScroll,
     enableScroll,
     fetchAddressDetails,
+    selectAddress,
+    setSelectAddress,
   } = context;
 
   return {
@@ -55,6 +57,8 @@ const useHook = () => {
     disableScroll,
     enableScroll,
     fetchAddressDetails,
+    selectAddress,
+    setSelectAddress,
   };
 };
 

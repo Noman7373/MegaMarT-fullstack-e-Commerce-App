@@ -1,9 +1,9 @@
-import { useState } from "react";
 import { useSelector } from "react-redux";
+import useHook from "../../hooks/useHook";
 
 const DisplayAddress = () => {
   const addressList = useSelector((state) => state.address.addressList);
-  const [selectAddress, setSelectAddress] = useState(0);
+  const { setSelectAddress } = useHook();
   //   console.log(addressList[selectAddress]);
 
   return (

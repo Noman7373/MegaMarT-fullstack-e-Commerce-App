@@ -34,7 +34,7 @@ const CartPage = ({ cartPageClose }) => {
 
   //  Close cart
   const closeCart = () => {
-    cartPageClose;
+    cartPageClose()
     enableScroll();
   };
 
@@ -42,12 +42,12 @@ const CartPage = ({ cartPageClose }) => {
   const handleCheckOutNavigate = () => {
     if (user?._id) {
       navigate(`/checkout/${user._id}`);
-      cartPageClose;
+      cartPageClose()
       enableScroll();
       return;
     }
     navigate("/login");
-    cartPageClose;
+    cartPageClose()
     enableScroll();
     setIsVisible(true);
     setNotification({

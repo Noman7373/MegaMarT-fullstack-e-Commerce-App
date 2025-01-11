@@ -6,19 +6,56 @@ import { BiSolidDownArrow, BiSolidUpArrow } from "react-icons/bi";
 import { useEffect, useState } from "react";
 import AddAddress from "./AddAddress";
 import ShowAddress from "./ShowAddress";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { cashPaymentClientAxios } from "../../Api/Query/userQuery";
+import CustomNotification from "../../utils/CustomNotification";
 
 const CheckoutPage = () => {
-  const { totalPrice, fetchAddressDetails } = useHook();
+  const navigate = useNavigate();
+  const { cart, cartLoading } = useSelector((state) => state.cart);
+  const { totalPrice, fetchAddressDetails, fetchCartItems, selectAddress } =
+    useHook();
   const { id } = useParams();
   const addressList = useSelector((state) => state?.address?.addressList);
-  console.log("address", addressList);
+
+  // for notification
+  const [isVisible, setIsVisible] = useState(false);
+  const [notification, setNotification] = useState({
+    message: "",
+    type: "",
+  });
 
   useEffect(() => {
     fetchAddressDetails(id);
   }, []);
   const [isOpenAddressBox, setIsOpenAddressBox] = useState(true);
+
+  const handleCashPaymentRequest = async () => {
+    try {
+      const respones = await cashPaymentClientAxios({
+        itemsList: cart,
+        delivery_address_Id: addressList[selectAddress]?._id,
+        totalAmount: totalPrice,
+        subTotalAmount: totalPrice,
+      });
+      if (respones.data.success) {
+        fetchCartItems();
+        setIsVisible(true);
+        setNotification({
+          message: respones.data.message,
+          type: "success",
+        });
+        navigate("/order/success");
+      }
+    } catch (error) {
+      setIsVisible(true);
+      setNotification({
+        message: respones.data.message,
+        type: "error",
+      });
+    }
+  };
 
   return (
     <section className="bg-blue-50">
@@ -131,7 +168,10 @@ const CheckoutPage = () => {
                 <button className="bg-[#16A34A] p-2 rounded hover:bg-green-700">
                   Online Payment
                 </button>
-                <button className="bg-blue-600 p-2 rounded hover:bg-blue-800">
+                <button
+                  className="bg-blue-600 p-2 rounded hover:bg-blue-800"
+                  onClick={handleCashPaymentRequest}
+                >
                   Cash On Delivery
                 </button>
               </div>
@@ -139,6 +179,16 @@ const CheckoutPage = () => {
           </div>
         </div>
       </div>
+
+      {/* Notification */}
+      <CustomNotification
+        Notification={{
+          message: notification.message,
+          type: notification.type,
+          isVisible,
+          setIsVisible,
+        }}
+      />
     </section>
   );
 };

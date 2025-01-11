@@ -29,6 +29,8 @@ export const ProviderContext = ({ children }) => {
   const [search, setSearch] = useState("");
   const [cartLoading, setCartLoading] = useState(false);
 
+  const [selectAddress, setSelectAddress] = useState(0);
+
   // for scrollBar
   const [isScrollDisabled, setIsScrollDisabled] = useState(false);
 
@@ -188,6 +190,8 @@ export const ProviderContext = ({ children }) => {
         disableScroll,
         enableScroll,
         fetchAddressDetails,
+        selectAddress,
+        setSelectAddress,
       }}
     >
       {children}

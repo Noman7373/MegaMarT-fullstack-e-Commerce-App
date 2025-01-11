@@ -7,7 +7,7 @@ const CustomNotification = ({ Notification }) => {
     if (isVisible) {
       const timer = setTimeout(() => {
         setIsVisible(false); // Hide the notification after 3 seconds
-      }, 2000); // 3 seconds
+      }, 3000); // 3 seconds
       return () => clearTimeout(timer); // Clean up the timeout if the component unmounts
     }
   }, [isVisible, setIsVisible]);
