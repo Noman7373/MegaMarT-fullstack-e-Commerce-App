@@ -9,19 +9,19 @@ const PaymentByCashController = async (req, res) => {
     const { itemsList, totalAmount, delivery_address_Id, subTotalAmount } =
       req.body;
 
-    if (
-      !itemsList ||
-      !itemsList.length ||
-      !totalAmount ||
-      !delivery_address_Id
-    ) {
-      return res.status(400).json({
-        message:
-          "Invalid request payload. Ensure all required fields are provided.",
-        error: true,
-        success: false,
-      });
-    }
+    // if (
+    //   !itemsList ||
+    //   !itemsList.length ||
+    //   !totalAmount ||
+    //   !delivery_address_Id
+    // ) {
+    //   return res.status(400).json({
+    //     message:
+    //       "Invalid request payload. Ensure all required fields are provided.",
+    //     error: true,
+    //     success: false,
+    //   });
+    // }
 
     // Prepare Payload
     const Payload = itemsList.map((item) => ({
