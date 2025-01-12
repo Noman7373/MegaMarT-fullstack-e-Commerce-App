@@ -76,51 +76,58 @@ const StripePaymentController = async (req, res) => {
     const { itemsList, totalAmount, delivery_address_Id, subTotalAmount } =
       req.body;
 
+    // Find user by userId
     const user = await userModel.findById(userId);
 
+    // Map the items list to line items for Stripe
     const line_items = itemsList.map((items) => {
       return {
         price_data: {
-          currency: "BHD",
+          currency: "pkr", // Ensure currency is set as expected
           product_data: {
-            name: items.productId.name,
-            image: items.productId.image,
-            metaData: {
-              productId: items.productId._id,
+            name: items.productId.name, // Product name
+            images: items.productId.image, // Product image (ensure it's an array)
+            metadata: {
+              productId: items.productId._id.toString(), // Add metadata if needed
             },
           },
-          unit_amount: discountPrice(
-            items.productId.price,
-            items.productId.discount
-          ),
+          unit_amount:
+            discountPrice(items.productId.price, items.productId.discount) *
+            100,
         },
-        adjustable_Quantity: {
-          enable: true,
+        adjustable_quantity: {
+          enabled: true,
           minimum: 1,
         },
         quantity: items.quantity,
       };
     });
 
+    console.log(line_items); // Log the final line_items array to ensure the structure is correct
+
+    // Parameters for creating the Stripe session
     const params = {
-      submitType: "pay",
+      submit_type: "pay",
       mode: "payment",
-      paymentMethodsType: ["card"],
-      customer_Email: user.email,
-      metaData: {
+      payment_method_types: ["card"], // Updated field to 'payment_method_types'
+      customer_email: user.email,
+      metadata: {
         userId,
-        addressId,
+        delivery_address_Id, // Use the actual delivery address ID from the body
       },
       line_items,
-      successURL: `${process.env.FRONTEND_URL}/order/success`,
-      rejectPaymentURL: `${process.env.FRONTEND_URL}/payment/cancel`,
+      success_url: `${process.env.FRONTEND_URL}/order/success`,
+      cancel_url: `${process.env.FRONTEND_URL}/payment/cancel`, // Cancel URL corrected to 'cancel_url'
     };
 
+    // Create the Stripe checkout session
     const session = await Stripe.checkout.sessions.create(params);
 
+    // Return session object
     return res.status(303).json(session);
   } catch (error) {
-    res.status(500).json({
+    // Handle any errors
+    return res.status(500).json({
       message: error.message || error,
       error: true,
       success: false,
