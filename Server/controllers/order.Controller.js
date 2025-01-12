@@ -1,28 +1,15 @@
 import cartProductModel from "../models/cartProductModel.js";
-
 import orderModels from "../models/orderModels.js";
 import userModel from "../models/userModel.js";
 import mongoose from "mongoose";
+import discountPrice from "../utils/discoutPrice.js";
+import Stripe from "../DB/stripe.js";
 
 const PaymentByCashController = async (req, res) => {
   try {
     const userId = req.userId; // Extracted from Auth Middleware
     const { itemsList, totalAmount, delivery_address_Id, subTotalAmount } =
       req.body;
-
-    // if (
-    //   !itemsList ||
-    //   !itemsList.length ||
-    //   !totalAmount ||
-    //   !delivery_address_Id
-    // ) {
-    //   return res.status(400).json({
-    //     message:
-    //       "Invalid request payload. Ensure all required fields are provided.",
-    //     error: true,
-    //     success: false,
-    //   });
-    // }
 
     // Prepare Payload
     const Payload = itemsList.map((item) => ({
@@ -82,4 +69,68 @@ const getOrderHistoryController = async (req, res) => {
   }
 };
 
-export { PaymentByCashController, getOrderHistoryController };
+const StripePaymentController = async (req, res) => {
+  try {
+    const userId = req.userId;
+    const { itemsList, totalAmount, delivery_address_Id, subTotalAmount } =
+      req.body;
+
+    const user = await userModel.findById(userId);
+
+    const line_items = itemsList.map((items) => {
+      return {
+        price_data: {
+          currency: "BHD",
+          product_data: {
+            name: items.productId.name,
+            image: items.productId.image,
+            metaData: {
+              productId: items.productId._id,
+            },
+          },
+          unit_amount: discountPrice(
+            items.productId.price,
+            items.productId.discount
+          ),
+        },
+        adjustable_Quantity: {
+          enable: true,
+          minimum: 1,
+        },
+        quantity: items.quantity,
+      };
+    });
+
+    const params = {
+      submitType: "pay",
+      mode: "payment",
+      paymentMethodsType: ["card"],
+      customer_Email: user.email,
+      metaData: {
+        userId,
+        addressId,
+      },
+      line_items,
+      successURL: `${process.env.FRONTEND_URL}/order/success`,
+      rejectPaymentURL: `${process.env.FRONTEND_URL}/payment/cancel`,
+    };
+
+    const session = await Stripe.checkout.sessions.create(params);
+
+    return res.status(303).json(session);
+
+    
+  } catch (error) {
+    res.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};
+
+export {
+  PaymentByCashController,
+  getOrderHistoryController,
+  StripePaymentController,
+};

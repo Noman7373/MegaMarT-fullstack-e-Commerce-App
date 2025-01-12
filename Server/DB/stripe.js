@@ -1,3 +1,5 @@
 import stripe from "stripe";
 
-const stripe = stripe(process.env.SITRIPE_SECRET_KEY); // Create a new Stripe instance with your secret key
+const Stripe = stripe(process.env.STRIPE_SECRET_KEY);
+
+export default Stripe;
