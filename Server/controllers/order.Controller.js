@@ -69,6 +69,7 @@ const getOrderHistoryController = async (req, res) => {
   }
 };
 
+//  Stripe_payment_controller
 const StripePaymentController = async (req, res) => {
   try {
     const userId = req.userId;
@@ -118,8 +119,6 @@ const StripePaymentController = async (req, res) => {
     const session = await Stripe.checkout.sessions.create(params);
 
     return res.status(303).json(session);
-
-    
   } catch (error) {
     res.status(500).json({
       message: error.message || error,
