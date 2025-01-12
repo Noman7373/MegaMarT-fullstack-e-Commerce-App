@@ -624,19 +624,9 @@ const cashPaymentClientAxios = async ({
 };
 
 // Get Order History
-const fetchOrderHistoryAxios = async ({
-  itemsList,
-  totalAmount,
-  delivery_address_Id,
-  subTotalAmount,
-}) => {
+const fetchOrderHistoryAxios = async () => {
   try {
-    const response = Axios.get(`${baseURL}/api/orders/history`, {
-      itemsList,
-      totalAmount,
-      delivery_address_Id,
-      subTotalAmount,
-    });
+    const response = Axios.get(`${baseURL}/api/orders/history`);
     return response;
   } catch (error) {
     throw new Error(
@@ -647,9 +637,26 @@ const fetchOrderHistoryAxios = async ({
 };
 
 // Stripe_Payment_Axios
-const fetchStripePaymentAxios = async () => {
+const StripePaymentAxios = async ({
+  itemsList,
+  totalAmount,
+  delivery_address_Id,
+  subTotalAmount,
+}) => {
+  console.log("Request Data:", {
+    itemsList,
+    totalAmount,
+    delivery_address_Id,
+    subTotalAmount,
+  });
   try {
-    const response = await Axios.post(`${baseURL}/api/payment/stripe`);
+    const response = await Axios.post(`${baseURL}/api/payment/stripe`, {
+      itemsList,
+      totalAmount,
+      delivery_address_Id,
+      subTotalAmount,
+    });
+    return response;
   } catch (error) {
     throw new Error(
       error.response?.data?.message ||
@@ -701,4 +708,6 @@ export {
   // Order-By-Cash
   cashPaymentClientAxios,
   fetchOrderHistoryAxios,
+  // Stripe
+  StripePaymentAxios,
 };

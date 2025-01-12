@@ -8,8 +8,12 @@ import AddAddress from "./AddAddress";
 import ShowAddress from "./ShowAddress";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { cashPaymentClientAxios } from "../../Api/Query/userQuery";
+import {
+  cashPaymentClientAxios,
+  StripePaymentAxios,
+} from "../../Api/Query/userQuery";
 import CustomNotification from "../../utils/CustomNotification";
+import { loadStripe } from "@stripe/stripe-js";
 
 const CheckoutPage = () => {
   const navigate = useNavigate();
@@ -52,6 +56,49 @@ const CheckoutPage = () => {
       setIsVisible(true);
       setNotification({
         message: "Something Wrong",
+        type: "error",
+      });
+    }
+  };
+
+  // Handle Online Payment with Stripe
+  const handleOnlineStripePayment = async () => {
+    try {
+      const stripePublicKey = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY;
+
+      // Load Stripe with the publishable key
+      const stripePromise = await loadStripe(stripePublicKey);
+
+      // Make a request to your backend to create the payment session
+      const response = await StripePaymentAxios({
+        itemsList: cart, // Directly pass itemsList, no need to wrap it in "data"
+        delivery_address_Id: addressList[selectAddress]?._id,
+        totalAmount: totalPrice,
+        subTotalAmount: totalPrice,
+      });
+
+      const { data } = response;
+      stripePromise.redirectToCheckout({ sessionId: data.id });
+      console.log(data);
+
+      // if (response && response.data) {
+      //   const { data } = response; // Extract session data from the response
+
+      //   if (error) {
+      //     throw new Error(error.message);
+      //   }
+
+      setIsVisible(true);
+      setNotification({
+        message: "Payment Success",
+        type: "success",
+      });
+      // }
+    } catch (error) {
+      console.error("Error during Stripe payment:", error);
+      setIsVisible(true);
+      setNotification({
+        message: error.message || "Something went wrong",
         type: "error",
       });
     }
@@ -165,7 +212,10 @@ const CheckoutPage = () => {
               </div>
 
               <div className="flex justify-between p-2 text-white xs:flex-col sm:flex-row flex-row xs:gap-4">
-                <button className="bg-[#16A34A] p-2 rounded hover:bg-green-700">
+                <button
+                  className="bg-[#16A34A] p-2 rounded hover:bg-green-700"
+                  onClick={handleOnlineStripePayment}
+                >
                   Online Payment
                 </button>
                 <button
