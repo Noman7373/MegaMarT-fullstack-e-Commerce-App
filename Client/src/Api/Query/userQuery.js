@@ -624,10 +624,32 @@ const cashPaymentClientAxios = async ({
 };
 
 // Get Order History
-const fetchOrderHistoryAxios = async () => {
+const fetchOrderHistoryAxios = async ({
+  itemsList,
+  totalAmount,
+  delivery_address_Id,
+  subTotalAmount,
+}) => {
   try {
-    const response = Axios.get(`${baseURL}/api/orders/history`);
+    const response = Axios.get(`${baseURL}/api/orders/history`, {
+      itemsList,
+      totalAmount,
+      delivery_address_Id,
+      subTotalAmount,
+    });
     return response;
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message ||
+        "An error occurred while deleting the address"
+    );
+  }
+};
+
+// Stripe_Payment_Axios
+const fetchStripePaymentAxios = async () => {
+  try {
+    const response = await Axios.post(`${baseURL}/api/payment/stripe`);
   } catch (error) {
     throw new Error(
       error.response?.data?.message ||
