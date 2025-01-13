@@ -649,18 +649,24 @@ const StripePaymentAxios = async ({
     delivery_address_Id,
     subTotalAmount,
   });
+
   try {
-    const response = await Axios.post(`${baseURL}/api/payment/stripe`, {
+    const response = await Axios.post(`${baseURL}/api/checkout`, {
       itemsList,
       totalAmount,
       delivery_address_Id,
       subTotalAmount,
     });
+    console.log("Stripe API Response:", response.data);
     return response;
   } catch (error) {
+    console.error(
+      "Error during Stripe payment:",
+      error.response?.data || error.message
+    );
     throw new Error(
       error.response?.data?.message ||
-        "An error occurred while deleting the address"
+        "An error occurred while processing the payment"
     );
   }
 };

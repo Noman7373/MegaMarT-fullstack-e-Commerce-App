@@ -63,37 +63,33 @@ const CheckoutPage = () => {
 
   // Handle Online Payment with Stripe
   const handleOnlineStripePayment = async () => {
+    const stripe = await loadStripe(
+      import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY
+    );
+
     try {
-      const stripePublicKey = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY;
-
-      // Load Stripe with the publishable key
-      const stripePromise = await loadStripe(stripePublicKey);
-
-      // Make a request to your backend to create the payment session
       const response = await StripePaymentAxios({
-        itemsList: cart, // Directly pass itemsList, no need to wrap it in "data"
+        itemsList: cart,
         delivery_address_Id: addressList[selectAddress]?._id,
         totalAmount: totalPrice,
         subTotalAmount: totalPrice,
       });
 
-      const { data } = response;
-      stripePromise.redirectToCheckout({ sessionId: data.id });
-      console.log(data);
+      const session = response.data;
+      console.log(session, "sessions");
 
-      // if (response && response.data) {
-      //   const { data } = response; // Extract session data from the response
+      if (!stripe) {
+        throw new Error("Stripe has not been loaded");
+      }
 
-      //   if (error) {
-      //     throw new Error(error.message);
-      //   }
-
-      setIsVisible(true);
-      setNotification({
-        message: "Payment Success",
-        type: "success",
+      const { error } = await stripe.redirectToCheckout({
+        sessionId: session.id,
       });
-      // }
+      if (error) {
+        throw new Error(
+          error.message || "An error occurred during checkout redirection."
+        );
+      }
     } catch (error) {
       console.error("Error during Stripe payment:", error);
       setIsVisible(true);
