@@ -9,6 +9,6 @@ const orderRoutes = Router();
 
 orderRoutes.post("/payments/cash", authMiddleware, PaymentByCashController);
 orderRoutes.get("/orders/history", authMiddleware, getOrderHistoryController);
-orderRoutes.post("/payment/stripe", authMiddleware, StripePaymentController);
+orderRoutes.post("/checkout", authMiddleware, StripePaymentController);
 
 export default orderRoutes;

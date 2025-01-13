@@ -103,30 +103,28 @@ const StripePaymentController = async (req, res) => {
       };
     });
 
-    console.log(line_items); // Log the final line_items array to ensure the structure is correct
+    // console.log(line_items); // Log the final line_items array to ensure the structure is correct
 
     // Parameters for creating the Stripe session
     const params = {
       submit_type: "pay",
       mode: "payment",
-      payment_method_types: ["card"], // Updated field to 'payment_method_types'
+      payment_method_types: ["card"],
       customer_email: user.email,
       metadata: {
         userId,
-        delivery_address_Id, // Use the actual delivery address ID from the body
+        delivery_address_Id,
       },
       line_items,
       success_url: `${process.env.FRONTEND_URL}/order/success`,
-      cancel_url: `${process.env.FRONTEND_URL}/payment/cancel`, // Cancel URL corrected to 'cancel_url'
+      cancel_url: `${process.env.FRONTEND_URL}/payment/cancel`,
     };
 
     // Create the Stripe checkout session
     const session = await Stripe.checkout.sessions.create(params);
 
-    // Return session object
     return res.status(303).json(session);
   } catch (error) {
-    // Handle any errors
     return res.status(500).json({
       message: error.message || error,
       error: true,
