@@ -76,19 +76,39 @@ const StripePaymentController = async (req, res) => {
     const { itemsList, totalAmount, delivery_address_Id, subTotalAmount } =
       req.body;
 
-    // Find user by userId
-    const user = await userModel.findById(userId);
+    // Validate required fields
+    if (!userId || !itemsList || !totalAmount || !delivery_address_Id) {
+      return res.status(400).json({
+        message: "Missing required fields.",
+        error: true,
+        success: false,
+      });
+    }
 
-    // Map the items list to line items for Stripe
-    const line_items = itemsList.map((items) => {
+    // Find user by ID
+    const user = await userModel.findById(userId);
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found.",
+        error: true,
+        success: false,
+      });
+    }
+
+    // Map items list to Stripe line_items
+    const line_Items = itemsList.map((items) => {
+      if (!items.productId || !items.productId.name || !items.productId.image) {
+        throw new Error("Invalid product data in items list.");
+      }
+
       return {
         price_data: {
-          currency: "pkr", // Ensure currency is set as expected
+          currency: "pkr",
           product_data: {
-            name: items.productId.name, // Product name
-            images: items.productId.image, // Product image (ensure it's an array)
+            name: items.productId.name,
+            images: items.productId.image,
             metadata: {
-              productId: items.productId._id.toString(), // Add metadata if needed
+              productId: items.productId._id.toString(),
             },
           },
           unit_amount:
@@ -103,10 +123,8 @@ const StripePaymentController = async (req, res) => {
       };
     });
 
-    // console.log(line_items); // Log the final line_items array to ensure the structure is correct
-
-    // Parameters for creating the Stripe session
-    const params = {
+    // Create Stripe session
+    const session = await Stripe.checkout.sessions.create({
       submit_type: "pay",
       mode: "payment",
       payment_method_types: ["card"],
@@ -115,18 +133,16 @@ const StripePaymentController = async (req, res) => {
         userId,
         delivery_address_Id,
       },
-      line_items,
+      line_Items,
       success_url: `${process.env.FRONTEND_URL}/order/success`,
       cancel_url: `${process.env.FRONTEND_URL}/payment/cancel`,
-    };
-
-    // Create the Stripe checkout session
-    const session = await Stripe.checkout.sessions.create(params);
+    });
 
     return res.status(303).json(session);
   } catch (error) {
+    console.error("Stripe Payment Error:", error.message, error);
     return res.status(500).json({
-      message: error.message || error,
+      message: error.message || "Internal Server Error",
       error: true,
       success: false,
     });
