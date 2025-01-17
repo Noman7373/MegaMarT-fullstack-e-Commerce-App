@@ -149,8 +149,33 @@ const StripePaymentController = async (req, res) => {
   }
 };
 
+// Webhook to handle Stripe events
+const handleStripeWebhook = (req, res) => {
+  try {
+    // Extracting the event from the request body
+    const stripeEvent = req.body;
+
+    // Log the event for debugging purposes (optional)
+    console.log("Received Stripe Event:", stripeEvent);
+
+    if (stripeEvent.type === "payment_intent.succeeded") {
+      console.log("Payment succeeded:", stripeEvent.data.object);
+    } else if (stripeEvent.type === "payment_intent.failed") {
+      console.log("Payment failed:", stripeEvent.data.object);
+    } else {
+      console.log("Unhandled event type:", stripeEvent.type);
+    }
+
+    res.status(200).send("Event received successfully");
+  } catch (error) {
+    console.error("Error processing webhook:", error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
 export {
   PaymentByCashController,
   getOrderHistoryController,
   StripePaymentController,
+  handleStripeWebhook,
 };
