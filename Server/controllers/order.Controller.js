@@ -150,15 +150,23 @@ const StripePaymentController = async (req, res) => {
 };
 
 // Webhook to handle Stripe events
-const handleStripeWebhook = (req, res) => {
+const handleStripeWebhook = async (req, res) => {
   try {
     // Extracting the event from the request body
     const stripeEvent = req.body;
+    const secretEndPoint = process.env.STRIPE_WEBHOOK_SECRET_KEY;
 
     // Log the event for debugging purposes (optional)
     console.log("Received Stripe Event:", stripeEvent);
 
     if (stripeEvent.type === "payment_intent.succeeded") {
+      const session = stripeEvent.data.object;
+      const line_items = await Stripe.checkout.sessions.listLineItems(
+        session.id
+      );
+
+      console.log(line_items, "lineItems");
+
       console.log("Payment succeeded:", stripeEvent.data.object);
     } else if (stripeEvent.type === "payment_intent.failed") {
       console.log("Payment failed:", stripeEvent.data.object);
