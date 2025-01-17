@@ -134,7 +134,7 @@ const StripePaymentController = async (req, res) => {
         delivery_address_Id,
       },
       line_items: line_items,
-      success_url: `${process.env.FRONTEND_URL}/order/success`,
+      success_url: `${process.env.FRONTEND_URL}/payment/success`,
       cancel_url: `${process.env.FRONTEND_URL}/payment/cancel`,
     });
 
