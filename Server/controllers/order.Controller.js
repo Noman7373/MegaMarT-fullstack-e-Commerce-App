@@ -77,7 +77,7 @@ const StripePaymentController = async (req, res) => {
       req.body;
 
     // Validate required fields
-    if (!userId || !itemsList || !totalAmount || !delivery_address_Id) {
+    if (!userId || !itemsList || !totalAmount) {
       return res.status(400).json({
         message: "Missing required fields.",
         error: true,
@@ -96,7 +96,7 @@ const StripePaymentController = async (req, res) => {
     }
 
     // Map items list to Stripe line_items
-    const line_Items = itemsList.map((items) => {
+    const line_items = itemsList.map((items) => {
       if (!items.productId || !items.productId.name || !items.productId.image) {
         throw new Error("Invalid product data in items list.");
       }
@@ -133,12 +133,12 @@ const StripePaymentController = async (req, res) => {
         userId,
         delivery_address_Id,
       },
-      line_Items,
+      line_items: line_items,
       success_url: `${process.env.FRONTEND_URL}/order/success`,
       cancel_url: `${process.env.FRONTEND_URL}/payment/cancel`,
     });
 
-    return res.status(303).json(session);
+    return res.json({ id: session.id });
   } catch (error) {
     console.error("Stripe Payment Error:", error.message, error);
     return res.status(500).json({
