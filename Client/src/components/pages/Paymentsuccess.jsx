@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Paymentsuccess = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -9,18 +11,18 @@ const Paymentsuccess = () => {
           Thank you for your payment! Your transaction has been successfully
           processed.
         </p>
-        <button
+        <Link
+          to={"/order/success"}
           className="mt-6 px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition"
-          onClick={() => (window.location.href = "/order/success")}
         >
           View Your Orders
-        </button>
-        <button
+        </Link>
+        <Link
+          to={"/"}
           className="mt-2 px-6 py-2 bg-gray-300 text-gray-800 font-semibold rounded-lg hover:bg-gray-400 transition"
-          onClick={() => (window.location.href = "/home")}
         >
           Back to Home
-        </button>
+        </Link>
       </div>
     </div>
   );
