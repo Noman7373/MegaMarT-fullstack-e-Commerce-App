@@ -1,6 +1,8 @@
 export const convertPriceBD = (price) => {
-  return new Intl.NumberFormat("en-BH", {
+  return new Intl.NumberFormat("en-PK", {
     style: "currency",
-    currency: "BHD",
+    currency: "PKR",
   }).format(price);
 };
+
+

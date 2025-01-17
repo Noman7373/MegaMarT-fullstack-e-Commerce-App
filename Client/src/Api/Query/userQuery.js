@@ -657,7 +657,6 @@ const StripePaymentAxios = async ({
       delivery_address_Id,
       subTotalAmount,
     });
-    console.log("Stripe API Response:", response.data);
     return response;
   } catch (error) {
     console.error(

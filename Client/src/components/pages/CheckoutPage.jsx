@@ -76,15 +76,16 @@ const CheckoutPage = () => {
       });
 
       const session = response.data;
-      console.log(session, "sessions");
+ 
 
       if (!stripe) {
         throw new Error("Stripe has not been loaded");
       }
 
       const { error } = await stripe.redirectToCheckout({
-        sessionId: session.id,
+        sessionId: session.id, // Correct
       });
+
       if (error) {
         throw new Error(
           error.message || "An error occurred during checkout redirection."
@@ -202,7 +203,7 @@ const CheckoutPage = () => {
                 <p className="font-bold">Grand Total</p>
                 <p className="font-bold">
                   {" "}
-                  BHD {totalPrice < 150 ? totalPrice : totalPrice + 4 - 25}
+                  {totalPrice < 150 ? totalPrice : totalPrice + 4 - 25}
                   .00
                 </p>
               </div>
