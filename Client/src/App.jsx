@@ -33,6 +33,7 @@ import UserAddress from "./components/pages/UserAddress.jsx";
 import UpdateAddress from "./components/pages/UpdateAddress.jsx";
 import OrderSuccessPage from "./components/pages/OrderSuccessPage.jsx";
 import CancelPayment from "./components/pages/CancelPayment.jsx";
+import Paymentsuccess from "./components/pages/Paymentsuccess.jsx";
 
 function App() {
   // const user = useSelector((state) => state?.user);
@@ -114,6 +115,10 @@ function App() {
         {
           path: "/payment/cancel",
           element: <CancelPayment />,
+        },
+        {
+          path: "/payment/success",
+          element: <Paymentsuccess />,
         },
         {
           path: "/dashboard",
