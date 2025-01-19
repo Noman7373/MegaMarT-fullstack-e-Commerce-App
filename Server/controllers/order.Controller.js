@@ -138,7 +138,7 @@ const StripePaymentController = async (req, res) => {
       cancel_url: `${process.env.FRONTEND_URL}/payment/cancel`,
     });
 
-    return res.json({ id: session.id });
+    return res.json(session);
   } catch (error) {
     console.error("Stripe Payment Error:", error.message, error);
     return res.status(500).json({
@@ -155,17 +155,15 @@ const handleStripeWebhook = async (req, res) => {
     // Extracting the event from the request body
     const stripeEvent = req.body;
     const secretEndPoint = process.env.STRIPE_WEBHOOK_SECRET_KEY;
-
+    
     // Log the event for debugging purposes (optional)
     console.log("Received Stripe Event:", stripeEvent);
 
     if (stripeEvent.type === "payment_intent.succeeded") {
       const session = stripeEvent.data.object;
-      const line_items = await Stripe.checkout.sessions.listLineItems(
-        session.id
-      );
+      const line_items = await Stripe.checkout.sessions.line_items(session.id);
 
-      console.log(line_items, "lineItems");
+      console.log(line_items, "lineItems" || "nod data");
 
       console.log("Payment succeeded:", stripeEvent.data.object);
     } else if (stripeEvent.type === "payment_intent.failed") {
@@ -174,7 +172,7 @@ const handleStripeWebhook = async (req, res) => {
       console.log("Unhandled event type:", stripeEvent.type);
     }
 
-    res.status(200).send("Event received successfully");
+    res.status(200).json({ received: true });
   } catch (error) {
     console.error("Error processing webhook:", error);
     res.status(500).send("Internal Server Error");
