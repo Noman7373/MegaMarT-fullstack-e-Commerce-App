@@ -17,7 +17,7 @@ import { loadStripe } from "@stripe/stripe-js";
 
 const CheckoutPage = () => {
   const navigate = useNavigate();
-  const { cart, cartLoading } = useSelector((state) => state.cart);
+  const { cart } = useSelector((state) => state.cart);
   const { totalPrice, fetchAddressDetails, fetchCartItems, selectAddress } =
     useHook();
   const { id } = useParams();
@@ -76,7 +76,7 @@ const CheckoutPage = () => {
     }
 
     try {
-      setLoading(true);
+      // setLoading(true);
 
       // Send payment details to backend
       const response = await StripePaymentAxios({
@@ -114,7 +114,7 @@ const CheckoutPage = () => {
         type: "error",
       });
     } finally {
-      setLoading(false);
+      // setLoading(false);
     }
   };
 
