@@ -17,9 +17,12 @@ export const getOrderProduct = async (lineItems, userId) => {
         paymentId: products.payment_intent,
         payment_status: products.payment_status,
         delivery_address: products.metadata.addressId,
-        subTotalAmount: products.amount_total,
-        totalAmount,
+        subTotalAmount: products.amount_total / 100,
+        totalAmount: products.amount_total / 100,
       };
+
+      productList.push(Payload);
     }
   }
+  return productList;
 };

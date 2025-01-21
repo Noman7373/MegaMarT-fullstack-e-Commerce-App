@@ -4,7 +4,7 @@ import userModel from "../models/userModel.js";
 import mongoose from "mongoose";
 import discountPrice from "../utils/discoutPrice.js";
 import Stripe from "../DB/stripe.js";
-// import orderModel from "../models/orderModels.js";
+import orderModel from "../models/orderModels.js";
 import { getOrderProduct } from "../middleware/getOrderProduct.middleware.js";
 
 const PaymentByCashController = async (req, res) => {
@@ -170,6 +170,14 @@ const handleStripeWebhook = async (req, res) => {
       console.log(line_items, "lineItems" || "nod data");
       const userId = session.metadata.userId;
       const orderProduct = await getOrderProduct(line_items, userId);
+      const order = await orderModel.insertMany(orderProduct);
+
+      if (order) {
+        const emptyCart = await userModel.findByIdAndUpdate(userId, {
+          shopping_cart: [],
+        });
+        const removeCartProduct = cartProductModel.deleteMany(userId);
+      }
 
       console.log("Payment succeeded:", stripeEvent.data.object);
     } else if (stripeEvent.type === "payment_intent.failed") {
