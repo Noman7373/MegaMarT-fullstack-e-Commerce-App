@@ -4,6 +4,8 @@ import userModel from "../models/userModel.js";
 import mongoose from "mongoose";
 import discountPrice from "../utils/discoutPrice.js";
 import Stripe from "../DB/stripe.js";
+// import orderModel from "../models/orderModels.js";
+import { getOrderProduct } from "../middleware/getOrderProduct.middleware.js";
 
 const PaymentByCashController = async (req, res) => {
   try {
@@ -155,15 +157,19 @@ const handleStripeWebhook = async (req, res) => {
     // Extracting the event from the request body
     const stripeEvent = req.body;
     const secretEndPoint = process.env.STRIPE_WEBHOOK_SECRET_KEY;
-    
+
     // Log the event for debugging purposes (optional)
     console.log("Received Stripe Event:", stripeEvent);
 
     if (stripeEvent.type === "payment_intent.succeeded") {
       const session = stripeEvent.data.object;
-      const line_items = await Stripe.checkout.sessions.line_items(session.id);
+      const line_items = await Stripe.checkout.sessions.listLineItems(
+        session.id
+      );
 
       console.log(line_items, "lineItems" || "nod data");
+      const userId = session.metadata.userId;
+      const orderProduct = await getOrderProduct(line_items, userId);
 
       console.log("Payment succeeded:", stripeEvent.data.object);
     } else if (stripeEvent.type === "payment_intent.failed") {
