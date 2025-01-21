@@ -67,7 +67,18 @@ const CheckoutPage = () => {
       import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY
     );
 
+    if (!cart || !cart.length || !addressList || totalPrice <= 0) {
+      setNotification({
+        message: "Invalid cart or missing required details.",
+        type: "error",
+      });
+      return;
+    }
+
     try {
+      setLoading(true);
+
+      // Send payment details to backend
       const response = await StripePaymentAxios({
         itemsList: cart,
         delivery_address_Id: addressList[selectAddress]?._id,
@@ -76,14 +87,18 @@ const CheckoutPage = () => {
       });
 
       const session = response.data;
- 
+
+      if (!session || !session.id) {
+        throw new Error("Failed to retrieve Stripe session ID.");
+      }
 
       if (!stripe) {
         throw new Error("Stripe has not been loaded");
       }
 
+      // Redirect to Stripe Checkout
       const { error } = await stripe.redirectToCheckout({
-        sessionId: session.id, // Correct
+        sessionId: session.id,
       });
 
       if (error) {
@@ -98,6 +113,8 @@ const CheckoutPage = () => {
         message: error.message || "Something went wrong",
         type: "error",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
