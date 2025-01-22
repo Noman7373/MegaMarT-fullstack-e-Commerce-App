@@ -101,6 +101,8 @@ const CheckoutPage = () => {
         sessionId: session.id,
       });
 
+      fetchCartItems();
+
       if (error) {
         throw new Error(
           error.message || "An error occurred during checkout redirection."
