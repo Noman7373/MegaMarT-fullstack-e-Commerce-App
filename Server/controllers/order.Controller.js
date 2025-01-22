@@ -139,6 +139,7 @@ const StripePaymentController = async (req, res) => {
       success_url: `${process.env.FRONTEND_URL}/payment/success`,
       cancel_url: `${process.env.FRONTEND_URL}/payment/cancel`,
     });
+    console.log(session);
 
     return res.json(session);
   } catch (error) {
@@ -176,7 +177,9 @@ const handleStripeWebhook = async (req, res) => {
         const emptyCart = await userModel.findByIdAndUpdate(userId, {
           shopping_cart: [],
         });
-        const removeCartProduct = cartProductModel.deleteMany(userId);
+        const removeCartProduct = await cartProductModel.deleteMany({
+          userId,
+        });
       }
 
       console.log("Payment succeeded:", stripeEvent.data.object);
