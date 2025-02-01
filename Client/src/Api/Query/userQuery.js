@@ -670,6 +670,20 @@ const StripePaymentAxios = async ({
   }
 };
 
+// Get Order Details_Axios
+const getOrderDetailsAxios = async (_id) => {
+  try {
+    const respose = Axios.get(`${baseURL}/api/order/details`, {
+      _id,
+    });
+    return respose;
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message ||
+        "An error occurred while processing the payment"
+    );
+  }
+};
 export {
   registerUser,
   userLogIn,
@@ -715,4 +729,6 @@ export {
   fetchOrderHistoryAxios,
   // Stripe
   StripePaymentAxios,
+  // GetOrder Details Axios
+  getOrderDetailsAxios,
 };

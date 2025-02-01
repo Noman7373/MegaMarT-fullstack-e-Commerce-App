@@ -37,9 +37,10 @@ export const ProviderContext = ({ children }) => {
 
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalQty, setTotalQty] = useState(0);
-
+  
   // OrderHistory
   const [orderHistory, setOrderHistory] = useState([]);
+
 
   // scrollBar
   useEffect(() => {
