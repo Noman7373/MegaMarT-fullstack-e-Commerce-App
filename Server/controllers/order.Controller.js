@@ -139,7 +139,6 @@ const StripePaymentController = async (req, res) => {
       success_url: `${process.env.FRONTEND_URL}/payment/success`,
       cancel_url: `${process.env.FRONTEND_URL}/payment/cancel`,
     });
-    console.log(session);
 
     return res.json(session);
   } catch (error) {
