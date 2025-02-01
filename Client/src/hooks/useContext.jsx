@@ -4,6 +4,7 @@ import {
   fetchOrderHistoryAxios,
   getCartItemsAxios,
   getCategoryAxios,
+  getStripeOrderDetailsAxios,
   getSubCategoryAxios,
   getUserAddress,
   getUserLoginDetails,
@@ -37,10 +38,9 @@ export const ProviderContext = ({ children }) => {
 
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalQty, setTotalQty] = useState(0);
-  
+
   // OrderHistory
   const [orderHistory, setOrderHistory] = useState([]);
-
 
   // scrollBar
   useEffect(() => {
@@ -185,6 +185,18 @@ export const ProviderContext = ({ children }) => {
     }
   };
 
+  // fetch Stripe OrderHistory
+  const fetchStripeOrderHistory = async (_id) => {
+    try {
+      const response = await getStripeOrderDetailsAxios({ _id });
+      if (response.data.success) {
+        console.log("success");
+      }
+    } catch (error) {
+      throw new Error("An error occured try again", error.message);
+    }
+  };
+
   return (
     <ContextProvider.Provider
       value={{
@@ -216,6 +228,7 @@ export const ProviderContext = ({ children }) => {
         fetchOrderHistory,
         orderHistory,
         setOrderHistory,
+        fetchStripeOrderHistory,
       }}
     >
       {children}

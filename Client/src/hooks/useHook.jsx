@@ -35,6 +35,7 @@ const useHook = () => {
     fetchOrderHistory,
     orderHistory,
     setOrderHistory,
+    fetchStripeOrderHistory,
   } = context;
 
   return {
@@ -65,6 +66,7 @@ const useHook = () => {
     fetchOrderHistory,
     orderHistory,
     setOrderHistory,
+    fetchStripeOrderHistory,
   };
 };
 

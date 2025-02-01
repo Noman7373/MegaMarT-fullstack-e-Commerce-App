@@ -671,7 +671,7 @@ const StripePaymentAxios = async ({
 };
 
 // Get Order Details_Axios
-const getOrderDetailsAxios = async (_id) => {
+const getStripeOrderDetailsAxios = async (_id) => {
   try {
     const respose = Axios.get(`${baseURL}/api/order/details`, {
       _id,
@@ -730,5 +730,5 @@ export {
   // Stripe
   StripePaymentAxios,
   // GetOrder Details Axios
-  getOrderDetailsAxios,
+  getStripeOrderDetailsAxios,
 };
