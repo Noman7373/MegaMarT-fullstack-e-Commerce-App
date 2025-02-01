@@ -196,9 +196,31 @@ const handleStripeWebhook = async (req, res) => {
   }
 };
 
+// Get Order Details Controller
+const getOrderDetails = async (req, res) => {
+  try {
+    const { _id } = req.body;
+    const orderList = orderModel.find({ _id }).sort({ createdAt: -1 });
+
+    return res.json({
+      message: "Retrieve Orders Details",
+      success: true,
+      error: false,
+      orderList,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message || error,
+      success: false,
+      error: true,
+    });
+  }
+};
+
 export {
   PaymentByCashController,
   getOrderHistoryController,
   StripePaymentController,
   handleStripeWebhook,
+  getOrderDetails,
 };
